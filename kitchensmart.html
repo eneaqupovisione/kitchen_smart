@@ -1,0 +1,1378 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>KitchenSmart</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0d0d10;
+  --surface:#13131a;
+  --surface2:#1a1a24;
+  --surface3:#21212e;
+  --border:#252535;
+  --border-light:#32324a;
+  --text:#ddd5c0;
+  --text-dim:#5a5470;
+  --text-mid:#9a8f78;
+  --gold:#c9a84c;
+  --gold-dim:#7a6030;
+  --gold-light:#e8c87a;
+  --red:#9a3030;
+  --red-bright:#c06060;
+  --green:#4a9a5a;
+  --green-dim:#2a5a34;
+  --orange:#d4732a;
+  --orange-dim:#6a3a15;
+  --blue:#4a7abf;
+  --blue-dim:#2a3a5a;
+  --teal:#3a9090;
+  --teal-dim:#1a4a4a;
+  --purple:#7a4aaa;
+  --purple-dim:#3a2055;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden}
+body{background:var(--bg);color:var(--text);font-family:'IM Fell English',serif;display:flex;flex-direction:column;max-width:480px;margin:0 auto;position:relative}
+
+/* ══ HUD ══ */
+.hud{display:flex;align-items:center;padding:10px 14px;border-bottom:1px solid var(--border);gap:12px;flex-shrink:0;background:var(--surface)}
+.hud-title{font-family:'Cinzel',serif;font-size:15px;letter-spacing:3px;color:var(--gold);font-weight:700;flex:1}
+.hud-player{display:flex;align-items:center;gap:8px}
+.hud-avatar-btn{width:36px;height:36px;border-radius:50%;background:var(--surface3);border:2px solid var(--gold-dim);display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;transition:border-color 0.2s}
+.hud-avatar-btn:hover{border-color:var(--gold)}
+.hud-xp-wrap{display:flex;flex-direction:column;gap:2px;min-width:80px}
+.hud-level{font-family:'Cinzel',serif;font-size:11px;color:var(--gold);letter-spacing:1px}
+.hud-xp-bar{height:4px;background:var(--surface3);border-radius:2px;overflow:hidden}
+.hud-xp-fill{height:100%;background:var(--gold);border-radius:2px;transition:width 0.4s}
+.hud-xp-val{font-size:10px;color:var(--text-dim);font-family:'Cinzel',serif}
+
+/* ══ NAV ══ */
+.nav{display:flex;border-top:1px solid var(--border);flex-shrink:0;background:var(--bg)}
+.nav-btn{flex:1;padding:8px 2px 10px;background:transparent;border-right:1px solid var(--border);font-family:'Cinzel',serif;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);cursor:pointer;transition:all 0.15s;text-align:center;border-top:2px solid transparent}
+.nav-btn:last-child{border-right:none}
+.nav-btn.active{color:var(--gold);background:var(--surface);border-top-color:var(--gold)}
+.nav-btn:hover:not(.active){color:var(--text);background:var(--surface2)}
+.nav-icon{font-size:20px;display:block;margin-bottom:2px}
+
+/* ══ VIEWS ══ */
+.views{flex:1;overflow:hidden;display:flex;flex-direction:column}
+.view{display:none;flex:1;flex-direction:column;overflow:hidden}
+.view.active{display:flex}
+.scroll{flex:1;overflow-y:auto;padding:10px 10px 20px;display:flex;flex-direction:column;gap:8px}
+.scroll::-webkit-scrollbar{width:3px}
+.scroll::-webkit-scrollbar-thumb{background:var(--border)}
+
+/* ══ SECTION HEADERS ══ */
+.sec-head{font-family:'Cinzel',serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);padding:2px 0 6px;border-bottom:1px solid var(--border);margin-bottom:2px}
+.sec-sub{font-size:12px;color:var(--text-dim);margin-bottom:6px;font-style:italic}
+
+/* ══ CARDS ══ */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:12px 14px}
+.card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.card-title{font-family:'Cinzel',serif;font-size:13px;color:var(--text);letter-spacing:1px}
+.card-tag{font-family:'Cinzel',serif;font-size:10px;color:var(--text-dim);letter-spacing:1px;background:var(--surface3);padding:2px 6px;border-radius:2px}
+
+/* ══ ITEMS LIST ══ */
+.item-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)}
+.item-row:last-child{border-bottom:none}
+.item-emoji{font-size:20px;width:28px;text-align:center;flex-shrink:0}
+.item-info{flex:1;min-width:0}
+.item-name{font-size:14px;color:var(--text)}
+.item-detail{font-size:11px;color:var(--text-dim);margin-top:1px;font-family:'Cinzel',serif;letter-spacing:0.5px}
+.item-qty{font-family:'Cinzel',serif;font-size:15px;font-weight:600;color:var(--gold);min-width:40px;text-align:right}
+.item-unit{font-size:10px;color:var(--text-dim)}
+.item-actions{display:flex;gap:4px;flex-shrink:0}
+
+/* ══ BUTTONS ══ */
+.btn{font-family:'Cinzel',serif;font-size:11px;letter-spacing:1px;border:1px solid var(--border-light);background:var(--surface2);color:var(--text-dim);padding:5px 10px;border-radius:2px;cursor:pointer;transition:all 0.15s;text-transform:uppercase}
+.btn:hover{color:var(--text);border-color:var(--text-dim)}
+.btn-icon{width:28px;height:28px;border:1px solid var(--border-light);background:var(--surface3);color:var(--text-mid);border-radius:2px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;transition:all 0.15s}
+.btn-icon:hover{border-color:var(--gold-dim);color:var(--gold)}
+.btn-gold{border-color:var(--gold-dim);color:var(--gold);background:var(--surface)}
+.btn-gold:hover{background:rgba(201,168,76,0.08)}
+.btn-green{border-color:var(--green-dim);color:var(--green);background:var(--surface)}
+.btn-green:hover{background:rgba(74,154,90,0.08)}
+.btn-red{border-color:var(--red);color:var(--red-bright);background:var(--surface)}
+.btn-red:hover{background:rgba(154,48,48,0.15)}
+.btn-main{font-family:'Cinzel',serif;font-size:12px;letter-spacing:2px;background:rgba(201,168,76,0.12);border:1px solid var(--gold-dim);color:var(--gold);padding:10px 20px;border-radius:2px;cursor:pointer;transition:all 0.2s;text-transform:uppercase;width:100%;margin-top:8px}
+.btn-main:hover{background:rgba(201,168,76,0.2)}
+.fab{position:fixed;bottom:70px;right:14px;width:48px;height:48px;border-radius:50%;background:var(--gold);border:none;color:#1a1208;font-size:24px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,0.4);z-index:100;transition:transform 0.15s}
+.fab:hover{transform:scale(1.07)}
+
+/* ══ FORM ══ */
+.form-group{margin-bottom:10px}
+.form-label{font-family:'Cinzel',serif;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px;display:block}
+.form-inp{width:100%;background:var(--surface3);border:1px solid var(--border-light);color:var(--text);font-family:'IM Fell English',serif;font-size:14px;padding:8px 10px;border-radius:2px;outline:none;transition:border-color 0.15s}
+.form-inp:focus{border-color:var(--gold-dim)}
+.form-row{display:flex;gap:8px}
+.form-row .form-group{flex:1}
+select.form-inp option{background:var(--surface3)}
+
+/* ══ BADGE / PILLS ══ */
+.badge{font-family:'Cinzel',serif;font-size:9px;letter-spacing:1px;text-transform:uppercase;padding:2px 6px;border-radius:2px;display:inline-block}
+.badge-green{background:rgba(74,154,90,0.15);color:var(--green);border:1px solid var(--green-dim)}
+.badge-red{background:rgba(154,48,48,0.15);color:var(--red-bright);border:1px solid var(--red)}
+.badge-orange{background:rgba(212,115,42,0.15);color:var(--orange);border:1px solid var(--orange-dim)}
+.badge-blue{background:rgba(74,122,191,0.15);color:var(--blue);border:1px solid var(--blue-dim)}
+.badge-gold{background:rgba(201,168,76,0.15);color:var(--gold);border:1px solid var(--gold-dim)}
+.badge-teal{background:rgba(58,144,144,0.15);color:var(--teal);border:1px solid var(--teal-dim)}
+
+/* ══ PROGRESS BAR ══ */
+.prog-row{display:flex;align-items:center;gap:8px;margin:4px 0}
+.prog-label{font-family:'Cinzel',serif;font-size:10px;color:var(--text-dim);letter-spacing:1px;min-width:80px}
+.prog-bar{flex:1;height:6px;background:var(--surface3);border-radius:3px;overflow:hidden}
+.prog-fill{height:100%;border-radius:3px;transition:width 0.5s}
+.prog-val{font-family:'Cinzel',serif;font-size:11px;color:var(--text-mid);min-width:40px;text-align:right}
+
+/* ══ STAT GRID ══ */
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}
+.stat-cell{background:var(--surface2);border:1px solid var(--border);border-radius:2px;padding:10px 12px;text-align:center}
+.stat-val{font-family:'Cinzel',serif;font-size:22px;font-weight:700;color:var(--gold)}
+.stat-lbl{font-family:'Cinzel',serif;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-top:2px}
+
+/* ══ TASK ROWS ══ */
+.task-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border)}
+.task-row:last-child{border-bottom:none}
+.task-check{width:22px;height:22px;border:2px solid var(--border-light);border-radius:2px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;transition:all 0.15s;background:transparent}
+.task-check.done{background:rgba(74,154,90,0.2);border-color:var(--green);color:var(--green)}
+.task-info{flex:1}
+.task-name{font-size:14px;color:var(--text)}
+.task-name.done{text-decoration:line-through;color:var(--text-dim)}
+.task-xp{font-family:'Cinzel',serif;font-size:10px;color:var(--gold);letter-spacing:1px}
+.task-meta{font-size:11px;color:var(--text-dim);margin-top:1px}
+
+/* ══ RECIPE CARD ══ */
+.recipe-card{background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:12px 14px;cursor:pointer;transition:border-color 0.15s}
+.recipe-card:hover{border-color:var(--border-light)}
+.recipe-name{font-family:'Cinzel',serif;font-size:14px;color:var(--text);margin-bottom:4px}
+.recipe-meta{display:flex;gap:6px;flex-wrap:wrap}
+
+/* ══ OVERLAY / MODAL ══ */
+.overlay{display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.7);align-items:flex-end;justify-content:center}
+.overlay.open{display:flex}
+.sheet{background:var(--surface);border:1px solid var(--border-light);border-bottom:none;border-radius:6px 6px 0 0;width:100%;max-width:480px;max-height:85vh;overflow-y:auto;padding:20px 18px 32px}
+.sheet-handle{width:36px;height:3px;background:var(--border-light);border-radius:2px;margin:0 auto 16px}
+.sheet-title{font-family:'Cinzel',serif;font-size:16px;color:var(--gold);letter-spacing:2px;margin-bottom:4px}
+.sheet-sub{font-size:13px;color:var(--text-dim);margin-bottom:16px;font-style:italic}
+
+/* ══ EMPTY STATE ══ */
+.empty{text-align:center;padding:32px 20px;color:var(--text-dim);font-style:italic;font-size:14px}
+.empty-icon{font-size:36px;margin-bottom:10px}
+
+/* ══ DIVIDER ══ */
+.divider{height:1px;background:var(--border);margin:4px 0}
+
+/* ══ TOAST ══ */
+#toast{position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-80px);background:var(--surface2);border:1px solid var(--gold-dim);color:var(--gold);font-family:'Cinzel',serif;font-size:12px;letter-spacing:1px;padding:10px 20px;border-radius:2px;z-index:999;transition:transform 0.3s;white-space:nowrap}
+#toast.show{transform:translateX(-50%) translateY(0)}
+
+/* ══ XP POPUP ══ */
+.xp-pop{position:fixed;font-family:'Cinzel',serif;font-size:14px;font-weight:700;color:var(--gold);pointer-events:none;z-index:500;animation:xp-fly 1.5s forwards}
+@keyframes xp-fly{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-60px)}}
+
+/* ══ AVATAR VIEW ══ */
+.avatar-hero{text-align:center;padding:20px 0 12px}
+.avatar-icon{font-size:72px;margin-bottom:8px}
+.avatar-name{font-family:'Cinzel',serif;font-size:20px;color:var(--gold);letter-spacing:3px;font-weight:700}
+.avatar-role{font-family:'Cinzel',serif;font-size:11px;color:var(--text-dim);letter-spacing:2px;margin-top:2px}
+.level-ring{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:rgba(201,168,76,0.12);border:2px solid var(--gold-dim);font-family:'Cinzel',serif;font-size:14px;font-weight:700;color:var(--gold);margin:8px}
+
+/* ══ ACTIVITY LOG ══ */
+.log-row{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)}
+.log-row:last-child{border-bottom:none}
+.log-icon{font-size:18px;width:24px;text-align:center;flex-shrink:0;margin-top:1px}
+.log-info{flex:1}
+.log-action{font-size:13px;color:var(--text)}
+.log-time{font-family:'Cinzel',serif;font-size:10px;color:var(--text-dim);letter-spacing:0.5px;margin-top:2px}
+.log-xp{font-family:'Cinzel',serif;font-size:11px;color:var(--gold);flex-shrink:0}
+
+/* ══ VALUTAZIONE ══ */
+.val-row{display:flex;gap:8px;margin-top:8px}
+.val-btn{flex:1;padding:10px;border-radius:2px;border:1px solid var(--border-light);background:var(--surface2);font-family:'Cinzel',serif;font-size:11px;letter-spacing:1px;cursor:pointer;transition:all 0.15s;text-align:center;text-transform:uppercase}
+.val-btn.good{border-color:var(--green-dim);color:var(--green)}
+.val-btn.good:hover,.val-btn.good.sel{background:rgba(74,154,90,0.15)}
+.val-btn.bad{border-color:var(--red);color:var(--red-bright)}
+.val-btn.bad:hover,.val-btn.bad.sel{background:rgba(154,48,48,0.15)}
+
+/* ══ PRESTIGE ══ */
+.prestige-bar{height:8px;background:var(--surface3);border-radius:4px;overflow:hidden;margin:6px 0}
+.prestige-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--purple-dim),var(--purple));transition:width 0.5s}
+
+/* ══ LOW STOCK ALERT ══ */
+.alert-row{background:rgba(154,48,48,0.08);border:1px solid var(--red);border-radius:2px;padding:8px 12px;display:flex;align-items:center;gap:10px}
+.alert-icon{font-size:18px}
+.alert-text{flex:1;font-size:13px;color:var(--text)}
+.alert-sub{font-size:11px;color:var(--red-bright);margin-top:1px;font-family:'Cinzel',serif;letter-spacing:0.5px}
+
+/* ══ WEEK DAYS ══ */
+.week-row{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:10px}
+.week-day{background:var(--surface2);border:1px solid var(--border);border-radius:2px;padding:6px 2px;text-align:center}
+.week-day.today{border-color:var(--gold-dim);background:rgba(201,168,76,0.08)}
+.week-day.worked{border-color:var(--green-dim);background:rgba(74,154,90,0.08)}
+.week-day-lbl{font-family:'Cinzel',serif;font-size:8px;letter-spacing:1px;color:var(--text-dim);text-transform:uppercase}
+.week-day-num{font-family:'Cinzel',serif;font-size:13px;font-weight:600;color:var(--text);margin-top:2px}
+.week-day-dot{width:6px;height:6px;border-radius:50%;margin:3px auto 0;background:transparent}
+.week-day.worked .week-day-dot{background:var(--green)}
+.week-day.today .week-day-dot{background:var(--gold)}
+
+/* ══ SCHEDULER ITEM ══ */
+.sched-item{background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:10px 12px;display:flex;align-items:center;gap:10px}
+.sched-emoji{font-size:22px;flex-shrink:0}
+.sched-info{flex:1}
+.sched-name{font-size:14px;color:var(--text)}
+.sched-when{font-family:'Cinzel',serif;font-size:10px;color:var(--text-dim);letter-spacing:1px;margin-top:2px}
+.sched-urgent{border-color:var(--orange-dim)}
+.sched-urgent .sched-when{color:var(--orange)}
+
+/* ══ TRACKER LOG ══ */
+.track-row{background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:10px 12px;display:flex;align-items:center;gap:10px}
+.track-icon{font-size:20px;flex-shrink:0}
+.track-info{flex:1}
+.track-name{font-size:13px;color:var(--text)}
+.track-meta{font-family:'Cinzel',serif;font-size:10px;color:var(--text-dim);letter-spacing:0.5px;margin-top:2px}
+.track-qty{font-family:'Cinzel',serif;font-size:14px;color:var(--gold)}
+
+/* ══ VENDITE CARD ══ */
+.vendite-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--border)}
+.vendite-row:last-child{border-bottom:none}
+.vendite-name{flex:1;font-size:13px;color:var(--text)}
+.vendite-count{font-family:'Cinzel',serif;font-size:16px;font-weight:600;color:var(--teal)}
+.vendite-ctrl{display:flex;gap:4px}
+
+/* ══ SEPARATOR ══ */
+.sep{font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);padding:4px 0;margin-top:4px}
+</style>
+</head>
+<body>
+
+<!-- HUD -->
+<div class="hud">
+  <div class="hud-title">⚔ KitchenSmart</div>
+  <div class="hud-player">
+    <div class="hud-xp-wrap">
+      <div class="hud-level" id="hud-level">Lv.1 — Aiutante</div>
+      <div class="hud-xp-bar"><div class="hud-xp-fill" id="hud-xp-fill" style="width:0%"></div></div>
+      <div class="hud-xp-val" id="hud-xp-val">0 / 200 XP</div>
+    </div>
+    <div class="hud-avatar-btn" id="hud-avatar" onclick="showView('avatar')">👨‍🍳</div>
+  </div>
+</div>
+
+<!-- VIEWS -->
+<div class="views">
+
+  <!-- ══ HOLDER ══ -->
+  <div class="view active" id="view-holders">
+    <div class="scroll" id="holders-scroll">
+
+      <!-- Glossario ricette -->
+      <div class="sec-head">📖 Glossario Ricette</div>
+      <div id="ricette-list"></div>
+      <button class="btn btn-gold" onclick="openSheet('sheet-add-ricetta')" style="width:100%">+ Aggiungi Ricetta</button>
+
+      <!-- Dispensa -->
+      <div class="sec-head" style="margin-top:6px">🧂 Dispensa — Materie Prime</div>
+      <div id="dispensa-alerts"></div>
+      <div id="dispensa-list"></div>
+      <button class="btn btn-gold" onclick="openSheet('sheet-add-dispensa')" style="width:100%">+ Aggiungi Ingrediente</button>
+
+      <!-- Frigo/Congelatore -->
+      <div class="sec-head" style="margin-top:6px">❄️ Frigo / Congelatore — Materie Seconde</div>
+      <div id="frigo-list"></div>
+      <button class="btn btn-gold" onclick="openSheet('sheet-add-frigo')" style="width:100%">+ Aggiungi Prodotto</button>
+
+    </div>
+  </div>
+
+  <!-- ══ TRACKER ══ -->
+  <div class="view" id="view-tracker">
+    <div class="scroll">
+
+      <!-- Vendite servizio -->
+      <div class="sec-head">🍽️ Registra Vendite — Fine Servizio</div>
+      <div class="card" id="vendite-card">
+        <div id="vendite-list"></div>
+        <button class="btn-main" onclick="salvaVendite()">✓ Conferma Servizio</button>
+      </div>
+
+      <!-- Stats -->
+      <div class="sec-head" style="margin-top:6px">📊 Statistiche</div>
+      <div class="stat-grid" id="stat-grid">
+        <div class="stat-cell"><div class="stat-val" id="stat-servizi">0</div><div class="stat-lbl">Servizi</div></div>
+        <div class="stat-cell"><div class="stat-val" id="stat-portate">0</div><div class="stat-lbl">Portate Tot.</div></div>
+        <div class="stat-cell"><div class="stat-val" id="stat-top">—</div><div class="stat-lbl">Piatto Top</div></div>
+        <div class="stat-cell"><div class="stat-val" id="stat-low">—</div><div class="stat-lbl">Meno Richiesto</div></div>
+      </div>
+
+      <!-- Log uso materie prime -->
+      <div class="sec-head" style="margin-top:6px">📦 Consumo Ingredienti</div>
+      <div id="consumo-list"><div class="empty"><div class="empty-icon">📦</div>Nessun consumo registrato</div></div>
+
+      <!-- Storico vendite -->
+      <div class="sec-head" style="margin-top:6px">📋 Storico Servizi</div>
+      <div id="storico-list"><div class="empty"><div class="empty-icon">📋</div>Nessun servizio registrato</div></div>
+
+    </div>
+  </div>
+
+  <!-- ══ SCHEDULER ══ -->
+  <div class="view" id="view-scheduler">
+    <div class="scroll">
+
+      <!-- Settimana -->
+      <div class="sec-head">📅 Questa Settimana</div>
+      <div class="week-row" id="week-row"></div>
+
+      <!-- Daily tasks -->
+      <div class="sec-head">✅ Task Giornalieri</div>
+      <div class="card" id="daily-tasks-card">
+        <div id="daily-tasks-list"></div>
+        <button class="btn btn-gold" onclick="openSheet('sheet-add-task')" style="width:100%;margin-top:8px">+ Aggiungi Task</button>
+      </div>
+
+      <!-- Da rifare (materie seconde) -->
+      <div class="sec-head" style="margin-top:6px">🔄 Materie Seconde da Rifare</div>
+      <div id="da-rifare-list"></div>
+      <button class="btn btn-gold" onclick="openSheet('sheet-add-rifare')" style="width:100%">+ Aggiungi</button>
+
+      <!-- Da riordinare (materie prime) -->
+      <div class="sec-head" style="margin-top:6px">🛒 Materie Prime da Riordinare</div>
+      <div id="da-riordinare-list"></div>
+
+      <!-- Firma presenza -->
+      <div class="sec-head" style="margin-top:6px">📝 Firma Presenza</div>
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">Registra turno di oggi</div>
+        </div>
+        <button class="btn-main" id="btn-firma" onclick="firmaPresenza()">⏰ Firma Presenza (+30 XP)</button>
+        <div id="firma-status" style="font-size:12px;color:var(--text-dim);text-align:center;margin-top:6px;font-style:italic"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══ AVATAR ══ -->
+  <div class="view" id="view-avatar">
+    <div class="scroll">
+
+      <!-- Hero -->
+      <div class="avatar-hero">
+        <div class="avatar-icon" id="av-icon">👨‍🍳</div>
+        <div class="avatar-name" id="av-name">Chef</div>
+        <div class="avatar-role" id="av-role">Aiutante di Cucina</div>
+        <div style="margin-top:10px">
+          <span class="level-ring" id="av-level">1</span>
+          <span style="font-family:'Cinzel',serif;font-size:12px;color:var(--text-dim);letter-spacing:1px">LIVELLO</span>
+        </div>
+      </div>
+
+      <!-- XP Bar -->
+      <div class="card">
+        <div class="card-head"><div class="card-title">Esperienza</div><span class="badge badge-gold" id="av-xp-badge">0 XP</span></div>
+        <div class="prog-row">
+          <div class="prog-label" style="font-size:9px" id="av-level-label">Lv.1 → Lv.2</div>
+          <div class="prog-bar"><div class="prog-fill" style="background:var(--gold)" id="av-xp-prog"></div></div>
+          <div class="prog-val" id="av-xp-pct">0%</div>
+        </div>
+      </div>
+
+      <!-- Prestige -->
+      <div class="card">
+        <div class="card-head"><div class="card-title">Prestigio</div><span class="badge badge-gold" id="av-pres-badge" style="background:rgba(122,74,170,0.15);color:var(--purple);border-color:var(--purple-dim)">0 Pt</span></div>
+        <div class="prestige-bar"><div class="prestige-fill" id="av-pres-fill" style="width:0%"></div></div>
+        <div style="font-size:12px;color:var(--text-dim);margin-top:6px;font-style:italic">Ottieni prestigio con valutazioni positive, turni extra e costanza.</div>
+      </div>
+
+      <!-- Statistiche Avatar -->
+      <div class="sec-head" style="margin-top:2px">📊 Il Tuo Record</div>
+      <div class="stat-grid">
+        <div class="stat-cell"><div class="stat-val" id="av-presenze">0</div><div class="stat-lbl">Presenze</div></div>
+        <div class="stat-cell"><div class="stat-val" id="av-attivita">0</div><div class="stat-lbl">Attività</div></div>
+        <div class="stat-cell"><div class="stat-val" id="av-xp-total">0</div><div class="stat-lbl">XP Totali</div></div>
+        <div class="stat-cell"><div class="stat-val" id="av-streak">0</div><div class="stat-lbl">Streak Giorni</div></div>
+      </div>
+
+      <!-- Valutazione giornaliera -->
+      <div class="sec-head" style="margin-top:6px">⚖️ Valutazione Giornaliera</div>
+      <div class="card">
+        <div class="card-head"><div class="card-title">Come è andata oggi?</div></div>
+        <div class="sec-sub">Firma la valutazione del collega (entrambi devono firmare)</div>
+        <div class="val-row">
+          <button class="val-btn good" id="val-btn-good" onclick="setValutazione('bene')">👍 Bene</button>
+          <button class="val-btn bad" id="val-btn-bad" onclick="setValutazione('male')">👎 Male</button>
+        </div>
+        <div id="val-status" style="font-size:12px;color:var(--text-dim);text-align:center;margin-top:8px;font-style:italic"></div>
+      </div>
+
+      <!-- Ruolo / Specializzazione -->
+      <div class="sec-head" style="margin-top:6px">🎭 Ruolo & Stile</div>
+      <div class="card" id="ruolo-card">
+        <div id="ruolo-info"></div>
+        <button class="btn" onclick="openSheet('sheet-profilo')" style="margin-top:8px">✏️ Modifica Profilo</button>
+      </div>
+
+      <!-- Activity log -->
+      <div class="sec-head" style="margin-top:6px">📜 Registro Attività</div>
+      <div id="av-log-list"><div class="empty"><div class="empty-icon">📜</div>Nessuna attività ancora</div></div>
+
+    </div>
+  </div>
+
+</div><!-- /views -->
+
+<!-- NAV -->
+<div class="nav">
+  <button class="nav-btn active" onclick="showView('holders')" id="nav-holders">
+    <span class="nav-icon">🗃️</span>Holders
+  </button>
+  <button class="nav-btn" onclick="showView('tracker')" id="nav-tracker">
+    <span class="nav-icon">📊</span>Tracker
+  </button>
+  <button class="nav-btn" onclick="showView('scheduler')" id="nav-scheduler">
+    <span class="nav-icon">📅</span>Scheduler
+  </button>
+  <button class="nav-btn" onclick="showView('avatar')" id="nav-avatar">
+    <span class="nav-icon">👨‍🍳</span>Avatar
+  </button>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<!-- ════ SHEETS ════ -->
+
+<!-- Add Ricetta -->
+<div class="overlay" id="sheet-add-ricetta" onclick="if(event.target===this)closeSheet('sheet-add-ricetta')">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title">📖 Nuova Ricetta</div>
+    <div class="sheet-sub">Aggiungi al glossario</div>
+    <div class="form-group">
+      <label class="form-label">Nome Ricetta</label>
+      <input class="form-inp" id="r-nome" placeholder="es. Ragù di cinghiale">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Categoria</label>
+        <select class="form-inp" id="r-cat">
+          <option>Primo</option><option>Secondo</option><option>Antipasto</option>
+          <option>Dolce</option><option>Salsa</option><option>Base</option><option>Altro</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Difficoltà</label>
+        <select class="form-inp" id="r-diff">
+          <option value="1">⭐ Facile</option><option value="2">⭐⭐ Media</option>
+          <option value="3">⭐⭐⭐ Difficile</option><option value="4">⭐⭐⭐⭐ Esperto</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Ingredienti (uno per riga)</label>
+      <textarea class="form-inp" id="r-ing" rows="3" placeholder="Farina 200g&#10;Uova 2&#10;Sale q.b."></textarea>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Note / Procedura breve</label>
+      <textarea class="form-inp" id="r-note" rows="2" placeholder="Note veloci..."></textarea>
+    </div>
+    <button class="btn-main" onclick="addRicetta()">✓ Salva Ricetta (+20 XP)</button>
+  </div>
+</div>
+
+<!-- Add Dispensa -->
+<div class="overlay" id="sheet-add-dispensa" onclick="if(event.target===this)closeSheet('sheet-add-dispensa')">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title">🧂 Ingrediente Dispensa</div>
+    <div class="sheet-sub">Materia prima</div>
+    <div class="form-group">
+      <label class="form-label">Nome</label>
+      <input class="form-inp" id="d-nome" placeholder="es. Farina 00">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Quantità</label>
+        <input class="form-inp" id="d-qty" type="number" min="0" placeholder="5">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Unità</label>
+        <select class="form-inp" id="d-unit">
+          <option>kg</option><option>g</option><option>L</option><option>ml</option>
+          <option>pz</option><option>bottiglie</option><option>confezioni</option><option>sacchi</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Soglia minima (alert)</label>
+      <input class="form-inp" id="d-min" type="number" min="0" placeholder="2">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Emoji</label>
+      <input class="form-inp" id="d-emoji" placeholder="🧂" maxlength="4">
+    </div>
+    <button class="btn-main" onclick="addDispensa()">✓ Aggiungi</button>
+  </div>
+</div>
+
+<!-- Add Frigo -->
+<div class="overlay" id="sheet-add-frigo" onclick="if(event.target===this)closeSheet('sheet-add-frigo')">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title">❄️ Prodotto Frigo/Congelatore</div>
+    <div class="sheet-sub">Materia seconda</div>
+    <div class="form-group">
+      <label class="form-label">Nome Prodotto</label>
+      <input class="form-inp" id="f-nome" placeholder="es. Ragù pronto">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Quantità</label>
+        <input class="form-inp" id="f-qty" type="number" min="0" placeholder="3">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Unità</label>
+        <select class="form-inp" id="f-unit">
+          <option>pz</option><option>kg</option><option>g</option><option>vaschette</option>
+          <option>porzioni</option><option>barattoli</option><option>L</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Tipo</label>
+        <select class="form-inp" id="f-tipo">
+          <option>Frigo</option><option>Congelatore</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Soglia minima</label>
+        <input class="form-inp" id="f-min" type="number" min="0" placeholder="1">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Emoji</label>
+      <input class="form-inp" id="f-emoji" placeholder="🥩" maxlength="4">
+    </div>
+    <button class="btn-main" onclick="addFrigo()">✓ Aggiungi</button>
+  </div>
+</div>
+
+<!-- Add Task -->
+<div class="overlay" id="sheet-add-task" onclick="if(event.target===this)closeSheet('sheet-add-task')">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title">✅ Nuovo Task</div>
+    <div class="form-group">
+      <label class="form-label">Descrizione</label>
+      <input class="form-inp" id="t-nome" placeholder="es. Preparare brodo base">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">XP</label>
+        <select class="form-inp" id="t-xp">
+          <option value="10">10 — Rapido</option>
+          <option value="25">25 — Standard</option>
+          <option value="50">50 — Impegnativo</option>
+          <option value="100">100 — Difficile</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Ripetizione</label>
+        <select class="form-inp" id="t-rep">
+          <option value="daily">Ogni giorno</option>
+          <option value="once">Una volta</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Emoji</label>
+      <input class="form-inp" id="t-emoji" placeholder="🔪" maxlength="4">
+    </div>
+    <button class="btn-main" onclick="addTask()">✓ Aggiungi Task</button>
+  </div>
+</div>
+
+<!-- Add Da Rifare -->
+<div class="overlay" id="sheet-add-rifare" onclick="if(event.target===this)closeSheet('sheet-add-rifare')">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title">🔄 Da Rifare</div>
+    <div class="sheet-sub">Materia seconda da produrre</div>
+    <div class="form-group">
+      <label class="form-label">Cosa fare</label>
+      <input class="form-inp" id="rf-nome" placeholder="es. Preparare salsa tonnata">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Quantità target</label>
+        <input class="form-inp" id="rf-qty" type="number" placeholder="5">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Unità</label>
+        <input class="form-inp" id="rf-unit" placeholder="kg">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Urgenza</label>
+      <select class="form-inp" id="rf-urgency">
+        <option value="normale">Normale</option>
+        <option value="urgente">Urgente</option>
+      </select>
+    </div>
+    <button class="btn-main" onclick="addRifare()">✓ Aggiungi</button>
+  </div>
+</div>
+
+<!-- Profilo -->
+<div class="overlay" id="sheet-profilo" onclick="if(event.target===this)closeSheet('sheet-profilo')">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title">🎭 Modifica Profilo</div>
+    <div class="form-group">
+      <label class="form-label">Il tuo nome</label>
+      <input class="form-inp" id="p-nome" placeholder="es. Marco">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Ruolo</label>
+      <select class="form-inp" id="p-ruolo">
+        <option>Chef de Partie</option><option>Sous Chef</option><option>Pasticciere</option>
+        <option>Saucier</option><option>Garde Manger</option><option>Tournant</option><option>Commis</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Specializzazione</label>
+      <select class="form-inp" id="p-spec">
+        <option>Cucina Classica</option><option>Pasticceria</option><option>Gelati & Semifreddi</option>
+        <option>Salse & Fondi</option><option>Pane & Lievitati</option><option>Carne & Griglia</option>
+        <option>Pesce & Crudi</option><option>Antipasti & Finger Food</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Emoji Avatar</label>
+      <input class="form-inp" id="p-emoji" placeholder="👨‍🍳" maxlength="4">
+    </div>
+    <button class="btn-main" onclick="salvaProfilo()">✓ Salva Profilo</button>
+  </div>
+</div>
+
+<!-- Modifica Quantità (generico) -->
+<div class="overlay" id="sheet-edit-qty" onclick="if(event.target===this)closeSheet('sheet-edit-qty')">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title" id="eq-title">Modifica Quantità</div>
+    <div class="sheet-sub" id="eq-sub">Aggiorna la disponibilità</div>
+    <div class="form-group">
+      <label class="form-label">Nuova Quantità</label>
+      <input class="form-inp" id="eq-qty" type="number" min="0">
+    </div>
+    <input type="hidden" id="eq-type">
+    <input type="hidden" id="eq-idx">
+    <button class="btn-main" onclick="saveQty()">✓ Aggiorna</button>
+  </div>
+</div>
+
+<!-- Registra attività produzione -->
+<div class="overlay" id="sheet-reg-attivita" onclick="if(event.target===this)closeSheet('sheet-reg-attivita')">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title">🍳 Registra Attività</div>
+    <div class="sheet-sub">Segna cosa hai prodotto oggi (+XP)</div>
+    <div class="form-group">
+      <label class="form-label">Attività</label>
+      <input class="form-inp" id="act-nome" placeholder="es. Pane, Gelato, Tortini...">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Quantità</label>
+        <input class="form-inp" id="act-qty" type="number" min="0" placeholder="5">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Unità</label>
+        <input class="form-inp" id="act-unit" placeholder="pz / kg">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Difficoltà (influenza XP)</label>
+      <select class="form-inp" id="act-diff">
+        <option value="10">Semplice (+10 XP)</option>
+        <option value="25">Media (+25 XP)</option>
+        <option value="50">Impegnativa (+50 XP)</option>
+        <option value="100">Eccezionale (+100 XP)</option>
+      </select>
+    </div>
+    <button class="btn-main" onclick="registraAttivita()">✓ Registra Attività</button>
+  </div>
+</div>
+
+<!-- FAB: Registra attività -->
+<button class="fab" onclick="openSheet('sheet-reg-attivita')" title="Registra attività produzione">🍳</button>
+
+<script>
+// ══════════════════════════════════════════════
+//   STATE
+// ══════════════════════════════════════════════
+const KEY = 'ks_v1';
+
+function loadState() {
+  try { return JSON.parse(localStorage.getItem(KEY)) || defaultState(); }
+  catch { return defaultState(); }
+}
+
+function defaultState() {
+  return {
+    profilo: { nome: 'Chef', ruolo: 'Commis', spec: 'Cucina Classica', emoji: '👨‍🍳' },
+    xp: 0, prestige: 0,
+    presenze: 0, attivita: 0, streak: 0, lastFirmaDate: null, lastValDate: null,
+    ricette: [],
+    dispensa: [],
+    frigo: [],
+    tasks: [
+      { nome:'Pulizia stazione', emoji:'🧹', xp:10, rep:'daily', done:false },
+      { nome:'Mise en place', emoji:'🔪', xp:25, rep:'daily', done:false },
+      { nome:'Controllo scadenze', emoji:'📋', xp:15, rep:'daily', done:false },
+    ],
+    daRifare: [],
+    log: [],
+    venditeConfig: [],
+    storico: [],
+    tasksResetDate: null,
+  };
+}
+
+let S = loadState();
+
+function save() { localStorage.setItem(KEY, JSON.stringify(S)); }
+
+// ══════════════════════════════════════════════
+//   LIVELLI
+// ══════════════════════════════════════════════
+const LEVELS = [
+  { lv:1, xp:0, title:'Aiutante di Cucina' },
+  { lv:2, xp:200, title:'Commis' },
+  { lv:3, xp:500, title:'Demi-Chef' },
+  { lv:4, xp:1000, title:'Chef de Partie' },
+  { lv:5, xp:2000, title:'Sous Chef' },
+  { lv:6, xp:4000, title:'Executive Chef' },
+  { lv:7, xp:8000, title:'Chef Stellato' },
+  { lv:8, xp:15000, title:'Maestro della Cucina' },
+];
+
+function getLevelInfo(xp) {
+  let cur = LEVELS[0], next = LEVELS[1];
+  for (let i = 0; i < LEVELS.length; i++) {
+    if (xp >= LEVELS[i].xp) { cur = LEVELS[i]; next = LEVELS[i+1] || null; }
+  }
+  return { cur, next };
+}
+
+function addXP(amount, reason) {
+  S.xp += amount;
+  S.attivita++;
+  S.log.unshift({ icon:'⭐', action: reason || 'Attività', xp: amount, time: nowStr() });
+  if (S.log.length > 50) S.log.pop();
+  save();
+  updateHUD();
+  updateAvatarView();
+  showXPPop(amount);
+}
+
+function addPrestige(amount) {
+  S.prestige = Math.max(0, S.prestige + amount);
+  save();
+  updateAvatarView();
+}
+
+// ══════════════════════════════════════════════
+//   NAVIGATION
+// ══════════════════════════════════════════════
+function showView(name) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('view-' + name)?.classList.add('active');
+  document.getElementById('nav-' + name)?.classList.add('active');
+  if (name === 'tracker') renderTracker();
+  if (name === 'scheduler') renderScheduler();
+  if (name === 'avatar') renderAvatarFull();
+  if (name === 'holders') renderHolders();
+}
+
+// ══════════════════════════════════════════════
+//   SHEETS
+// ══════════════════════════════════════════════
+function openSheet(id) {
+  document.getElementById(id)?.classList.add('open');
+}
+function closeSheet(id) {
+  document.getElementById(id)?.classList.remove('open');
+}
+
+// ══════════════════════════════════════════════
+//   TOAST
+// ══════════════════════════════════════════════
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+function showXPPop(amount) {
+  const el = document.createElement('div');
+  el.className = 'xp-pop';
+  el.textContent = '+' + amount + ' XP';
+  el.style.cssText = `top:${60}px;left:${Math.random()*200+80}px`;
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 1600);
+}
+
+// ══════════════════════════════════════════════
+//   HUD
+// ══════════════════════════════════════════════
+function updateHUD() {
+  const { cur, next } = getLevelInfo(S.xp);
+  const pct = next ? Math.round(((S.xp - cur.xp) / (next.xp - cur.xp)) * 100) : 100;
+  document.getElementById('hud-level').textContent = `Lv.${cur.lv} — ${cur.title}`;
+  document.getElementById('hud-xp-fill').style.width = pct + '%';
+  document.getElementById('hud-xp-val').textContent = next
+    ? `${S.xp - cur.xp} / ${next.xp - cur.xp} XP`
+    : `${S.xp} XP — MAX`;
+  document.getElementById('hud-avatar').textContent = S.profilo.emoji || '👨‍🍳';
+}
+
+// ══════════════════════════════════════════════
+//   HOLDERS
+// ══════════════════════════════════════════════
+function renderHolders() {
+  renderRicette(); renderDispensa(); renderFrigo();
+}
+
+function renderRicette() {
+  const el = document.getElementById('ricette-list');
+  if (!S.ricette.length) {
+    el.innerHTML = '<div class="empty"><div class="empty-icon">📖</div>Nessuna ricetta. Aggiungine una!</div>'; return;
+  }
+  el.innerHTML = S.ricette.map((r, i) => `
+    <div class="recipe-card" onclick="">
+      <div class="recipe-name">${r.nome}</div>
+      <div class="recipe-meta">
+        <span class="badge badge-gold">${r.cat}</span>
+        <span class="badge badge-orange">${'⭐'.repeat(+r.diff)}</span>
+        ${r.ing ? `<span class="badge badge-blue">${r.ing.split('\n').filter(Boolean).length} ing.</span>` : ''}
+      </div>
+      ${r.ing ? `<div style="font-size:12px;color:var(--text-dim);margin-top:6px;font-style:italic">${r.ing.split('\n').filter(Boolean).slice(0,3).join(', ')}${r.ing.split('\n').length>3?'...':''}</div>` : ''}
+      <div style="display:flex;gap:6px;margin-top:8px">
+        <button class="btn btn-red" onclick="event.stopPropagation();delRicetta(${i})">🗑</button>
+      </div>
+    </div>`).join('');
+}
+
+function addRicetta() {
+  const nome = document.getElementById('r-nome').value.trim();
+  if (!nome) { toast('⚠ Inserisci un nome'); return; }
+  S.ricette.push({
+    nome, cat: document.getElementById('r-cat').value,
+    diff: document.getElementById('r-diff').value,
+    ing: document.getElementById('r-ing').value,
+    note: document.getElementById('r-note').value,
+    id: Date.now()
+  });
+  // Aggiungi al tracker vendite se non c'è già
+  if (!S.venditeConfig.find(v => v.nome === nome)) {
+    S.venditeConfig.push({ nome, emoji: '🍽️', count: 0 });
+  }
+  save(); renderHolders(); renderTracker();
+  closeSheet('sheet-add-ricetta');
+  ['r-nome','r-ing','r-note'].forEach(id => document.getElementById(id).value = '');
+  addXP(20, 'Nuova ricetta: ' + nome);
+  toast('✓ Ricetta aggiunta!');
+}
+
+function delRicetta(i) {
+  S.ricette.splice(i, 1); save(); renderHolders();
+}
+
+function renderDispensa() {
+  const el = document.getElementById('dispensa-list');
+  const alertEl = document.getElementById('dispensa-alerts');
+  if (!S.dispensa.length) {
+    el.innerHTML = '<div class="empty"><div class="empty-icon">🧂</div>Dispensa vuota</div>';
+    alertEl.innerHTML = ''; return;
+  }
+  const low = S.dispensa.filter(d => d.min && +d.qty <= +d.min);
+  alertEl.innerHTML = low.map(d => `
+    <div class="alert-row">
+      <div class="alert-icon">${d.emoji||'⚠️'}</div>
+      <div><div class="alert-text">${d.nome}</div><div class="alert-sub">Solo ${d.qty} ${d.unit} rimasti — riordinare!</div></div>
+    </div>`).join('');
+  el.innerHTML = S.dispensa.map((d, i) => `
+    <div class="item-row">
+      <div class="item-emoji">${d.emoji||'🧂'}</div>
+      <div class="item-info">
+        <div class="item-name">${d.nome}</div>
+        <div class="item-detail">${d.unit} ${d.min ? '· min: '+d.min : ''}</div>
+      </div>
+      <div>
+        <div class="item-qty" style="${+d.qty<=(+d.min||0)?'color:var(--red-bright)':''}">${d.qty}</div>
+        <div class="item-unit">${d.unit}</div>
+      </div>
+      <div class="item-actions">
+        <button class="btn-icon" onclick="openEditQty('dispensa',${i})">✏️</button>
+        <button class="btn-icon" onclick="delDispensa(${i})">🗑</button>
+      </div>
+    </div>`).join('');
+}
+
+function addDispensa() {
+  const nome = document.getElementById('d-nome').value.trim();
+  if (!nome) { toast('⚠ Nome mancante'); return; }
+  S.dispensa.push({
+    nome, qty: document.getElementById('d-qty').value || '0',
+    unit: document.getElementById('d-unit').value,
+    min: document.getElementById('d-min').value || '0',
+    emoji: document.getElementById('d-emoji').value || '🧂'
+  });
+  save(); renderHolders(); checkRiordinare();
+  closeSheet('sheet-add-dispensa');
+  ['d-nome','d-qty','d-min','d-emoji'].forEach(id => document.getElementById(id).value = '');
+  toast('✓ Ingrediente aggiunto!');
+}
+
+function delDispensa(i) { S.dispensa.splice(i,1); save(); renderHolders(); }
+
+function renderFrigo() {
+  const el = document.getElementById('frigo-list');
+  if (!S.frigo.length) {
+    el.innerHTML = '<div class="empty"><div class="empty-icon">❄️</div>Nessun prodotto</div>'; return;
+  }
+  el.innerHTML = S.frigo.map((f, i) => `
+    <div class="item-row">
+      <div class="item-emoji">${f.emoji||'🥩'}</div>
+      <div class="item-info">
+        <div class="item-name">${f.nome}</div>
+        <div class="item-detail"><span class="badge ${f.tipo==='Congelatore'?'badge-blue':'badge-teal'}">${f.tipo}</span></div>
+      </div>
+      <div>
+        <div class="item-qty" style="${+f.qty<=(+f.min||0)?'color:var(--red-bright)':''}">${f.qty}</div>
+        <div class="item-unit">${f.unit}</div>
+      </div>
+      <div class="item-actions">
+        <button class="btn-icon" onclick="openEditQty('frigo',${i})">✏️</button>
+        <button class="btn-icon" onclick="delFrigo(${i})">🗑</button>
+      </div>
+    </div>`).join('');
+}
+
+function addFrigo() {
+  const nome = document.getElementById('f-nome').value.trim();
+  if (!nome) { toast('⚠ Nome mancante'); return; }
+  S.frigo.push({
+    nome, qty: document.getElementById('f-qty').value || '0',
+    unit: document.getElementById('f-unit').value,
+    tipo: document.getElementById('f-tipo').value,
+    min: document.getElementById('f-min').value || '0',
+    emoji: document.getElementById('f-emoji').value || '🥩'
+  });
+  save(); renderHolders();
+  closeSheet('sheet-add-frigo');
+  ['f-nome','f-qty','f-min','f-emoji'].forEach(id => document.getElementById(id).value = '');
+  toast('✓ Prodotto aggiunto!');
+}
+
+function delFrigo(i) { S.frigo.splice(i,1); save(); renderHolders(); }
+
+function openEditQty(type, idx) {
+  const item = type === 'dispensa' ? S.dispensa[idx] : S.frigo[idx];
+  document.getElementById('eq-title').textContent = '✏️ ' + item.nome;
+  document.getElementById('eq-sub').textContent = `Attuale: ${item.qty} ${item.unit}`;
+  document.getElementById('eq-qty').value = item.qty;
+  document.getElementById('eq-type').value = type;
+  document.getElementById('eq-idx').value = idx;
+  openSheet('sheet-edit-qty');
+}
+
+function saveQty() {
+  const type = document.getElementById('eq-type').value;
+  const idx = +document.getElementById('eq-idx').value;
+  const qty = document.getElementById('eq-qty').value;
+  if (type === 'dispensa') S.dispensa[idx].qty = qty;
+  else S.frigo[idx].qty = qty;
+  save(); renderHolders(); closeSheet('sheet-edit-qty');
+  checkRiordinare();
+  toast('✓ Quantità aggiornata');
+}
+
+function checkRiordinare() {
+  // Auto-aggiunge a riordinare le dispense sotto soglia
+  const low = S.dispensa.filter(d => d.min && +d.qty <= +d.min);
+  // Non duplichiamo - solo nota nel render
+}
+
+// ══════════════════════════════════════════════
+//   TRACKER
+// ══════════════════════════════════════════════
+function renderTracker() {
+  renderVendite(); renderStatsGrid(); renderConsumo(); renderStorico();
+}
+
+function renderVendite() {
+  const el = document.getElementById('vendite-list');
+  if (!S.venditeConfig.length) {
+    el.innerHTML = '<div class="empty" style="padding:16px 0"><div class="empty-icon">🍽️</div>Aggiungi ricette in Holders per registrare le vendite</div>'; return;
+  }
+  el.innerHTML = S.venditeConfig.map((v, i) => `
+    <div class="vendite-row">
+      <div class="item-emoji">${v.emoji||'🍽️'}</div>
+      <div class="vendite-name">${v.nome}</div>
+      <div class="vendite-count" id="vc-${i}">${v.count||0}</div>
+      <div class="vendite-ctrl">
+        <button class="btn-icon" onclick="adjVendite(${i},-1)" style="font-size:18px">−</button>
+        <button class="btn-icon" onclick="adjVendite(${i},+1)" style="font-size:18px">+</button>
+      </div>
+    </div>`).join('');
+}
+
+function adjVendite(i, d) {
+  S.venditeConfig[i].count = Math.max(0, (S.venditeConfig[i].count||0) + d);
+  document.getElementById('vc-'+i).textContent = S.venditeConfig[i].count;
+}
+
+function salvaVendite() {
+  const tot = S.venditeConfig.reduce((a,v) => a + (v.count||0), 0);
+  if (!tot) { toast('⚠ Nessuna portata registrata'); return; }
+  const entry = {
+    data: todayStr(), portate: S.venditeConfig.filter(v=>v.count>0).map(v=>({...v})), tot, time: nowStr()
+  };
+  S.storico.unshift(entry);
+  S.venditeConfig.forEach(v => v.count = 0);
+  save(); renderTracker();
+  addXP(15, `Servizio registrato: ${tot} portate`);
+  toast('✓ Servizio salvato!');
+}
+
+function renderStatsGrid() {
+  const allPortate = S.storico.flatMap(s => s.portate || []);
+  const countMap = {};
+  allPortate.forEach(p => { countMap[p.nome] = (countMap[p.nome]||0) + (p.count||0); });
+  const sorted = Object.entries(countMap).sort((a,b)=>b[1]-a[1]);
+  const totTot = S.storico.reduce((a,s)=>a+(s.tot||0),0);
+  document.getElementById('stat-servizi').textContent = S.storico.length;
+  document.getElementById('stat-portate').textContent = totTot;
+  document.getElementById('stat-top').textContent = sorted[0]?sorted[0][0].slice(0,8):'—';
+  document.getElementById('stat-low').textContent = sorted.at(-1)?sorted.at(-1)[0].slice(0,8):'—';
+}
+
+function renderConsumo() {
+  const el = document.getElementById('consumo-list');
+  const logs = S.log.filter(l => l.action && l.action.startsWith('Attività:'));
+  if (!logs.length) {
+    el.innerHTML = '<div class="empty"><div class="empty-icon">📦</div>Nessun consumo registrato</div>'; return;
+  }
+  el.innerHTML = logs.slice(0,10).map(l => `
+    <div class="track-row">
+      <div class="track-icon">📦</div>
+      <div class="track-info">
+        <div class="track-name">${l.action.replace('Attività: ','')}</div>
+        <div class="track-meta">${l.time}</div>
+      </div>
+      <div class="track-qty">+${l.xp} XP</div>
+    </div>`).join('');
+}
+
+function renderStorico() {
+  const el = document.getElementById('storico-list');
+  if (!S.storico.length) {
+    el.innerHTML = '<div class="empty"><div class="empty-icon">📋</div>Nessun servizio registrato</div>'; return;
+  }
+  el.innerHTML = S.storico.slice(0,10).map(s => `
+    <div class="track-row">
+      <div class="track-icon">🍽️</div>
+      <div class="track-info">
+        <div class="track-name">${s.data} — ${s.tot} portate</div>
+        <div class="track-meta">${(s.portate||[]).map(p=>`${p.nome} ×${p.count}`).join(', ')}</div>
+      </div>
+      <div class="track-qty" style="color:var(--teal)">${s.tot}</div>
+    </div>`).join('');
+}
+
+// ══════════════════════════════════════════════
+//   SCHEDULER
+// ══════════════════════════════════════════════
+function renderScheduler() {
+  renderWeek(); renderDailyTasks(); renderDaRifare(); renderDaRiordinare(); updateFirmaBtn();
+}
+
+function renderWeek() {
+  const el = document.getElementById('week-row');
+  const today = new Date();
+  const dow = today.getDay(); // 0=dom
+  const monday = new Date(today); monday.setDate(today.getDate() - ((dow+6)%7));
+  const dayNames = ['Lun','Mar','Mer','Gio','Ven','Sab','Dom'];
+  let html = '';
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(monday); d.setDate(monday.getDate() + i);
+    const ds = d.toISOString().slice(0,10);
+    const isToday = ds === todayStr();
+    const worked = S.log.some(l => l.action === 'Firma presenza' && l.time.startsWith(ds.slice(5)));
+    html += `<div class="week-day ${isToday?'today':''} ${worked?'worked':''}">
+      <div class="week-day-lbl">${dayNames[i]}</div>
+      <div class="week-day-num">${d.getDate()}</div>
+      <div class="week-day-dot"></div>
+    </div>`;
+  }
+  el.innerHTML = html;
+}
+
+function renderDailyTasks() {
+  // Reset daily tasks if new day
+  const today = todayStr();
+  if (S.tasksResetDate !== today) {
+    S.tasks.filter(t => t.rep === 'daily').forEach(t => t.done = false);
+    S.tasksResetDate = today;
+    save();
+  }
+  const el = document.getElementById('daily-tasks-list');
+  if (!S.tasks.length) {
+    el.innerHTML = '<div class="empty" style="padding:12px 0">Nessun task. Aggiungine uno!</div>'; return;
+  }
+  el.innerHTML = S.tasks.map((t, i) => `
+    <div class="task-row">
+      <div class="task-check ${t.done?'done':''}" onclick="toggleTask(${i})">
+        ${t.done?'✓':''}
+      </div>
+      <div class="task-info">
+        <div class="task-name ${t.done?'done':''}">${t.emoji||'✅'} ${t.nome}</div>
+        <div class="task-xp">+${t.xp} XP ${t.rep==='once'?'(una volta)':''}</div>
+      </div>
+      <button class="btn-icon" onclick="delTask(${i})">🗑</button>
+    </div>`).join('');
+}
+
+function toggleTask(i) {
+  if (S.tasks[i].done) return; // non si può de-fare
+  S.tasks[i].done = true;
+  if (S.tasks[i].rep === 'once') {
+    S.tasks.splice(i, 1);
+  }
+  save(); renderScheduler();
+  addXP(+S.tasks[i]?.xp || 10, 'Task: ' + (S.tasks[i]?.nome || 'completato'));
+  toast('✓ Task completato!');
+}
+
+function addTask() {
+  const nome = document.getElementById('t-nome').value.trim();
+  if (!nome) { toast('⚠ Nome mancante'); return; }
+  S.tasks.push({
+    nome, emoji: document.getElementById('t-emoji').value || '✅',
+    xp: +document.getElementById('t-xp').value,
+    rep: document.getElementById('t-rep').value,
+    done: false
+  });
+  save(); renderScheduler(); closeSheet('sheet-add-task');
+  document.getElementById('t-nome').value = '';
+  toast('✓ Task aggiunto!');
+}
+
+function delTask(i) { S.tasks.splice(i,1); save(); renderScheduler(); }
+
+function renderDaRifare() {
+  const el = document.getElementById('da-rifare-list');
+  if (!S.daRifare.length) {
+    el.innerHTML = '<div class="empty"><div class="empty-icon">🔄</div>Nessun elemento da rifare</div>'; return;
+  }
+  el.innerHTML = S.daRifare.map((r, i) => `
+    <div class="sched-item ${r.urgency==='urgente'?'sched-urgent':''}">
+      <div class="sched-emoji">🔄</div>
+      <div class="sched-info">
+        <div class="sched-name">${r.nome}</div>
+        <div class="sched-when">${r.qty} ${r.unit} · ${r.urgency==='urgente'?'⚠ URGENTE':'Normale'}</div>
+      </div>
+      <button class="btn-icon" style="color:var(--green)" onclick="completeRifare(${i})">✓</button>
+      <button class="btn-icon" onclick="delRifare(${i})">🗑</button>
+    </div>`).join('');
+}
+
+function addRifare() {
+  const nome = document.getElementById('rf-nome').value.trim();
+  if (!nome) { toast('⚠ Nome mancante'); return; }
+  S.daRifare.push({
+    nome, qty: document.getElementById('rf-qty').value || '1',
+    unit: document.getElementById('rf-unit').value || 'pz',
+    urgency: document.getElementById('rf-urgency').value
+  });
+  save(); renderScheduler(); closeSheet('sheet-add-rifare');
+  document.getElementById('rf-nome').value = '';
+  toast('✓ Aggiunto!');
+}
+
+function completeRifare(i) {
+  const r = S.daRifare[i];
+  S.daRifare.splice(i, 1);
+  save(); renderScheduler();
+  addXP(30, 'Produzione: ' + r.nome);
+  toast('✓ Completato! +30 XP');
+}
+
+function delRifare(i) { S.daRifare.splice(i,1); save(); renderScheduler(); }
+
+function renderDaRiordinare() {
+  const el = document.getElementById('da-riordinare-list');
+  const low = S.dispensa.filter(d => d.min && +d.qty <= +d.min);
+  if (!low.length) {
+    el.innerHTML = '<div class="empty"><div class="empty-icon">🛒</div>Tutto in ordine!</div>'; return;
+  }
+  el.innerHTML = low.map((d, i) => `
+    <div class="sched-item sched-urgent">
+      <div class="sched-emoji">${d.emoji||'🧂'}</div>
+      <div class="sched-info">
+        <div class="sched-name">${d.nome}</div>
+        <div class="sched-when">Rimasti: ${d.qty} ${d.unit} · Min: ${d.min} ${d.unit}</div>
+      </div>
+      <span class="badge badge-red">Riordinare</span>
+    </div>`).join('');
+}
+
+// ══════════════════════════════════════════════
+//   FIRMA PRESENZA
+// ══════════════════════════════════════════════
+function updateFirmaBtn() {
+  const firmato = S.lastFirmaDate === todayStr();
+  const btn = document.getElementById('btn-firma');
+  const status = document.getElementById('firma-status');
+  if (firmato) {
+    btn.disabled = true; btn.style.opacity = '0.5';
+    status.textContent = '✓ Presenza firmata oggi';
+  } else {
+    btn.disabled = false; btn.style.opacity = '1';
+    status.textContent = '';
+  }
+}
+
+function firmaPresenza() {
+  if (S.lastFirmaDate === todayStr()) { toast('Hai già firmato oggi!'); return; }
+  S.presenze++;
+  // Streak
+  const yesterday = new Date(); yesterday.setDate(yesterday.getDate()-1);
+  const yStr = yesterday.toISOString().slice(0,10);
+  if (S.lastFirmaDate === yStr) S.streak++; else S.streak = 1;
+  S.lastFirmaDate = todayStr();
+  S.log.unshift({ icon:'⏰', action:'Firma presenza', xp:30, time:nowStr() });
+  save(); updateFirmaBtn(); renderWeek();
+  addXP(30, 'Firma presenza');
+  toast('✓ Presenza firmata! +30 XP');
+}
+
+// ══════════════════════════════════════════════
+//   AVATAR
+// ══════════════════════════════════════════════
+function renderAvatarFull() {
+  updateAvatarView(); renderAvatarLog(); renderRuoloCard();
+}
+
+function updateAvatarView() {
+  const { cur, next } = getLevelInfo(S.xp);
+  const pct = next ? Math.round(((S.xp - cur.xp) / (next.xp - cur.xp)) * 100) : 100;
+  document.getElementById('av-icon').textContent = S.profilo.emoji || '👨‍🍳';
+  document.getElementById('av-name').textContent = S.profilo.nome || 'Chef';
+  document.getElementById('av-role').textContent = S.profilo.spec || cur.title;
+  document.getElementById('av-level').textContent = cur.lv;
+  document.getElementById('av-xp-badge').textContent = S.xp + ' XP';
+  document.getElementById('av-level-label').textContent = `Lv.${cur.lv} → ${next?'Lv.'+next.lv:'MAX'}`;
+  document.getElementById('av-xp-prog').style.width = pct + '%';
+  document.getElementById('av-xp-pct').textContent = pct + '%';
+  document.getElementById('av-presenze').textContent = S.presenze;
+  document.getElementById('av-attivita').textContent = S.attivita;
+  document.getElementById('av-xp-total').textContent = S.xp;
+  document.getElementById('av-streak').textContent = S.streak;
+  document.getElementById('av-pres-badge').textContent = S.prestige + ' Pt';
+  document.getElementById('av-pres-fill').style.width = Math.min(100, S.prestige / 2) + '%';
+}
+
+function renderAvatarLog() {
+  const el = document.getElementById('av-log-list');
+  if (!S.log.length) { el.innerHTML = '<div class="empty"><div class="empty-icon">📜</div>Nessuna attività ancora</div>'; return; }
+  el.innerHTML = S.log.slice(0,20).map(l => `
+    <div class="log-row">
+      <div class="log-icon">${l.icon||'⭐'}</div>
+      <div class="log-info">
+        <div class="log-action">${l.action}</div>
+        <div class="log-time">${l.time}</div>
+      </div>
+      <div class="log-xp">+${l.xp} XP</div>
+    </div>`).join('');
+}
+
+function renderRuoloCard() {
+  document.getElementById('ruolo-info').innerHTML = `
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px">
+      <span class="badge badge-gold">${S.profilo.ruolo||'Commis'}</span>
+      <span class="badge badge-teal">${S.profilo.spec||'Cucina Classica'}</span>
+    </div>
+    <div style="font-size:13px;color:var(--text-dim);font-style:italic">
+      ${S.profilo.nome||'Chef'} — ${getLevelInfo(S.xp).cur.title}
+    </div>`;
+}
+
+function setValutazione(v) {
+  if (S.lastValDate === todayStr()) { toast('Hai già valutato oggi'); return; }
+  if (v === 'bene') {
+    addPrestige(10);
+    S.log.unshift({ icon:'⭐', action:'Valutazione giornaliera: Bene', xp:10, time:nowStr() });
+    toast('👍 +10 Prestigio!');
+  } else {
+    addPrestige(-5);
+    S.log.unshift({ icon:'👎', action:'Valutazione giornaliera: Male', xp:0, time:nowStr() });
+    toast('⚠ Valutazione negativa');
+  }
+  S.lastValDate = todayStr();
+  save(); renderAvatarFull();
+  document.getElementById('val-status').textContent = v === 'bene' ? '✓ Valutazione positiva registrata' : '✓ Valutazione negativa registrata';
+  ['val-btn-good','val-btn-bad'].forEach(id => document.getElementById(id).disabled = true);
+}
+
+function salvaProfilo() {
+  S.profilo.nome = document.getElementById('p-nome').value || S.profilo.nome;
+  S.profilo.ruolo = document.getElementById('p-ruolo').value;
+  S.profilo.spec = document.getElementById('p-spec').value;
+  S.profilo.emoji = document.getElementById('p-emoji').value || S.profilo.emoji;
+  save(); renderAvatarFull(); updateHUD();
+  closeSheet('sheet-profilo'); toast('✓ Profilo aggiornato!');
+}
+
+function registraAttivita() {
+  const nome = document.getElementById('act-nome').value.trim();
+  if (!nome) { toast('⚠ Inserisci un nome'); return; }
+  const xp = +document.getElementById('act-diff').value;
+  const qty = document.getElementById('act-qty').value;
+  const unit = document.getElementById('act-unit').value;
+  closeSheet('sheet-reg-attivita');
+  document.getElementById('act-nome').value = '';
+  addXP(xp, `Attività: ${nome}${qty?' ('+qty+' '+unit+')':''}`);
+  toast(`✓ +${xp} XP — ${nome}!`);
+}
+
+// ══════════════════════════════════════════════
+//   UTILITIES
+// ══════════════════════════════════════════════
+function todayStr() { return new Date().toISOString().slice(0,10); }
+function nowStr() {
+  const d = new Date();
+  return `${d.toLocaleDateString('it-IT')} ${d.getHours().toString().padStart(2,'0')}:${d.getMinutes().toString().padStart(2,'0')}`;
+}
+
+// ══════════════════════════════════════════════
+//   INIT
+// ══════════════════════════════════════════════
+function init() {
+  updateHUD();
+  renderHolders();
+  // Pre-carica profilo nel sheet
+  document.getElementById('p-nome').value = S.profilo.nome || '';
+  document.getElementById('p-emoji').value = S.profilo.emoji || '';
+}
+
+init();
+</script>
+</body>
+</html>
