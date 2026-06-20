@@ -6,6 +6,10 @@
 <title>KitchenSmart</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
 <style>
+/* ── DIMENSIONI FLUIDE (responsive) ── */
+html{font-size:clamp(14.5px, 4.1vw, 18px)}
+@media (min-width:480px){html{font-size:18px}}
+
 :root{
   --bg:#0d0d10;--surface:#13131a;--surface2:#1a1a24;--surface3:#21212e;
   --border:#252535;--border-light:#32324a;
@@ -19,116 +23,116 @@
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%;overflow:hidden}
-body{background:var(--bg);color:var(--text);font-family:'IM Fell English',serif;display:flex;flex-direction:column;max-width:480px;margin:0 auto;position:relative}
+body{background:var(--bg);color:var(--text);font-family:'IM Fell English',serif;display:flex;flex-direction:column;max-width:34.5rem;margin:0 auto;position:relative}
 
 /* ── LOGIN ── */
-#login-screen{position:fixed;inset:0;z-index:1000;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px 20px;max-width:480px;margin:0 auto}
+#login-screen{position:fixed;inset:0;z-index:1000;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2.0125rem 1.4375rem;max-width:34.5rem;margin:0 auto}
 #login-screen.hidden{display:none}
-.login-logo{font-family:'Cinzel',serif;font-size:24px;color:var(--gold);letter-spacing:4px;font-weight:700;margin-bottom:3px}
-.login-sub{font-size:12px;color:var(--text-dim);margin-bottom:30px;font-style:italic}
-.login-cards{display:flex;gap:12px;width:100%;max-width:320px;margin-bottom:0}
-.login-card{flex:1;background:var(--surface);border:2px solid var(--border);border-radius:6px;padding:18px 12px;text-align:center;cursor:pointer;transition:all 0.2s}
+.login-logo{font-family:'Cinzel',serif;font-size:1.725rem;color:var(--gold);letter-spacing:0.2875rem;font-weight:700;margin-bottom:3px}
+.login-sub{font-size:0.8625rem;color:var(--text-dim);margin-bottom:2.1562rem;font-style:italic}
+.login-cards{display:flex;gap:0.8625rem;width:100%;max-width:23rem;margin-bottom:0}
+.login-card{flex:1;background:var(--surface);border:2px solid var(--border);border-radius:0.4313rem;padding:1.2937rem 0.8625rem;text-align:center;cursor:pointer;transition:all 0.2s}
 .login-card:hover{transform:translateY(-2px)}
-.login-card.u0{border-color:var(--gold-dim)}.login-card.u0:hover{border-color:var(--gold);box-shadow:0 6px 20px rgba(201,168,76,0.12)}
-.login-card.u1{border-color:var(--teal-dim)}.login-card.u1:hover{border-color:var(--teal);box-shadow:0 6px 20px rgba(58,144,144,0.12)}
-.login-emoji{font-size:40px;margin-bottom:6px}
-.login-name{font-family:'Cinzel',serif;font-size:13px;letter-spacing:2px;font-weight:600}
+.login-card.u0{border-color:var(--gold-dim)}.login-card.u0:hover{border-color:var(--gold);box-shadow:0 0.4313rem 1.4375rem rgba(201,168,76,0.12)}
+.login-card.u1{border-color:var(--teal-dim)}.login-card.u1:hover{border-color:var(--teal);box-shadow:0 0.4313rem 1.4375rem rgba(58,144,144,0.12)}
+.login-emoji{font-size:2.875rem;margin-bottom:0.4313rem}
+.login-name{font-family:'Cinzel',serif;font-size:0.9313rem;letter-spacing:2px;font-weight:600}
 .login-card.u0 .login-name{color:var(--gold)}.login-card.u1 .login-name{color:var(--teal)}
-.login-level{font-family:'Cinzel',serif;font-size:9px;letter-spacing:1px;color:var(--text-dim);margin-top:3px}
-.login-xp-bar{height:3px;background:var(--surface3);border-radius:2px;margin-top:7px;overflow:hidden}
+.login-level{font-family:'Cinzel',serif;font-size:0.6438rem;letter-spacing:1px;color:var(--text-dim);margin-top:3px}
+.login-xp-bar{height:3px;background:var(--surface3);border-radius:2px;margin-top:0.5rem;overflow:hidden}
 .lxf-a{height:100%;border-radius:2px;background:var(--gold)}.lxf-b{height:100%;border-radius:2px;background:var(--teal)}
 
 /* PIN overlay */
-#pin-overlay{display:none;position:fixed;inset:0;z-index:1100;background:rgba(0,0,0,0.85);flex-direction:column;align-items:center;justify-content:center;max-width:480px;margin:0 auto}
+#pin-overlay{display:none;position:fixed;inset:0;z-index:1100;background:rgba(0,0,0,0.85);flex-direction:column;align-items:center;justify-content:center;max-width:34.5rem;margin:0 auto}
 #pin-overlay.open{display:flex}
-.pin-title{font-family:'Cinzel',serif;font-size:16px;color:var(--gold);letter-spacing:2px;margin-bottom:4px}
-.pin-sub{font-size:12px;color:var(--text-dim);margin-bottom:20px;font-style:italic}
-.pin-dots{display:flex;gap:10px;margin-bottom:20px}
-.pin-dot{width:14px;height:14px;border-radius:50%;border:2px solid var(--border-light);background:transparent;transition:all 0.15s}
+.pin-title{font-family:'Cinzel',serif;font-size:1.15rem;color:var(--gold);letter-spacing:2px;margin-bottom:0.2875rem}
+.pin-sub{font-size:0.8625rem;color:var(--text-dim);margin-bottom:1.4375rem;font-style:italic}
+.pin-dots{display:flex;gap:0.7188rem;margin-bottom:1.4375rem}
+.pin-dot{width:1.0063rem;height:1.0063rem;border-radius:50%;border:2px solid var(--border-light);background:transparent;transition:all 0.15s}
 .pin-dot.filled{background:var(--gold);border-color:var(--gold)}
 .pin-dot.err{background:var(--red-bright);border-color:var(--red)}
-.pin-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:200px}
-.pin-btn{background:var(--surface2);border:1px solid var(--border-light);border-radius:4px;padding:14px 0;font-family:'Cinzel',serif;font-size:18px;color:var(--text);cursor:pointer;transition:all 0.12s;text-align:center}
+.pin-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0.575rem;width:14.375rem}
+.pin-btn{background:var(--surface2);border:1px solid var(--border-light);border-radius:0.2875rem;padding:1.0063rem 0;font-family:'Cinzel',serif;font-size:1.2937rem;color:var(--text);cursor:pointer;transition:all 0.12s;text-align:center}
 .pin-btn:hover{background:var(--surface3);border-color:var(--gold-dim)}
 .pin-btn:active{transform:scale(0.94)}
 .pin-back{background:transparent;border-color:var(--border);color:var(--text-dim)}
-.pin-error{font-family:'Cinzel',serif;font-size:10px;color:var(--red-bright);letter-spacing:1px;margin-top:8px;min-height:16px}
-.pin-cancel{font-family:'Cinzel',serif;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);margin-top:16px;cursor:pointer;padding:6px 12px;border:1px solid var(--border);border-radius:2px;background:transparent}
+.pin-error{font-family:'Cinzel',serif;font-size:0.7188rem;color:var(--red-bright);letter-spacing:1px;margin-top:0.575rem;min-height:1.15rem}
+.pin-cancel{font-family:'Cinzel',serif;font-size:0.6438rem;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);margin-top:1.15rem;cursor:pointer;padding:0.4313rem 0.8625rem;border:1px solid var(--border);border-radius:2px;background:transparent}
 .pin-cancel:hover{color:var(--text);border-color:var(--border-light)}
 
 /* ── HUD ── */
-.hud{display:flex;align-items:center;padding:7px 12px;border-bottom:1px solid var(--border);gap:9px;flex-shrink:0;background:var(--surface)}
-.hud-title{font-family:'Cinzel',serif;font-size:12px;letter-spacing:3px;color:var(--gold);font-weight:700;flex:1}
-.hud-chip{display:flex;align-items:center;gap:5px;background:var(--surface3);border:1px solid var(--border-light);border-radius:20px;padding:3px 8px 3px 5px;cursor:pointer;transition:border-color 0.2s}
+.hud{display:flex;align-items:center;padding:0.5rem 0.8625rem;border-bottom:1px solid var(--border);gap:0.6438rem;flex-shrink:0;background:var(--surface)}
+.hud-title{font-family:'Cinzel',serif;font-size:0.8625rem;letter-spacing:3px;color:var(--gold);font-weight:700;flex:1}
+.hud-chip{display:flex;align-items:center;gap:0.3625rem;background:var(--surface3);border:1px solid var(--border-light);border-radius:1.4375rem;padding:3px 0.575rem 3px 0.3625rem;cursor:pointer;transition:border-color 0.2s}
 .hud-chip:hover{border-color:var(--gold-dim)}
-.hud-chip-name{font-family:'Cinzel',serif;font-size:9px;letter-spacing:1px;color:var(--gold)}
-.hud-xp-wrap{display:flex;flex-direction:column;gap:1px;min-width:66px}
-.hud-level{font-family:'Cinzel',serif;font-size:9px;color:var(--gold);letter-spacing:0.5px;white-space:nowrap}
+.hud-chip-name{font-family:'Cinzel',serif;font-size:0.6438rem;letter-spacing:1px;color:var(--gold)}
+.hud-xp-wrap{display:flex;flex-direction:column;gap:1px;min-width:4.7438rem}
+.hud-level{font-family:'Cinzel',serif;font-size:0.6438rem;color:var(--gold);letter-spacing:0.5px;white-space:nowrap}
 .hud-xp-bar{height:3px;background:var(--surface3);border-radius:2px;overflow:hidden}
 .hud-xp-fill{height:100%;background:var(--gold);border-radius:2px;transition:width 0.4s}
-.hud-xp-val{font-size:8px;color:var(--text-dim);font-family:'Cinzel',serif}
+.hud-xp-val{font-size:0.575rem;color:var(--text-dim);font-family:'Cinzel',serif}
 
 /* ── NAV ── */
 .nav{display:flex;border-top:1px solid var(--border);flex-shrink:0;background:var(--bg)}
-.nav-btn{flex:1;padding:6px 0 8px;background:transparent;border-right:1px solid var(--border);font-family:'Cinzel',serif;font-size:6.5px;letter-spacing:0.6px;text-transform:uppercase;color:var(--text-dim);cursor:pointer;transition:all 0.15s;text-align:center;border-top:2px solid transparent}
+.nav-btn{flex:1;padding:0.4313rem 0 0.575rem;background:transparent;border-right:1px solid var(--border);font-family:'Cinzel',serif;font-size:0.4688rem;letter-spacing:0.6px;text-transform:uppercase;color:var(--text-dim);cursor:pointer;transition:all 0.15s;text-align:center;border-top:2px solid transparent}
 .nav-btn:last-child{border-right:none}
 .nav-btn.active{color:var(--gold);background:var(--surface);border-top-color:var(--gold)}
 .nav-btn:hover:not(.active){color:var(--text);background:var(--surface2)}
-.nav-icon{font-size:15px;display:block;margin-bottom:1px}
+.nav-icon{font-size:1.075rem;display:block;margin-bottom:1px}
 
 /* ── VIEWS ── */
 .views{flex:1;overflow:hidden;display:flex;flex-direction:column}
 .view{display:none;flex:1;flex-direction:column;overflow:hidden}
 .view.active{display:flex}
-.scroll{flex:1;overflow-y:auto;padding:10px 10px 20px;display:flex;flex-direction:column;gap:7px}
+.scroll{flex:1;overflow-y:auto;padding:0.7188rem 0.7188rem 1.4375rem;display:flex;flex-direction:column;gap:0.5rem}
 .scroll::-webkit-scrollbar{width:3px}
 .scroll::-webkit-scrollbar-thumb{background:var(--border)}
 
 /* ── TYPOGRAPHY ── */
-.sec-head{font-family:'Cinzel',serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);padding:2px 0 5px;border-bottom:1px solid var(--border);margin-bottom:2px}
-.sec-sub{font-size:11px;color:var(--text-dim);margin-bottom:5px;font-style:italic}
+.sec-head{font-family:'Cinzel',serif;font-size:0.6438rem;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);padding:2px 0 0.3625rem;border-bottom:1px solid var(--border);margin-bottom:2px}
+.sec-sub{font-size:0.7875rem;color:var(--text-dim);margin-bottom:0.3625rem;font-style:italic}
 
 /* ── CARDS ── */
-.card{background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:10px 12px}
-.card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
-.card-title{font-family:'Cinzel',serif;font-size:11px;color:var(--text);letter-spacing:1px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:0.7188rem 0.8625rem}
+.card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.4313rem}
+.card-title{font-family:'Cinzel',serif;font-size:0.7875rem;color:var(--text);letter-spacing:1px}
 
 /* ── ITEMS ── */
-.item-row{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border)}
+.item-row{display:flex;align-items:center;gap:0.575rem;padding:0.4313rem 0;border-bottom:1px solid var(--border)}
 .item-row:last-child{border-bottom:none}
-.item-emoji{font-size:17px;width:22px;text-align:center;flex-shrink:0}
+.item-emoji{font-size:1.2188rem;width:1.5813rem;text-align:center;flex-shrink:0}
 .item-info{flex:1;min-width:0}
-.item-name{font-size:13px;color:var(--text)}
-.item-detail{font-size:10px;color:var(--text-dim);margin-top:1px;font-family:'Cinzel',serif}
-.item-qty{font-family:'Cinzel',serif;font-size:13px;font-weight:600;color:var(--gold);min-width:32px;text-align:right}
-.item-unit{font-size:9px;color:var(--text-dim)}
-.item-loc{font-family:'Cinzel',serif;font-size:9px;color:var(--teal);margin-top:2px;letter-spacing:0.5px}
+.item-name{font-size:0.9313rem;color:var(--text)}
+.item-detail{font-size:0.7188rem;color:var(--text-dim);margin-top:1px;font-family:'Cinzel',serif}
+.item-qty{font-family:'Cinzel',serif;font-size:0.9313rem;font-weight:600;color:var(--gold);min-width:2.3rem;text-align:right}
+.item-unit{font-size:0.6438rem;color:var(--text-dim)}
+.item-loc{font-family:'Cinzel',serif;font-size:0.6438rem;color:var(--teal);margin-top:2px;letter-spacing:0.5px}
 .item-actions{display:flex;gap:3px;flex-shrink:0}
 
 /* ── BUTTONS ── */
-.btn{font-family:'Cinzel',serif;font-size:9px;letter-spacing:1px;border:1px solid var(--border-light);background:var(--surface2);color:var(--text-dim);padding:5px 9px;border-radius:2px;cursor:pointer;transition:all 0.15s;text-transform:uppercase}
+.btn{font-family:'Cinzel',serif;font-size:0.6438rem;letter-spacing:1px;border:1px solid var(--border-light);background:var(--surface2);color:var(--text-dim);padding:0.3625rem 0.6438rem;border-radius:2px;cursor:pointer;transition:all 0.15s;text-transform:uppercase}
 .btn:hover{color:var(--text);border-color:var(--text-dim)}
-.btn-icon{width:25px;height:25px;border:1px solid var(--border-light);background:var(--surface3);color:var(--text-mid);border-radius:2px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:12px;transition:all 0.15s}
+.btn-icon{width:1.7937rem;height:1.7937rem;border:1px solid var(--border-light);background:var(--surface3);color:var(--text-mid);border-radius:2px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:0.8625rem;transition:all 0.15s}
 .btn-icon:hover{border-color:var(--gold-dim);color:var(--gold)}
 .btn-gold{border-color:var(--gold-dim);color:var(--gold)}.btn-gold:hover{background:rgba(201,168,76,0.08)}
 .btn-teal{border-color:var(--teal-dim);color:var(--teal)}.btn-teal:hover{background:rgba(58,144,144,0.08)}
 .btn-red{border-color:var(--red);color:var(--red-bright)}.btn-red:hover{background:rgba(154,48,48,0.1)}
-.btn-main{font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;background:rgba(201,168,76,0.1);border:1px solid var(--gold-dim);color:var(--gold);padding:9px 12px;border-radius:2px;cursor:pointer;transition:all 0.2s;text-transform:uppercase;width:100%;margin-top:7px}
+.btn-main{font-family:'Cinzel',serif;font-size:0.7188rem;letter-spacing:2px;background:rgba(201,168,76,0.1);border:1px solid var(--gold-dim);color:var(--gold);padding:0.6438rem 0.8625rem;border-radius:2px;cursor:pointer;transition:all 0.2s;text-transform:uppercase;width:100%;margin-top:0.5rem}
 .btn-main:hover{background:rgba(201,168,76,0.18)}.btn-main:disabled{opacity:0.4;cursor:default}
-.fab{position:fixed;bottom:62px;right:13px;width:44px;height:44px;border-radius:50%;background:var(--gold);border:none;color:#1a1208;font-size:21px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(0,0,0,0.4);z-index:100;transition:transform 0.15s}
+.fab{position:fixed;bottom:4.4562rem;right:0.9313rem;width:3.1625rem;height:3.1625rem;border-radius:50%;background:var(--gold);border:none;color:#1a1208;font-size:1.5063rem;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 0.2875rem 1.0063rem rgba(0,0,0,0.4);z-index:100;transition:transform 0.15s}
 .fab:hover{transform:scale(1.08)}
 
 /* ── FORM ── */
-.form-group{margin-bottom:8px}
-.form-label{font-family:'Cinzel',serif;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:3px;display:block}
-.form-inp{width:100%;background:var(--surface3);border:1px solid var(--border-light);color:var(--text);font-family:'IM Fell English',serif;font-size:13px;padding:7px 9px;border-radius:2px;outline:none;transition:border-color 0.15s}
+.form-group{margin-bottom:0.575rem}
+.form-label{font-family:'Cinzel',serif;font-size:0.6438rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:3px;display:block}
+.form-inp{width:100%;background:var(--surface3);border:1px solid var(--border-light);color:var(--text);font-family:'IM Fell English',serif;font-size:0.9313rem;padding:0.5rem 0.6438rem;border-radius:2px;outline:none;transition:border-color 0.15s}
 .form-inp:focus{border-color:var(--gold-dim)}
-.form-row{display:flex;gap:7px}.form-row .form-group{flex:1}
+.form-row{display:flex;gap:0.5rem}.form-row .form-group{flex:1}
 select.form-inp option{background:var(--surface3)}
 textarea.form-inp{resize:vertical}
 
 /* ── BADGES ── */
-.badge{font-family:'Cinzel',serif;font-size:8px;letter-spacing:1px;text-transform:uppercase;padding:2px 5px;border-radius:2px;display:inline-block}
+.badge{font-family:'Cinzel',serif;font-size:0.575rem;letter-spacing:1px;text-transform:uppercase;padding:2px 0.3625rem;border-radius:2px;display:inline-block}
 .badge-green{background:rgba(74,154,90,0.15);color:var(--green);border:1px solid var(--green-dim)}
 .badge-red{background:rgba(154,48,48,0.15);color:var(--red-bright);border:1px solid var(--red)}
 .badge-orange{background:rgba(212,115,42,0.15);color:var(--orange);border:1px solid var(--orange-dim)}
@@ -142,138 +146,138 @@ textarea.form-inp{resize:vertical}
 .badge-armadio{background:rgba(122,74,170,0.12);color:var(--purple);border:1px solid var(--purple-dim)}
 
 /* ── PROGRESS ── */
-.prog-row{display:flex;align-items:center;gap:7px;margin:3px 0}
-.prog-label{font-family:'Cinzel',serif;font-size:9px;color:var(--text-dim);letter-spacing:1px;min-width:58px}
-.prog-bar{flex:1;height:5px;background:var(--surface3);border-radius:3px;overflow:hidden}
+.prog-row{display:flex;align-items:center;gap:0.5rem;margin:3px 0}
+.prog-label{font-family:'Cinzel',serif;font-size:0.6438rem;color:var(--text-dim);letter-spacing:1px;min-width:4.1688rem}
+.prog-bar{flex:1;height:0.3625rem;background:var(--surface3);border-radius:3px;overflow:hidden}
 .prog-fill{height:100%;border-radius:3px;transition:width 0.5s}
-.prog-val{font-family:'Cinzel',serif;font-size:9px;color:var(--text-mid);min-width:28px;text-align:right}
+.prog-val{font-family:'Cinzel',serif;font-size:0.6438rem;color:var(--text-mid);min-width:2.0125rem;text-align:right}
 
 /* ── STAT GRID ── */
-.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-.stat-cell{background:var(--surface2);border:1px solid var(--border);border-radius:2px;padding:8px 10px;text-align:center}
-.stat-val{font-family:'Cinzel',serif;font-size:18px;font-weight:700;color:var(--gold)}
-.stat-lbl{font-family:'Cinzel',serif;font-size:7px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-top:2px}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.4313rem}
+.stat-cell{background:var(--surface2);border:1px solid var(--border);border-radius:2px;padding:0.575rem 0.7188rem;text-align:center}
+.stat-val{font-family:'Cinzel',serif;font-size:1.2937rem;font-weight:700;color:var(--gold)}
+.stat-lbl{font-family:'Cinzel',serif;font-size:0.5rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-top:2px}
 
 /* ── TASKS ── */
-.task-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--border)}
+.task-row{display:flex;align-items:center;gap:0.575rem;padding:0.5rem 0;border-bottom:1px solid var(--border)}
 .task-row:last-child{border-bottom:none}
-.task-check{width:19px;height:19px;border:2px solid var(--border-light);border-radius:2px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0;transition:all 0.15s}
+.task-check{width:1.3625rem;height:1.3625rem;border:2px solid var(--border-light);border-radius:2px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:0.7188rem;flex-shrink:0;transition:all 0.15s}
 .task-check.done{background:rgba(74,154,90,0.2);border-color:var(--green);color:var(--green)}
-.task-info{flex:1}.task-name{font-size:12px;color:var(--text)}.task-name.done{text-decoration:line-through;color:var(--text-dim)}
-.task-xp{font-family:'Cinzel',serif;font-size:9px;color:var(--gold);letter-spacing:1px}
+.task-info{flex:1}.task-name{font-size:0.8625rem;color:var(--text)}.task-name.done{text-decoration:line-through;color:var(--text-dim)}
+.task-xp{font-family:'Cinzel',serif;font-size:0.6438rem;color:var(--gold);letter-spacing:1px}
 
 /* ── RECIPE ── */
-.recipe-card{background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:10px 12px}
-.recipe-name{font-family:'Cinzel',serif;font-size:12px;color:var(--text);margin-bottom:4px}
-.recipe-meta{display:flex;gap:4px;flex-wrap:wrap}
+.recipe-card{background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:0.7188rem 0.8625rem}
+.recipe-name{font-family:'Cinzel',serif;font-size:0.8625rem;color:var(--text);margin-bottom:0.2875rem}
+.recipe-meta{display:flex;gap:0.2875rem;flex-wrap:wrap}
 
 /* ── SHEETS ── */
 .overlay{display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.75);align-items:flex-end;justify-content:center}
 .overlay.open{display:flex}
-.sheet{background:var(--surface);border:1px solid var(--border-light);border-bottom:none;border-radius:6px 6px 0 0;width:100%;max-width:480px;max-height:90vh;overflow-y:auto;padding:16px 15px 28px}
-.sheet-handle{width:30px;height:3px;background:var(--border-light);border-radius:2px;margin:0 auto 12px}
-.sheet-title{font-family:'Cinzel',serif;font-size:14px;color:var(--gold);letter-spacing:2px;margin-bottom:3px}
-.sheet-sub{font-size:11px;color:var(--text-dim);margin-bottom:12px;font-style:italic}
+.sheet{background:var(--surface);border:1px solid var(--border-light);border-bottom:none;border-radius:0.4313rem 0.4313rem 0 0;width:100%;max-width:34.5rem;max-height:90vh;overflow-y:auto;padding:1.15rem 1.075rem 2.0125rem}
+.sheet-handle{width:2.1562rem;height:3px;background:var(--border-light);border-radius:2px;margin:0 auto 0.8625rem}
+.sheet-title{font-family:'Cinzel',serif;font-size:1.0063rem;color:var(--gold);letter-spacing:2px;margin-bottom:3px}
+.sheet-sub{font-size:0.7875rem;color:var(--text-dim);margin-bottom:0.8625rem;font-style:italic}
 
 /* ── EMPTY ── */
-.empty{text-align:center;padding:24px 12px;color:var(--text-dim);font-style:italic;font-size:12px}
-.empty-icon{font-size:28px;margin-bottom:6px}
+.empty{text-align:center;padding:1.725rem 0.8625rem;color:var(--text-dim);font-style:italic;font-size:0.8625rem}
+.empty-icon{font-size:2.0125rem;margin-bottom:0.4313rem}
 
 /* ── TOAST ── */
-#toast{position:fixed;top:16px;left:50%;transform:translateX(-50%) translateY(-80px);background:var(--surface2);border:1px solid var(--gold-dim);color:var(--gold);font-family:'Cinzel',serif;font-size:10px;letter-spacing:1px;padding:8px 16px;border-radius:2px;z-index:999;transition:transform 0.3s;white-space:nowrap}
+#toast{position:fixed;top:1.15rem;left:50%;transform:translateX(-50%) translateY(-5.75rem);background:var(--surface2);border:1px solid var(--gold-dim);color:var(--gold);font-family:'Cinzel',serif;font-size:0.7188rem;letter-spacing:1px;padding:0.575rem 1.15rem;border-radius:2px;z-index:999;transition:transform 0.3s;white-space:nowrap}
 #toast.show{transform:translateX(-50%) translateY(0)}
 
 /* ── XP POP ── */
-.xp-pop{position:fixed;font-family:'Cinzel',serif;font-size:13px;font-weight:700;color:var(--gold);pointer-events:none;z-index:500;animation:xp-fly 1.5s forwards}
-@keyframes xp-fly{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-50px)}}
+.xp-pop{position:fixed;font-family:'Cinzel',serif;font-size:0.9313rem;font-weight:700;color:var(--gold);pointer-events:none;z-index:500;animation:xp-fly 1.5s forwards}
+@keyframes xp-fly{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-3.5938rem)}}
 
 /* ── AVATAR ── */
-.avatar-hero{text-align:center;padding:14px 0 8px}
-.avatar-icon{font-size:56px;margin-bottom:5px}
-.avatar-name{font-family:'Cinzel',serif;font-size:16px;color:var(--gold);letter-spacing:3px;font-weight:700}
-.avatar-role{font-family:'Cinzel',serif;font-size:9px;color:var(--text-dim);letter-spacing:2px;margin-top:2px}
-.level-ring{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:rgba(201,168,76,0.12);border:2px solid var(--gold-dim);font-family:'Cinzel',serif;font-size:12px;font-weight:700;color:var(--gold);margin:5px}
+.avatar-hero{text-align:center;padding:1.0063rem 0 0.575rem}
+.avatar-icon{font-size:4.025rem;margin-bottom:0.3625rem}
+.avatar-name{font-family:'Cinzel',serif;font-size:1.15rem;color:var(--gold);letter-spacing:3px;font-weight:700}
+.avatar-role{font-family:'Cinzel',serif;font-size:0.6438rem;color:var(--text-dim);letter-spacing:2px;margin-top:2px}
+.level-ring{display:inline-flex;align-items:center;justify-content:center;width:2.0125rem;height:2.0125rem;border-radius:50%;background:rgba(201,168,76,0.12);border:2px solid var(--gold-dim);font-family:'Cinzel',serif;font-size:0.8625rem;font-weight:700;color:var(--gold);margin:0.3625rem}
 
 /* ── LOG ── */
-.log-row{display:flex;align-items:flex-start;gap:7px;padding:6px 0;border-bottom:1px solid var(--border)}
+.log-row{display:flex;align-items:flex-start;gap:0.5rem;padding:0.4313rem 0;border-bottom:1px solid var(--border)}
 .log-row:last-child{border-bottom:none}
-.log-icon{font-size:14px;width:18px;text-align:center;flex-shrink:0;margin-top:1px}
-.log-info{flex:1}.log-action{font-size:11px;color:var(--text)}.log-time{font-family:'Cinzel',serif;font-size:8px;color:var(--text-dim);margin-top:1px}
-.log-xp{font-family:'Cinzel',serif;font-size:9px;color:var(--gold);flex-shrink:0}
+.log-icon{font-size:1.0063rem;width:1.2937rem;text-align:center;flex-shrink:0;margin-top:1px}
+.log-info{flex:1}.log-action{font-size:0.7875rem;color:var(--text)}.log-time{font-family:'Cinzel',serif;font-size:0.575rem;color:var(--text-dim);margin-top:1px}
+.log-xp{font-family:'Cinzel',serif;font-size:0.6438rem;color:var(--gold);flex-shrink:0}
 
 /* ── VAL ── */
-.val-row{display:flex;gap:7px;margin-top:7px}
-.val-btn{flex:1;padding:8px;border-radius:2px;border:1px solid var(--border-light);background:var(--surface2);font-family:'Cinzel',serif;font-size:9px;letter-spacing:1px;cursor:pointer;transition:all 0.15s;text-align:center;text-transform:uppercase}
+.val-row{display:flex;gap:0.5rem;margin-top:0.5rem}
+.val-btn{flex:1;padding:0.575rem;border-radius:2px;border:1px solid var(--border-light);background:var(--surface2);font-family:'Cinzel',serif;font-size:0.6438rem;letter-spacing:1px;cursor:pointer;transition:all 0.15s;text-align:center;text-transform:uppercase}
 .val-btn.good{border-color:var(--green-dim);color:var(--green)}.val-btn.good:hover{background:rgba(74,154,90,0.12)}
 .val-btn.bad{border-color:var(--red);color:var(--red-bright)}.val-btn.bad:hover{background:rgba(154,48,48,0.1)}
 
 /* ── PRESTIGE ── */
-.prestige-bar{height:6px;background:var(--surface3);border-radius:4px;overflow:hidden;margin:4px 0}
-.prestige-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--purple-dim),var(--purple));transition:width 0.5s}
+.prestige-bar{height:0.4313rem;background:var(--surface3);border-radius:0.2875rem;overflow:hidden;margin:0.2875rem 0}
+.prestige-fill{height:100%;border-radius:0.2875rem;background:linear-gradient(90deg,var(--purple-dim),var(--purple));transition:width 0.5s}
 
 /* ── ALERTS ── */
-.alert-row{background:rgba(154,48,48,0.07);border:1px solid var(--red);border-radius:2px;padding:6px 10px;display:flex;align-items:center;gap:7px;margin-bottom:3px}
-.alert-text{flex:1;font-size:11px;color:var(--text)}.alert-sub{font-size:9px;color:var(--red-bright);margin-top:1px;font-family:'Cinzel',serif}
+.alert-row{background:rgba(154,48,48,0.07);border:1px solid var(--red);border-radius:2px;padding:0.4313rem 0.7188rem;display:flex;align-items:center;gap:0.5rem;margin-bottom:3px}
+.alert-text{flex:1;font-size:0.7875rem;color:var(--text)}.alert-sub{font-size:0.6438rem;color:var(--red-bright);margin-top:1px;font-family:'Cinzel',serif}
 
 /* ── WEEK ── */
-.week-row{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:7px}
-.week-day{background:var(--surface2);border:1px solid var(--border);border-radius:2px;padding:4px 1px;text-align:center}
+.week-row{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:0.5rem}
+.week-day{background:var(--surface2);border:1px solid var(--border);border-radius:2px;padding:0.2875rem 1px;text-align:center}
 .week-day.today{border-color:var(--gold-dim);background:rgba(201,168,76,0.06)}
 .week-day.worked{border-color:var(--green-dim);background:rgba(74,154,90,0.06)}
-.week-day-lbl{font-family:'Cinzel',serif;font-size:6px;color:var(--text-dim);text-transform:uppercase}
-.week-day-num{font-family:'Cinzel',serif;font-size:11px;font-weight:600;color:var(--text);margin-top:1px}
-.week-day-dot{width:4px;height:4px;border-radius:50%;margin:2px auto 0;background:transparent}
+.week-day-lbl{font-family:'Cinzel',serif;font-size:0.4313rem;color:var(--text-dim);text-transform:uppercase}
+.week-day-num{font-family:'Cinzel',serif;font-size:0.7875rem;font-weight:600;color:var(--text);margin-top:1px}
+.week-day-dot{width:0.2875rem;height:0.2875rem;border-radius:50%;margin:2px auto 0;background:transparent}
 .week-day.worked .week-day-dot{background:var(--green)}.week-day.today .week-day-dot{background:var(--gold)}
 
 /* ── SCHED ── */
-.sched-item{background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:8px 10px;display:flex;align-items:center;gap:8px}
-.sched-emoji{font-size:18px;flex-shrink:0}
-.sched-info{flex:1}.sched-name{font-size:12px;color:var(--text)}.sched-when{font-family:'Cinzel',serif;font-size:9px;color:var(--text-dim);letter-spacing:1px;margin-top:1px}
+.sched-item{background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:0.575rem 0.7188rem;display:flex;align-items:center;gap:0.575rem}
+.sched-emoji{font-size:1.2937rem;flex-shrink:0}
+.sched-info{flex:1}.sched-name{font-size:0.8625rem;color:var(--text)}.sched-when{font-family:'Cinzel',serif;font-size:0.6438rem;color:var(--text-dim);letter-spacing:1px;margin-top:1px}
 .sched-urgent{border-color:var(--orange-dim)}.sched-urgent .sched-when{color:var(--orange)}
 
 /* ── TRACKER ── */
-.track-row{background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:8px 10px;display:flex;align-items:center;gap:8px}
-.track-icon{font-size:16px;flex-shrink:0}.track-info{flex:1}
-.track-name{font-size:11px;color:var(--text)}.track-meta{font-family:'Cinzel',serif;font-size:9px;color:var(--text-dim);margin-top:1px}
-.track-qty{font-family:'Cinzel',serif;font-size:12px;color:var(--gold)}
+.track-row{background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:0.575rem 0.7188rem;display:flex;align-items:center;gap:0.575rem}
+.track-icon{font-size:1.15rem;flex-shrink:0}.track-info{flex:1}
+.track-name{font-size:0.7875rem;color:var(--text)}.track-meta{font-family:'Cinzel',serif;font-size:0.6438rem;color:var(--text-dim);margin-top:1px}
+.track-qty{font-family:'Cinzel',serif;font-size:0.8625rem;color:var(--gold)}
 
 /* ── VENDITE ── */
-.vendite-row{display:flex;align-items:center;gap:6px;padding:5px 0;border-bottom:1px solid var(--border)}
+.vendite-row{display:flex;align-items:center;gap:0.4313rem;padding:0.3625rem 0;border-bottom:1px solid var(--border)}
 .vendite-row:last-child{border-bottom:none}
-.vendite-name{flex:1;font-size:12px;color:var(--text)}
-.vendite-count{font-family:'Cinzel',serif;font-size:14px;font-weight:600;color:var(--teal);min-width:20px;text-align:center}
+.vendite-name{flex:1;font-size:0.8625rem;color:var(--text)}
+.vendite-count{font-family:'Cinzel',serif;font-size:1.0063rem;font-weight:600;color:var(--teal);min-width:1.4375rem;text-align:center}
 .vendite-ctrl{display:flex;gap:3px}
 
 /* ── DUEL ── */
-.duel-card{background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:11px 12px}
-.duel-row{display:flex;align-items:center;margin-bottom:9px}
+.duel-card{background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:0.7875rem 0.8625rem}
+.duel-row{display:flex;align-items:center;margin-bottom:0.6438rem}
 .duel-player{flex:1;text-align:center}
-.duel-vs{font-family:'Cinzel',serif;font-size:10px;color:var(--text-dim);letter-spacing:2px;padding:0 5px}
-.duel-emoji{font-size:26px}.duel-name{font-family:'Cinzel',serif;font-size:9px;letter-spacing:1px;margin-top:2px}
-.duel-lv{font-family:'Cinzel',serif;font-size:8px;color:var(--text-dim)}
-.duel-stat-row{display:flex;align-items:center;gap:5px;margin:3px 0}
-.duel-stat-lbl{font-family:'Cinzel',serif;font-size:8px;color:var(--text-dim);width:48px;text-align:right;flex-shrink:0}
-.duel-bar{flex:1;height:4px;background:var(--surface3);border-radius:3px;overflow:hidden;display:flex}
+.duel-vs{font-family:'Cinzel',serif;font-size:0.7188rem;color:var(--text-dim);letter-spacing:2px;padding:0 0.3625rem}
+.duel-emoji{font-size:1.8687rem}.duel-name{font-family:'Cinzel',serif;font-size:0.6438rem;letter-spacing:1px;margin-top:2px}
+.duel-lv{font-family:'Cinzel',serif;font-size:0.575rem;color:var(--text-dim)}
+.duel-stat-row{display:flex;align-items:center;gap:0.3625rem;margin:3px 0}
+.duel-stat-lbl{font-family:'Cinzel',serif;font-size:0.575rem;color:var(--text-dim);width:3.45rem;text-align:right;flex-shrink:0}
+.duel-bar{flex:1;height:0.2875rem;background:var(--surface3);border-radius:3px;overflow:hidden;display:flex}
 .duel-fill-a{height:100%;background:var(--gold);transition:width 0.5s}
 .duel-fill-b{height:100%;background:var(--teal);transition:width 0.5s}
-.duel-stat-val{font-family:'Cinzel',serif;font-size:8px;color:var(--text-dim);width:48px}
+.duel-stat-val{font-family:'Cinzel',serif;font-size:0.575rem;color:var(--text-dim);width:3.45rem}
 
 /* ── SUBTAB ── */
-.subtab-row{display:flex;border:1px solid var(--border);border-radius:3px;overflow:hidden;margin-bottom:9px;position:relative;z-index:30;background:var(--bg)}
-.subtab-btn{flex:1;padding:10px 2px;background:var(--surface);font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.5px;text-transform:uppercase;color:var(--text-dim);cursor:pointer;transition:all 0.15s;border:none;border-right:1px solid var(--border);text-align:center;position:relative;z-index:51;min-height:36px}
+.subtab-row{display:flex;border:1px solid var(--border);border-radius:3px;overflow:hidden;margin-bottom:0.6438rem;position:relative;z-index:30;background:var(--bg)}
+.subtab-btn{flex:1;padding:0.7188rem 2px;background:var(--surface);font-family:'Cinzel',serif;font-size:0.6438rem;letter-spacing:0.5px;text-transform:uppercase;color:var(--text-dim);cursor:pointer;transition:all 0.15s;border:none;border-right:1px solid var(--border);text-align:center;position:relative;z-index:51;min-height:2.5875rem}
 .subtab-btn:last-child{border-right:none}
 .subtab-btn.active{background:var(--surface2);color:var(--gold)}
 
 /* ── CONTENITORI (Info) ── */
-.tipo-section{margin-bottom:10px}
-.tipo-head{font-family:'Cinzel',serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);padding:3px 0;border-bottom:1px solid var(--border);margin-bottom:6px;display:flex;align-items:center;gap:6px}
-.cont-card{background:var(--surface);border:1px solid var(--border);border-radius:3px;margin-bottom:5px;overflow:hidden}
-.cont-head{display:flex;align-items:center;gap:8px;padding:9px 11px;cursor:pointer;transition:background 0.15s;user-select:none}
+.tipo-section{margin-bottom:0.7188rem}
+.tipo-head{font-family:'Cinzel',serif;font-size:0.6438rem;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);padding:3px 0;border-bottom:1px solid var(--border);margin-bottom:0.4313rem;display:flex;align-items:center;gap:0.4313rem}
+.cont-card{background:var(--surface);border:1px solid var(--border);border-radius:3px;margin-bottom:0.3625rem;overflow:hidden}
+.cont-head{display:flex;align-items:center;gap:0.575rem;padding:0.6438rem 0.7875rem;cursor:pointer;transition:background 0.15s;user-select:none}
 .cont-head:hover{background:var(--surface2)}
-.cont-emoji{font-size:18px;flex-shrink:0}
-.cont-nome{font-family:'Cinzel',serif;font-size:12px;color:var(--text);flex:1;letter-spacing:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:160px}
-.cont-meta{font-family:'Cinzel',serif;font-size:8px;color:var(--text-dim)}
-.cont-toggle{font-size:10px;color:var(--text-dim);transition:transform 0.2s}
+.cont-emoji{font-size:1.2937rem;flex-shrink:0}
+.cont-nome{font-family:'Cinzel',serif;font-size:0.8625rem;color:var(--text);flex:1;letter-spacing:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:11.5rem}
+.cont-meta{font-family:'Cinzel',serif;font-size:0.575rem;color:var(--text-dim)}
+.cont-toggle{font-size:0.7188rem;color:var(--text-dim);transition:transform 0.2s}
 .cont-toggle.open{transform:rotate(180deg)}
 .cont-body{display:none;border-top:1px solid var(--border)}
 .cont-body.open{display:block}
@@ -281,75 +285,124 @@ textarea.form-inp{resize:vertical}
 /* Ripiano */
 .ripiano-row{border-bottom:1px solid var(--border)}
 .ripiano-row:last-child{border-bottom:none}
-.ripiano-head{display:flex;align-items:center;gap:7px;padding:7px 11px 7px 22px;cursor:pointer;transition:background 0.12s}
+.ripiano-head{display:flex;align-items:center;gap:0.5rem;padding:0.5rem 0.7875rem 0.5rem 1.5813rem;cursor:pointer;transition:background 0.12s}
 .ripiano-head:hover{background:var(--surface2)}
-.ripiano-label{font-family:'Cinzel',serif;font-size:10px;color:var(--text-mid);flex:1;letter-spacing:0.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:180px}
-.ripiano-meta{font-family:'Cinzel',serif;font-size:8px;color:var(--text-dim)}
-.ripiano-toggle{font-size:9px;color:var(--text-dim);transition:transform 0.15s}
+.ripiano-label{font-family:'Cinzel',serif;font-size:0.7188rem;color:var(--text-mid);flex:1;letter-spacing:0.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:12.9375rem}
+.ripiano-meta{font-family:'Cinzel',serif;font-size:0.575rem;color:var(--text-dim)}
+.ripiano-toggle{font-size:0.6438rem;color:var(--text-dim);transition:transform 0.15s}
 .ripiano-toggle.open{transform:rotate(180deg)}
-.ripiano-body{display:none;padding:0 11px 0 30px;background:var(--surface2)}
+.ripiano-body{display:none;padding:0 0.7875rem 0 2.1562rem;background:var(--surface2)}
 .ripiano-body.open{display:block}
 
 /* Vasca */
 .vasca-row{border-bottom:1px solid var(--border)}
 .vasca-row:last-child{border-bottom:none}
-.vasca-head{display:flex;align-items:center;gap:6px;padding:5px 8px 5px 8px}
-.vasca-label{font-family:'Cinzel',serif;font-size:9px;color:var(--teal);flex:1;letter-spacing:0.5px}
-.vasca-obj{display:flex;align-items:center;gap:5px;padding:3px 8px 3px 16px;font-size:11px;color:var(--text)}
-.vasca-obj:last-child{padding-bottom:5px}
-.vasca-obj-em{font-size:13px;width:18px;text-align:center}
+.vasca-head{display:flex;align-items:center;gap:0.4313rem;padding:0.3625rem 0.575rem 0.3625rem 0.575rem}
+.vasca-label{font-family:'Cinzel',serif;font-size:0.6438rem;color:var(--teal);flex:1;letter-spacing:0.5px}
+.vasca-obj{display:flex;align-items:center;gap:0.3625rem;padding:3px 0.575rem 3px 1.15rem;font-size:0.7875rem;color:var(--text)}
+.vasca-obj:last-child{padding-bottom:0.3625rem}
+.vasca-obj-em{font-size:0.9313rem;width:1.2937rem;text-align:center}
 
 /* Oggetto nel ripiano (diretto, senza vasca) */
-.rip-obj{display:flex;align-items:center;gap:5px;padding:4px 8px;font-size:11px;color:var(--text);border-bottom:1px solid var(--border)}
+.rip-obj{display:flex;align-items:center;gap:0.3625rem;padding:0.2875rem 0.575rem;font-size:0.7875rem;color:var(--text);border-bottom:1px solid var(--border)}
 .rip-obj:last-child{border-bottom:none}
-.rip-obj-em{font-size:13px;width:18px;text-align:center}
+.rip-obj-em{font-size:0.9313rem;width:1.2937rem;text-align:center}
 
 /* ── UTENSILI ── */
-.utensile-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--border)}
+.utensile-row{display:flex;align-items:center;gap:0.575rem;padding:0.5rem 0;border-bottom:1px solid var(--border)}
 .utensile-row:last-child{border-bottom:none}
-.utensile-emoji{font-size:18px;width:22px;text-align:center;flex-shrink:0}
-.utensile-info{flex:1}.utensile-nome{font-size:12px;color:var(--text)}.utensile-note{font-size:10px;color:var(--text-dim);margin-top:1px;font-style:italic}
-.utensile-peso{font-family:'Cinzel',serif;font-size:14px;font-weight:700;color:var(--teal)}
-.utensile-unit{font-size:9px;color:var(--text-dim);margin-left:1px}
+.utensile-emoji{font-size:1.2937rem;width:1.5813rem;text-align:center;flex-shrink:0}
+.utensile-info{flex:1}.utensile-nome{font-size:0.8625rem;color:var(--text)}.utensile-note{font-size:0.7188rem;color:var(--text-dim);margin-top:1px;font-style:italic}
+.utensile-peso{font-family:'Cinzel',serif;font-size:1.0063rem;font-weight:700;color:var(--teal)}
+.utensile-unit{font-size:0.6438rem;color:var(--text-dim);margin-left:1px}
 
 /* ── POSIZIONE CASCATA ── */
-.cascata-step{background:var(--surface2);border:1px solid var(--border);border-radius:3px;padding:8px 10px;margin-bottom:6px}
-.cascata-label{font-family:'Cinzel',serif;font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:5px;display:block}
+.cascata-step{background:var(--surface2);border:1px solid var(--border);border-radius:3px;padding:0.575rem 0.7188rem;margin-bottom:0.4313rem}
+.cascata-label{font-family:'Cinzel',serif;font-size:0.575rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:0.3625rem;display:block}
 
 /* ── HUD MENU BUTTON ── */
-.hud-menu-btn{background:var(--surface3);border:1px solid var(--border-light);color:var(--gold);font-size:16px;width:32px;height:30px;border-radius:4px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.15s;flex-shrink:0}
+.hud-menu-btn{background:var(--surface3);border:1px solid var(--border-light);color:var(--gold);font-size:1.15rem;width:2.3rem;height:2.1562rem;border-radius:0.2875rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.15s;flex-shrink:0}
 .hud-menu-btn:hover{border-color:var(--gold-dim);background:rgba(201,168,76,0.08)}
 .hud-menu-btn:active{transform:scale(0.94)}
 
 /* ── DRAWER ── */
 #drawer-overlay{display:none;position:fixed;inset:0;z-index:300;background:rgba(0,0,0,0.6)}
 #drawer-overlay.open{display:block}
-#drawer{position:fixed;top:0;right:-280px;width:260px;max-width:80vw;height:100%;z-index:301;background:var(--surface);border-left:1px solid var(--border-light);box-shadow:-6px 0 24px rgba(0,0,0,0.4);transition:right 0.25s ease;display:flex;flex-direction:column;padding:16px 14px}
+#drawer{position:fixed;top:0;right:-20.125rem;width:18.6875rem;max-width:80vw;height:100%;z-index:301;background:var(--surface);border-left:1px solid var(--border-light);box-shadow:-0.4313rem 0 1.725rem rgba(0,0,0,0.4);transition:right 0.25s ease;display:flex;flex-direction:column;padding:1.15rem 1.0063rem}
 #drawer.open{right:0}
-.drawer-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
-.drawer-title{font-family:'Cinzel',serif;font-size:15px;letter-spacing:2px;color:var(--gold);font-weight:700}
-.drawer-close{background:transparent;border:none;color:var(--text-dim);font-size:18px;cursor:pointer;padding:2px 8px;border-radius:3px}
+.drawer-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.15rem}
+.drawer-title{font-family:'Cinzel',serif;font-size:1.075rem;letter-spacing:2px;color:var(--gold);font-weight:700}
+.drawer-close{background:transparent;border:none;color:var(--text-dim);font-size:1.2937rem;cursor:pointer;padding:2px 0.575rem;border-radius:3px}
 .drawer-close:hover{color:var(--text);background:var(--surface3)}
-.drawer-profile{display:flex;align-items:center;gap:10px;padding:10px;background:var(--surface2);border:1px solid var(--border);border-radius:4px;margin-bottom:14px}
-.drawer-emoji{font-size:30px}
-.drawer-name{font-family:'Cinzel',serif;font-size:13px;color:var(--gold);letter-spacing:1px}
-.drawer-level{font-family:'Cinzel',serif;font-size:9px;color:var(--text-dim);letter-spacing:1px;margin-top:2px}
-.drawer-item{display:flex;align-items:center;gap:11px;width:100%;padding:13px 12px;background:var(--surface2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Cinzel',serif;font-size:12px;letter-spacing:1px;cursor:pointer;transition:all 0.15s;margin-bottom:7px;text-align:left}
+.drawer-profile{display:flex;align-items:center;gap:0.7188rem;padding:0.7188rem;background:var(--surface2);border:1px solid var(--border);border-radius:0.2875rem;margin-bottom:1.0063rem}
+.drawer-emoji{font-size:2.1562rem}
+.drawer-name{font-family:'Cinzel',serif;font-size:0.9313rem;color:var(--gold);letter-spacing:1px}
+.drawer-level{font-family:'Cinzel',serif;font-size:0.6438rem;color:var(--text-dim);letter-spacing:1px;margin-top:2px}
+.drawer-item{display:flex;align-items:center;gap:0.7875rem;width:100%;padding:0.9313rem 0.8625rem;background:var(--surface2);border:1px solid var(--border);border-radius:0.2875rem;color:var(--text);font-family:'Cinzel',serif;font-size:0.8625rem;letter-spacing:1px;cursor:pointer;transition:all 0.15s;margin-bottom:0.5rem;text-align:left}
 .drawer-item:hover{border-color:var(--gold-dim);background:var(--surface3)}
 .drawer-item:active{transform:scale(0.98)}
-.drawer-item-icon{font-size:18px}
-.drawer-item-dim{color:var(--text-dim);font-size:11px}
-.drawer-sep{height:1px;background:var(--border);margin:6px 0 13px}
+.drawer-item-icon{font-size:1.2937rem}
+.drawer-item-dim{color:var(--text-dim);font-size:0.7875rem}
+.drawer-sep{height:1px;background:var(--border);margin:0.4313rem 0 0.9313rem}
+
+/* ── RIGHE PER TIPO (colore = categoria) ── */
+.trow{display:flex;align-items:center;gap:0.575rem;padding:0.575rem 0.7188rem;border-radius:3px;margin-bottom:0.2875rem;cursor:pointer;border-left:3px solid var(--border);background:var(--surface);transition:all 0.12s}
+.trow:hover{background:var(--surface2)}
+.trow-prime{border-left-color:#5a9a4a;background:rgba(74,154,90,0.05)}
+.trow-pesce{border-left-color:#4a8abf;background:rgba(74,138,191,0.06)}
+.trow-semi{border-left-color:#9a6aca;background:rgba(122,74,170,0.06)}
+.trow-ricetta{border-left-color:#c9a84c;background:rgba(201,168,76,0.05)}
+.trow-tecnica{border-left-color:#c06060;background:rgba(192,96,96,0.05)}
+.trow-utensile{border-left-color:#3a9090;background:rgba(58,144,144,0.06)}
+.trow-em{font-size:1.2937rem;width:1.725rem;text-align:center;flex-shrink:0}
+.trow-info{flex:1;min-width:0}
+.trow-name{font-size:0.9313rem;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.trow-sub{font-size:0.7188rem;color:var(--text-dim);margin-top:1px;font-family:'Cinzel',serif}
+.trow-qty{font-family:'Cinzel',serif;font-size:0.9313rem;font-weight:600;color:var(--gold);text-align:right;flex-shrink:0}
+.trow-flag{font-size:1.0063rem;flex-shrink:0}
+.flag-grave{color:var(--red-bright)}
+.flag-minore{color:var(--orange)}
+
+/* dettaglio cibo */
+.det-loc{background:var(--surface2);border:1px solid var(--teal-dim);border-radius:3px;padding:0.6438rem 0.7875rem;margin-bottom:0.575rem;display:flex;align-items:center;gap:0.575rem}
+.det-loc-em{font-size:1.4375rem}
+.det-loc-txt{font-family:'Cinzel',serif;font-size:0.8625rem;color:var(--teal);letter-spacing:0.5px}
+.det-stat{display:flex;justify-content:space-between;padding:0.5rem 0;border-bottom:1px solid var(--border)}
+.det-stat-lbl{font-family:'Cinzel',serif;font-size:0.7188rem;color:var(--text-dim);letter-spacing:1px}
+.det-stat-val{font-size:0.8625rem;color:var(--text)}
+
+/* ricetta normalizzata */
+.rnorm-row{display:flex;align-items:center;gap:0.575rem;padding:0.4313rem 0;border-bottom:1px solid var(--border)}
+.rnorm-name{flex:1;font-size:0.8625rem;color:var(--text)}
+.rnorm-qty{font-family:'Cinzel',serif;font-size:0.9313rem;color:var(--gold);cursor:pointer;padding:2px 0.4313rem;border:1px dashed transparent;border-radius:3px}
+.rnorm-qty.editable:hover{border-color:var(--gold-dim);background:rgba(201,168,76,0.06)}
+
+/* expander rows */
+.exp-row{border:1px solid var(--border);border-radius:3px;margin-bottom:0.4313rem;overflow:hidden}
+.exp-head{display:flex;align-items:center;gap:0.575rem;padding:0.7188rem 0.7875rem;cursor:pointer;background:var(--surface2);user-select:none}
+.exp-head:hover{background:var(--surface3)}
+.exp-title{flex:1;font-family:'Cinzel',serif;font-size:0.8625rem;color:var(--gold);letter-spacing:1px}
+.exp-arrow{font-size:0.7875rem;color:var(--text-dim);transition:transform 0.2s}
+.exp-arrow.open{transform:rotate(180deg)}
+.exp-body{display:none;padding:0.7188rem 0.7875rem;border-top:1px solid var(--border)}
+.exp-body.open{display:block}
+
+/* card azione nel procedimento */
+.act-card{background:var(--surface2);border:1px solid var(--border);border-radius:3px;padding:0.575rem 0.7188rem;margin-bottom:0.4313rem}
+.act-head{display:flex;align-items:center;gap:0.5rem}
+.act-verb{font-family:'Cinzel',serif;font-size:0.8625rem;color:var(--text);flex:1}
+.act-atomic{font-size:0.6438rem;color:var(--teal);cursor:pointer;text-decoration:underline}
+.act-params{font-size:0.7188rem;color:var(--text-dim);margin-top:3px;padding-left:1.725rem}
 </style>
 </head>
 <body>
 
 <!-- ══ LOGIN ══ -->
 <div id="login-screen">
-  <div style="font-size:40px;margin-bottom:8px">⚔️</div>
+  <div style="font-size:2.875rem;margin-bottom:8px">⚔️</div>
   <div class="login-logo">KitchenSmart</div>
   <div class="login-sub">Chi sei oggi?</div>
-  <div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-bottom:12px">Scegli il tuo profilo</div>
+  <div style="font-family:'Cinzel',serif;font-size:0.6438rem;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-bottom:12px">Scegli il tuo profilo</div>
   <div class="login-cards">
     <div class="login-card u0" onclick="tryLogin(0)">
       <div class="login-emoji" id="le0">👨‍🍳</div>
@@ -416,14 +469,14 @@ textarea.form-inp{resize:vertical}
 
 <!-- ══ HUD ══ -->
 <div class="hud">
-  <div class="hud-title">⚔ KitchenSmart <span style="font-size:8px;color:var(--text-dim);letter-spacing:1px">v12</span></div>
+  <div class="hud-title">⚔ KitchenSmart <span style="font-size:0.575rem;color:var(--text-dim);letter-spacing:1px">v17</span></div>
   <div class="hud-xp-wrap">
     <div class="hud-level" id="hud-level">Lv.1</div>
     <div class="hud-xp-bar"><div class="hud-xp-fill" id="hud-xp-fill" style="width:0%"></div></div>
     <div class="hud-xp-val" id="hud-xp-val">0 XP</div>
   </div>
   <div class="hud-chip" onclick="switchUser()">
-    <span id="hud-emoji" style="font-size:15px">👨‍🍳</span>
+    <span id="hud-emoji" style="font-size:1.075rem">👨‍🍳</span>
     <span class="hud-chip-name" id="hud-uname">Chef A</span>
   </div>
   <button class="hud-menu-btn" onclick="openDrawer()" title="Menu">☰</button>
@@ -434,48 +487,74 @@ textarea.form-inp{resize:vertical}
 
 <!-- HOLDERS -->
 <div class="view active" id="view-holders">
-  <div class="scroll">
-    <div class="sec-head">➕ Aggiungi</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
-      <button class="btn btn-gold" onclick="openAddItem('ingrediente')" style="padding:10px 4px">🥕 Ingrediente</button>
-      <button class="btn btn-gold" onclick="openAddItem('semilavorato')" style="padding:10px 4px">🧪 Semilavorato</button>
-      <button class="btn btn-teal" onclick="openAddItem('utensile')" style="padding:10px 4px">🔧 Utensile</button>
-      <button class="btn btn-gold" onclick="openAddRicetta2()" style="padding:10px 4px;border-color:var(--purple-dim);color:var(--purple)">📖 Ricetta</button>
+  <!-- toggle CERCA / AGGIUNGI fuori dallo scroll -->
+  <div class="subtab-row" style="margin:8px 10px 0;flex-shrink:0">
+    <button class="subtab-btn active" id="htab-cerca" onclick="showHoldTab('cerca')">🔍 Cerca</button>
+    <button class="subtab-btn" id="htab-aggiungi" onclick="showHoldTab('aggiungi')">➕ Aggiungi</button>
+  </div>
+
+  <div class="scroll" style="padding-top:8px">
+
+    <!-- ═══ CERCA ═══ -->
+    <div id="hold-cerca">
+      <input class="form-inp" id="search-global" placeholder="🔍 Cerca qualsiasi cosa..." oninput="renderGlobalSearch()" style="margin-bottom:8px">
+      <div id="global-search-results"></div>
+
+      <div id="cerca-nav">
+        <!-- toggle CIBO / INFORMAZIONI -->
+        <div class="subtab-row" style="margin-bottom:8px">
+          <button class="subtab-btn active" id="cgtab-cibo" onclick="showCercaGroup('cibo')">🍖 Cibo</button>
+          <button class="subtab-btn" id="cgtab-info" onclick="showCercaGroup('info')">📚 Informazioni</button>
+        </div>
+
+        <!-- GRUPPO CIBO -->
+        <div id="cgroup-cibo">
+          <div class="subtab-row" style="margin-bottom:8px">
+            <button class="subtab-btn active" id="ctab-prime" onclick="showCercaTab('prime')">🥕 Materie Prime</button>
+            <button class="subtab-btn" id="ctab-pesce" onclick="showCercaTab('pesce')">🐟 Pesce</button>
+            <button class="subtab-btn" id="ctab-semi" onclick="showCercaTab('semi')">🧪 Semilav.</button>
+          </div>
+          <div id="cerca-prime"><div id="prime-list"></div></div>
+          <div id="cerca-pesce" style="display:none">
+            <div class="sec-sub">Disponibilità pesce + registro tracciabilità HACCP</div>
+            <button class="btn btn-teal" onclick="drawerGoTracker()" style="width:100%;margin-bottom:7px">📋 Apri registro tracciabilità</button>
+            <div id="pesce-list"></div>
+          </div>
+          <div id="cerca-semi" style="display:none"><div id="semi-list"></div></div>
+        </div>
+
+        <!-- GRUPPO INFORMAZIONI -->
+        <div id="cgroup-info" style="display:none">
+          <div class="subtab-row" style="margin-bottom:8px">
+            <button class="subtab-btn active" id="itab-ric" onclick="showInfoSubTab('ric')">📖 Ricette</button>
+            <button class="subtab-btn" id="itab-tec" onclick="showInfoSubTab('tec')">⚡ Tecniche</button>
+            <button class="subtab-btn" id="itab-ute" onclick="showInfoSubTab('ute')">🔧 Utensili</button>
+          </div>
+          <div id="info-ric"><div id="ric-search-list"></div></div>
+          <div id="info-tec" style="display:none"><div id="tec-search-list"></div></div>
+          <div id="info-ute" style="display:none"><div id="ute-search-list"></div></div>
+        </div>
+      </div>
     </div>
 
-    <div class="sec-head" style="margin-top:7px">📚 Sapere Culinario</div>
-    <div style="display:flex;flex-direction:column">
-    <div class="subtab-row" style="margin-bottom:8px">
-      <button class="subtab-btn active" id="ktab-verbi" onclick="showKnowTab('verbi')">⚡ Verbi</button>
-      <button class="subtab-btn" id="ktab-proc" onclick="showKnowTab('proc')">🔗 Procedimenti</button>
-      <button class="subtab-btn" id="ktab-ric" onclick="showKnowTab('ric')">📖 Ricette</button>
+    
+<!-- ═══ AGGIUNGI ═══ -->
+    <div id="hold-aggiungi" style="display:none">
+      <div class="sec-head">➕ Crea Oggetto</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+        <button class="btn btn-gold" onclick="openAddItem('ingrediente')" style="padding:10px 4px">🥕 Ingrediente</button>
+        <button class="btn btn-gold" onclick="openAddItem('semilavorato')" style="padding:10px 4px">🧪 Semilavorato</button>
+        <button class="btn btn-teal" onclick="openAddItem('utensile')" style="padding:10px 4px">🔧 Utensile</button>
+        <button class="btn btn-gold" onclick="openAddRicetta2()" style="padding:10px 4px;border-color:var(--purple-dim);color:var(--purple)">📖 Ricetta</button>
+      </div>
+
+      <div class="sec-head" style="margin-top:10px">📚 Sapere Culinario</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+        <button class="btn btn-gold" onclick="openAddVerbo()" style="padding:10px 4px">⚡ Verbo</button>
+        <button class="btn btn-gold" onclick="openAddProc()" style="padding:10px 4px;border-color:var(--purple-dim);color:var(--purple)">🔗 Procedimento</button>
+      </div>
     </div>
 
-    <div id="know-verbi" style="margin-top:4px">
-      <div class="sec-sub">Azioni atomiche: legate a utensili, luoghi e parametri propri</div>
-      <button class="btn btn-gold" onclick="openAddVerbo()" style="width:100%">+ Nuovo Verbo</button>
-      <div id="verbi-list" style="margin-top:6px"></div>
-    </div>
-
-    <div id="know-proc" style="display:none;margin-top:4px">
-      <div class="sec-sub">Sequenze di verbi applicati a ingredienti</div>
-      <button class="btn btn-gold" onclick="openAddProc()" style="width:100%">+ Nuovo Procedimento</button>
-      <div id="proc-list" style="margin-top:6px"></div>
-    </div>
-
-    <div id="know-ric" style="display:none;margin-top:4px">
-      <div class="sec-sub">Ricette: procedimenti + ingredienti, per categoria</div>
-      <button class="btn btn-gold" onclick="openAddRicetta2()" style="width:100%">+ Nuova Ricetta</button>
-      <div id="ricette-list" style="margin-top:6px"></div>
-    </div>
-
-    </div>
-    <div class="sec-head" style="margin-top:8px">🥕 Ingredienti & Semilavorati</div>
-    <div id="holders-alerts"></div>
-    <div id="holders-food-list"></div>
-
-    <div class="sec-head" style="margin-top:5px">🔧 Utensili</div>
-    <div id="holders-tool-list"></div>
   </div>
 </div>
 
@@ -520,7 +599,7 @@ textarea.form-inp{resize:vertical}
     <div class="sec-head" style="margin-top:5px">📝 Firma Presenza</div>
     <div class="card">
       <button class="btn-main" id="btn-firma" onclick="firmaPresenza()">⏰ Firma Presenza (+30 XP)</button>
-      <div id="firma-status" style="font-size:10px;color:var(--text-dim);text-align:center;margin-top:5px;font-style:italic"></div>
+      <div id="firma-status" style="font-size:0.7188rem;color:var(--text-dim);text-align:center;margin-top:5px;font-style:italic"></div>
     </div>
   </div>
 </div>
@@ -532,7 +611,7 @@ textarea.form-inp{resize:vertical}
       <div class="avatar-icon" id="av-icon">👨‍🍳</div>
       <div class="avatar-name" id="av-name">Chef</div>
       <div class="avatar-role" id="av-role">Aiutante di Cucina</div>
-      <div style="margin-top:6px"><span class="level-ring" id="av-level">1</span><span style="font-family:'Cinzel',serif;font-size:9px;color:var(--text-dim);letter-spacing:1px">LIVELLO</span></div>
+      <div style="margin-top:6px"><span class="level-ring" id="av-level">1</span><span style="font-family:'Cinzel',serif;font-size:0.6438rem;color:var(--text-dim);letter-spacing:1px">LIVELLO</span></div>
     </div>
     <div class="card">
       <div class="card-head"><div class="card-title">Esperienza</div><span class="badge badge-gold" id="av-xp-badge">0 XP</span></div>
@@ -541,7 +620,7 @@ textarea.form-inp{resize:vertical}
     <div class="card">
       <div class="card-head"><div class="card-title">Prestigio</div><span class="badge badge-purple" id="av-pres-badge">0 Pt</span></div>
       <div class="prestige-bar"><div class="prestige-fill" id="av-pres-fill" style="width:0%"></div></div>
-      <div style="font-size:10px;color:var(--text-dim);margin-top:4px;font-style:italic">Con prestigio alto l'XP sale più in fretta.</div>
+      <div style="font-size:0.7188rem;color:var(--text-dim);margin-top:4px;font-style:italic">Con prestigio alto l'XP sale più in fretta.</div>
     </div>
     <div class="sec-head" style="margin-top:2px">⚔️ Classifica</div>
     <div id="duel-card"></div>
@@ -556,14 +635,14 @@ textarea.form-inp{resize:vertical}
     <div class="card">
       <div class="sec-sub" style="margin-bottom:4px">Come è andata oggi?</div>
       <div class="val-row"><button class="val-btn good" id="val-good" onclick="setVal('bene')">👍 Bene</button><button class="val-btn bad" id="val-bad" onclick="setVal('male')">👎 Male</button></div>
-      <div id="val-status" style="font-size:10px;color:var(--text-dim);text-align:center;margin-top:5px;font-style:italic"></div>
+      <div id="val-status" style="font-size:0.7188rem;color:var(--text-dim);text-align:center;margin-top:5px;font-style:italic"></div>
     </div>
     <div class="sec-head" style="margin-top:5px">🎭 Ruolo</div>
     <div class="card"><div id="ruolo-info"></div><button class="btn btn-gold" onclick="openSheet('sh-profilo')" style="margin-top:7px">✏️ Modifica Profilo</button></div>
     <div class="sec-head" style="margin-top:5px">🔐 Sicurezza</div>
     <div class="card">
       <div class="card-title" style="margin-bottom:6px">PIN di accesso</div>
-      <div id="pin-status-text" style="font-size:11px;color:var(--text-dim);font-style:italic;margin-bottom:7px"></div>
+      <div id="pin-status-text" style="font-size:0.7875rem;color:var(--text-dim);font-style:italic;margin-bottom:7px"></div>
       <div style="display:flex;gap:7px">
         <button class="btn btn-gold" onclick="openSheet('sh-set-pin')">🔐 Imposta PIN</button>
         <button class="btn btn-red" id="btn-remove-pin" onclick="removePin()">✕ Rimuovi</button>
@@ -624,25 +703,25 @@ textarea.form-inp{resize:vertical}
     <!-- LUOGHI: configurazione + dati -->
     <div id="info-luoghi" style="display:none">
       <div id="cont-corrupt-warn" style="display:none;background:rgba(154,48,48,0.12);border:1px solid var(--red);border-radius:3px;padding:9px 12px;margin-bottom:8px">
-        <div style="font-family:'Cinzel',serif;font-size:10px;color:var(--red-bright);letter-spacing:1px;margin-bottom:4px">⚠ DATI NON VALIDI</div>
-        <div style="font-size:11px;color:var(--text-dim)">Vai in Reset (sotto) poi reimporta <code>ks_seed.json</code>.</div>
+        <div style="font-family:'Cinzel',serif;font-size:0.7188rem;color:var(--red-bright);letter-spacing:1px;margin-bottom:4px">⚠ DATI NON VALIDI</div>
+        <div style="font-size:0.7875rem;color:var(--text-dim)">Vai in Reset (sotto) poi reimporta <code>ks_seed.json</code>.</div>
       </div>
 
       <div class="sec-head">🗺️ Configura Luoghi</div>
       <div class="tipo-section">
-        <div class="tipo-head">🧊 <span>Frigoriferi</span><button class="btn btn-teal" onclick="openAddCont('Frigo')" style="margin-left:auto;font-size:8px">+ Aggiungi</button></div>
+        <div class="tipo-head">🧊 <span>Frigoriferi</span><button class="btn btn-teal" onclick="openAddCont('Frigo')" style="margin-left:auto;font-size:0.575rem">+ Aggiungi</button></div>
         <div id="list-frigo"></div>
       </div>
       <div class="tipo-section">
-        <div class="tipo-head">❄️ <span>Congelatori</span><button class="btn btn-teal" onclick="openAddCont('Freezer')" style="margin-left:auto;font-size:8px">+ Aggiungi</button></div>
+        <div class="tipo-head">❄️ <span>Congelatori</span><button class="btn btn-teal" onclick="openAddCont('Freezer')" style="margin-left:auto;font-size:0.575rem">+ Aggiungi</button></div>
         <div id="list-freezer"></div>
       </div>
       <div class="tipo-section">
-        <div class="tipo-head">🗄️ <span>Dispense</span><button class="btn btn-teal" onclick="openAddCont('Dispensa')" style="margin-left:auto;font-size:8px">+ Aggiungi</button></div>
+        <div class="tipo-head">🗄️ <span>Dispense</span><button class="btn btn-teal" onclick="openAddCont('Dispensa')" style="margin-left:auto;font-size:0.575rem">+ Aggiungi</button></div>
         <div id="list-dispensa"></div>
       </div>
       <div class="tipo-section">
-        <div class="tipo-head">🚪 <span>Armadi & Mobili</span><button class="btn btn-teal" onclick="openAddCont('Armadio')" style="margin-left:auto;font-size:8px">+ Aggiungi</button></div>
+        <div class="tipo-head">🚪 <span>Armadi & Mobili</span><button class="btn btn-teal" onclick="openAddCont('Armadio')" style="margin-left:auto;font-size:0.575rem">+ Aggiungi</button></div>
         <div id="list-armadio"></div>
       </div>
 
@@ -652,7 +731,7 @@ textarea.form-inp{resize:vertical}
         <div class="sec-sub">Carica un JSON per inizializzare luoghi, utensili e ricette. Sostituisce i dati esistenti.</div>
         <input type="file" id="seed-file-input" accept=".json" style="display:none" onchange="importSeedFile(event)">
         <button class="btn btn-gold" onclick="document.getElementById('seed-file-input').click()" style="width:100%">📂 Carica seed.json</button>
-        <div id="seed-import-status" style="font-size:10px;color:var(--text-dim);text-align:center;margin-top:6px;font-style:italic;min-height:14px"></div>
+        <div id="seed-import-status" style="font-size:0.7188rem;color:var(--text-dim);text-align:center;margin-top:6px;font-style:italic;min-height:14px"></div>
       </div>
       <div class="card" style="margin-bottom:7px">
         <div class="card-head"><div class="card-title">📤 Esporta Dati</div></div>
@@ -714,6 +793,12 @@ textarea.form-inp{resize:vertical}
         <div class="form-group"><label class="form-label">Unità</label><select class="form-inp" id="ai-unit"><option>kg</option><option>g</option><option>L</option><option>ml</option><option>pz</option><option>vaschette</option><option>porzioni</option><option>barattoli</option></select></div>
       </div>
       <div class="form-group"><label class="form-label">Soglia min. (alert scorta)</label><input class="form-inp" id="ai-min" type="number" min="0" placeholder="1"></div>
+      <div class="form-group" id="ai-pesce-group">
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer">
+          <input type="checkbox" id="ai-pesce" style="width:18px;height:18px;accent-color:var(--teal)">
+          <span style="font-family:'Cinzel',serif;font-size:0.7875rem;letter-spacing:1px;color:var(--teal)">🐟 È un pesce (main del piatto)</span>
+        </label>
+      </div>
 
       <div class="cascata-step" id="ai-prezzo-box">
         <label class="cascata-label">💰 Prezzo (per food cost)</label>
@@ -785,9 +870,9 @@ textarea.form-inp{resize:vertical}
     <div class="form-group" id="ac-servizio-group">
       <label style="display:flex;align-items:center;gap:8px;cursor:pointer">
         <input type="checkbox" id="ac-servizio" style="width:18px;height:18px;accent-color:var(--teal)">
-        <span style="font-family:'Cinzel',serif;font-size:11px;letter-spacing:1px;color:var(--teal)">⚡ Contenitore di servizio</span>
+        <span style="font-family:'Cinzel',serif;font-size:0.7875rem;letter-spacing:1px;color:var(--teal)">⚡ Contenitore di servizio</span>
       </label>
-      <div style="font-size:10px;color:var(--text-dim);font-style:italic;margin-top:4px">Le quantità al suo interno vengono scalate automaticamente alla vendita dei piatti.</div>
+      <div style="font-size:0.7188rem;color:var(--text-dim);font-style:italic;margin-top:4px">Le quantità al suo interno vengono scalate automaticamente alla vendita dei piatti.</div>
     </div>
     <div class="form-group">
       <label class="form-label">Ripiani (inserisci i nomi, uno per riga)</label>
@@ -900,7 +985,7 @@ textarea.form-inp{resize:vertical}
 
     <div class="form-group"><label class="form-label">Firma</label><input class="form-inp" id="fl-firma" placeholder="Nome operatore"></div>
 
-    <div style="background:var(--surface2);border:1px solid var(--border);border-radius:3px;padding:8px 10px;margin-bottom:8px;font-size:11px;color:var(--text-dim);font-style:italic">
+    <div style="background:var(--surface2);border:1px solid var(--border);border-radius:3px;padding:8px 10px;margin-bottom:8px;font-size:0.7875rem;color:var(--text-dim);font-style:italic">
       ❄️ Dopo la registrazione potrai segnare "Messo ad abbattere", "Raggiunti -20°C" e "Prelevato": i tempi verranno calcolati dal sistema.
     </div>
 
@@ -937,7 +1022,7 @@ textarea.form-inp{resize:vertical}
     <div class="cascata-step">
       <label class="cascata-label">🧾 Distinta Base (cosa consuma)</label>
       <div id="pi-bom-list" style="margin-bottom:6px"></div>
-      <button class="btn btn-teal" onclick="openAddComponente()" style="width:100%;font-size:9px">+ Aggiungi componente</button>
+      <button class="btn btn-teal" onclick="openAddComponente()" style="width:100%;font-size:0.6438rem">+ Aggiungi componente</button>
     </div>
 
     <button class="btn-main" onclick="savePiatto()">✓ Salva Piatto</button>
@@ -959,7 +1044,7 @@ textarea.form-inp{resize:vertical}
       <div class="form-group"><label class="form-label">Quantità</label><input class="form-inp" id="co-qty" type="number" step="0.01" min="0" placeholder="0.12" oninput="updateCompCost()"></div>
       <div class="form-group"><label class="form-label">Unità</label><select class="form-inp" id="co-unit" onchange="updateCompCost()"></select></div>
     </div>
-    <div id="co-cost-preview" style="background:var(--surface2);border:1px solid var(--border);border-radius:3px;padding:8px 10px;margin-bottom:8px;font-size:12px;color:var(--text-dim);text-align:center"></div>
+    <div id="co-cost-preview" style="background:var(--surface2);border:1px solid var(--border);border-radius:3px;padding:8px 10px;margin-bottom:8px;font-size:0.8625rem;color:var(--text-dim);text-align:center"></div>
     <button class="btn-main" onclick="addComponente()">✓ Salva componente</button>
   </div>
 </div>
@@ -1023,20 +1108,20 @@ textarea.form-inp{resize:vertical}
     <div class="cascata-step">
       <label class="cascata-label">🔧 Utensili collegati</label>
       <select class="form-inp" id="vb-utensile-sel" style="margin-bottom:5px"></select>
-      <button class="btn btn-teal" onclick="addVerboUtensile()" style="width:100%;font-size:9px">+ Aggiungi utensile</button>
+      <button class="btn btn-teal" onclick="addVerboUtensile()" style="width:100%;font-size:0.6438rem">+ Aggiungi utensile</button>
       <div id="vb-utensili-list" style="margin-top:5px"></div>
     </div>
 
     <div class="cascata-step">
       <label class="cascata-label">📍 Luoghi collegati</label>
       <select class="form-inp" id="vb-luogo-sel" style="margin-bottom:5px"></select>
-      <button class="btn btn-teal" onclick="addVerboLuogo()" style="width:100%;font-size:9px">+ Aggiungi luogo</button>
+      <button class="btn btn-teal" onclick="addVerboLuogo()" style="width:100%;font-size:0.6438rem">+ Aggiungi luogo</button>
       <div id="vb-luoghi-list" style="margin-top:5px"></div>
     </div>
 
     <div class="cascata-step">
       <label class="cascata-label">⚙️ Parametri propri</label>
-      <div style="font-size:10px;color:var(--text-dim);font-style:italic;margin-bottom:5px">Es. abbattere → temperatura, tempo. Sottovuotare → nessuno.</div>
+      <div style="font-size:0.7188rem;color:var(--text-dim);font-style:italic;margin-bottom:5px">Es. abbattere → temperatura, tempo. Sottovuotare → nessuno.</div>
       <div id="vb-param-list" style="margin-bottom:5px"></div>
       <div class="form-row">
         <input class="form-inp" id="vb-param-nome" placeholder="Nome param. (es. Temperatura)" style="flex:2">
@@ -1044,9 +1129,9 @@ textarea.form-inp{resize:vertical}
       </div>
       <label style="display:flex;align-items:center;gap:6px;margin:5px 0;cursor:pointer">
         <input type="checkbox" id="vb-haccp" style="width:16px;height:16px;accent-color:var(--red-bright)">
-        <span style="font-size:10px;color:var(--red-bright);font-family:'Cinzel',serif;letter-spacing:1px">🌡️ Rilevante per HACCP</span>
+        <span style="font-size:0.7188rem;color:var(--red-bright);font-family:'Cinzel',serif;letter-spacing:1px">🌡️ Rilevante per HACCP</span>
       </label>
-      <button class="btn btn-teal" onclick="addVerboParam()" style="width:100%;font-size:9px;margin-top:3px">+ Aggiungi parametro</button>
+      <button class="btn btn-teal" onclick="addVerboParam()" style="width:100%;font-size:0.6438rem;margin-top:3px">+ Aggiungi parametro</button>
     </div>
 
     <button class="btn-main" onclick="saveVerbo()">✓ Salva Verbo</button>
@@ -1069,7 +1154,7 @@ textarea.form-inp{resize:vertical}
     <div class="cascata-step">
       <label class="cascata-label">🪜 Passaggi</label>
       <div id="pr-steps-list" style="margin-bottom:6px"></div>
-      <button class="btn btn-teal" onclick="openAddStep()" style="width:100%;font-size:9px">+ Aggiungi passaggio</button>
+      <button class="btn btn-teal" onclick="openAddStep()" style="width:100%;font-size:0.6438rem">+ Aggiungi passaggio</button>
     </div>
 
     <button class="btn-main" onclick="saveProc()">✓ Salva Procedimento</button>
@@ -1116,17 +1201,86 @@ textarea.form-inp{resize:vertical}
     <div class="cascata-step">
       <label class="cascata-label">🔗 Procedimenti</label>
       <select class="form-inp" id="r2-proc-sel" style="margin-bottom:5px"></select>
-      <button class="btn btn-teal" onclick="addRicettaProc()" style="width:100%;font-size:9px">+ Aggiungi procedimento</button>
+      <button class="btn btn-teal" onclick="addRicettaProc()" style="width:100%;font-size:0.6438rem">+ Aggiungi procedimento</button>
       <div id="r2-proc-list" style="margin-top:5px"></div>
     </div>
 
     <div class="cascata-step">
       <label class="cascata-label">🥕 Ingredienti</label>
       <div id="r2-ing-list" style="margin-bottom:6px"></div>
-      <button class="btn btn-teal" onclick="openAddRicettaIng()" style="width:100%;font-size:9px">+ Aggiungi ingrediente</button>
+      <button class="btn btn-teal" onclick="openAddRicettaIng()" style="width:100%;font-size:0.6438rem">+ Aggiungi ingrediente</button>
     </div>
 
     <button class="btn-main" onclick="saveRicetta2()">✓ Salva Ricetta</button>
+  </div>
+</div>
+
+<!-- Dettaglio Cibo -->
+<div class="overlay" id="sh-cibo-detail" onclick="if(event.target===this)closeSheet('sh-cibo-detail')">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title" id="cd-title">Dettaglio</div>
+    <input type="hidden" id="cd-idx">
+    <div id="cd-body"></div>
+  </div>
+</div>
+
+<!-- Dettaglio Ricetta (3 righe espandibili) -->
+<div class="overlay" id="sh-ricetta-detail" onclick="if(event.target===this)closeSheet('sh-ricetta-detail')">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title" id="rd-title">📖 Ricetta</div>
+    <input type="hidden" id="rd-idx">
+
+    <!-- riga RICETTA -->
+    <div class="exp-row">
+      <div class="exp-head" onclick="toggleExp('rd-exp-ric')">
+        <span style="font-size:1.15rem">📖</span>
+        <span class="exp-title">Ricetta</span>
+        <span class="exp-arrow open" id="rd-exp-ric-arrow">▼</span>
+      </div>
+      <div class="exp-body open" id="rd-exp-ric">
+        <div style="font-size:0.7188rem;color:var(--text-dim);font-style:italic;margin-bottom:6px">Quantità normalizzate. Tocca il valore base per modificarlo, o fissa il peso finale.</div>
+        <div class="form-row" style="margin-bottom:8px">
+          <div class="form-group" style="margin-bottom:0"><label class="form-label">Base (ingr. principale)</label><input class="form-inp" id="rd-base" type="number" step="1" min="1" oninput="recalcRicetta()"></div>
+          <div class="form-group" style="margin-bottom:0"><label class="form-label">Peso finale (g)</label><input class="form-inp" id="rd-finale" type="number" step="1" min="0" oninput="recalcRicettaFromFinale()" placeholder="auto"></div>
+        </div>
+        <div id="rd-ing-list"></div>
+      </div>
+    </div>
+
+    <!-- riga PROCEDIMENTO -->
+    <div class="exp-row">
+      <div class="exp-head" onclick="toggleExp('rd-exp-proc')">
+        <span style="font-size:1.15rem">🔗</span>
+        <span class="exp-title">Procedimento</span>
+        <span class="exp-arrow" id="rd-exp-proc-arrow">▼</span>
+      </div>
+      <div class="exp-body" id="rd-exp-proc">
+        <div id="rd-proc-list"></div>
+        <!-- riga TRATTAMENTO dentro procedimento -->
+        <div class="exp-row" style="margin-top:8px">
+          <div class="exp-head" onclick="toggleExp('rd-exp-tratt')" style="background:var(--surface3)">
+            <span style="font-size:1.075rem">📦</span>
+            <span class="exp-title" style="color:var(--teal)">Trattamento</span>
+            <span class="exp-arrow" id="rd-exp-tratt-arrow">▼</span>
+          </div>
+          <div class="exp-body" id="rd-exp-tratt">
+            <div id="rd-tratt-body"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modale Azione atomica (cosa è un verbo) -->
+<div class="overlay" id="sh-azione" onclick="if(event.target===this)closeSheet('sh-azione')">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title" id="az-title">⚡ Azione</div>
+    <div id="az-body"></div>
+    <button class="btn-main" onclick="closeSheet('sh-azione')">Chiudi</button>
   </div>
 </div>
 
@@ -1135,8 +1289,8 @@ textarea.form-inp{resize:vertical}
 //  COSTANTI & KEYS
 // ════════════════════════════════════
 const LEVELS=[{lv:1,xp:0,title:'Aiutante di Cucina'},{lv:2,xp:200,title:'Commis'},{lv:3,xp:500,title:'Demi-Chef'},{lv:4,xp:1000,title:'Chef de Partie'},{lv:5,xp:2000,title:'Sous Chef'},{lv:6,xp:4000,title:'Executive Chef'},{lv:7,xp:8000,title:'Chef Stellato'},{lv:8,xp:15000,title:'Maestro della Cucina'}];
-const UKEYS=['ks_u0_v12','ks_u1_v12'];
-const SKEY='ks_shared_v12';
+const UKEYS=['ks_u0_v17','ks_u1_v17'];
+const SKEY='ks_shared_v17';
 let cu=null,S=null,SH=null;
 
 // ════════════════════════════════════
@@ -1396,8 +1550,8 @@ function locLabel(item){
   if(!item.contId) return null;
   const c=getContById(item.contId);if(!c) return null;
   let s=c.nome;
-  if(item.ripIdx!=null){s+=' › '+c.ripiani[item.ripIdx]?.nome;}
-  if(item.vascaIdx!=null){const v=c.ripiani[item.ripIdx]?.vasche[item.vascaIdx];if(v)s+=' › '+v.nome;}
+  if(item.ripIdx!=null){const rip=c.ripiani[item.ripIdx];if(rip&&rip.nome)s+=' › '+rip.nome;}
+  if(item.vascaIdx!=null&&item.ripIdx!=null){const v=c.ripiani[item.ripIdx]?.vasche[item.vascaIdx];if(v&&v.nome)s+=' › '+v.nome;}
   return s;
 }
 
@@ -1405,7 +1559,7 @@ function locLabel(item){
 //  RICETTE
 // ════════════════════════════════════
 function renderRicette(){
-  const el=document.getElementById('ricette-list');
+  const el=document.getElementById('ric-search-list')||document.getElementById('ricette-list');
   if(!SH.ricette||!SH.ricette.length){el.innerHTML='<div class="empty"><div class="empty-icon">📖</div>Nessuna ricetta</div>';return;}
   // raggruppa per categoria
   const cats=['Antipasto','Primo','Secondo','Contorno','Dolce','Salsa','Sugo','Base','Altro'];
@@ -1413,7 +1567,7 @@ function renderRicette(){
   cats.forEach(cat=>{
     const arr=SH.ricette.map((r,i)=>({r,i})).filter(x=>(x.r.cat||'Altro')===cat);
     if(!arr.length)return;
-    out+=`<div style="font-family:'Cinzel',serif;font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin:6px 0 3px">${cat}</div>`;
+    out+=`<div style="font-family:'Cinzel',serif;font-size:0.575rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin:6px 0 3px">${cat}</div>`;
     arr.forEach(({r,i})=>{
       const procs=(r.procs||[]).map(p=>`<span class="badge badge-purple" style="margin:1px">${p.emoji||'🔗'} ${p.nome}</span>`).join('');
       let ingStr='';
@@ -1421,12 +1575,12 @@ function renderRicette(){
       else if(r.ing){ingStr=r.ing.split('\n').filter(Boolean).slice(0,4).join(', ');}
       out+=`<div class="card" style="margin-bottom:5px;padding:9px 11px">
         <div style="display:flex;align-items:flex-start;gap:8px">
-          <div style="font-size:18px">${r.emoji||'📖'}</div>
+          <div style="font-size:1.2937rem">${r.emoji||'📖'}</div>
           <div style="flex:1;min-width:0">
-            <div style="font-family:'Cinzel',serif;font-size:13px;color:var(--text)">${r.nome} ${r.diff?'<span class="badge badge-orange">'+'⭐'.repeat(+r.diff)+'</span>':''}</div>
-            ${r.produce?`<div style="font-size:10px;color:var(--purple);margin-top:1px">→ produce: ${r.produce}</div>`:''}
+            <div style="font-family:'Cinzel',serif;font-size:0.9313rem;color:var(--text)">${r.nome} ${r.diff?'<span class="badge badge-orange">'+'⭐'.repeat(+r.diff)+'</span>':''}</div>
+            ${r.produce?`<div style="font-size:0.7188rem;color:var(--purple);margin-top:1px">→ produce: ${r.produce}</div>`:''}
             ${procs?`<div style="margin-top:3px">${procs}</div>`:''}
-            ${ingStr?`<div style="font-size:10px;color:var(--text-dim);margin-top:3px;font-style:italic">🥕 ${ingStr}</div>`:''}
+            ${ingStr?`<div style="font-size:0.7188rem;color:var(--text-dim);margin-top:3px;font-style:italic">🥕 ${ingStr}</div>`:''}
           </div>
           <div style="display:flex;flex-direction:column;gap:3px">
             <button class="btn-icon" onclick="openEditRicetta2(${i})">✏️</button>
@@ -1445,10 +1599,227 @@ function delRicetta(i){SH.ricette.splice(i,1);saveSH();renderRicette();}
 //  ITEMS (oggetti collocati)
 // ════════════════════════════════════
 function renderHolders(){
-  renderFoodList();renderToolList();
-  // init knowledge tab (default verbi) — mantiene quella attiva
-  const active=['verbi','proc','ric'].find(k=>document.getElementById('ktab-'+k)?.classList.contains('active'))||'verbi';
-  showKnowTab(active);
+  const activeH=['cerca','aggiungi'].find(k=>document.getElementById('htab-'+k)?.classList.contains('active'))||'cerca';
+  showHoldTab(activeH);
+}
+
+function showHoldTab(t){
+  ['cerca','aggiungi'].forEach(k=>{
+    var el=document.getElementById('hold-'+k); if(el) el.style.display=t===k?'':'none';
+    var btn=document.getElementById('htab-'+k); if(btn) btn.classList.toggle('active',t===k);
+  });
+  if(t==='cerca') renderCerca();
+}
+
+function renderCerca(){
+  renderGlobalSearch();
+  const gActive=['cibo','info'].find(k=>document.getElementById('cgtab-'+k)?.classList.contains('active'))||'cibo';
+  showCercaGroup(gActive);
+}
+
+function showCercaGroup(g){
+  ['cibo','info'].forEach(k=>{
+    var el=document.getElementById('cgroup-'+k); if(el) el.style.display=g===k?'':'none';
+    var btn=document.getElementById('cgtab-'+k); if(btn) btn.classList.toggle('active',g===k);
+  });
+  if(g==='cibo'){
+    const cActive=['prime','pesce','semi'].find(k=>document.getElementById('ctab-'+k)?.classList.contains('active'))||'prime';
+    showCercaTab(cActive);
+  }else{
+    const iActive=['ric','tec','ute'].find(k=>document.getElementById('itab-'+k)?.classList.contains('active'))||'ric';
+    showInfoSubTab(iActive);
+  }
+}
+
+function showCercaTab(t){
+  ['prime','pesce','semi'].forEach(k=>{
+    var el=document.getElementById('cerca-'+k); if(el) el.style.display=t===k?'':'none';
+    var btn=document.getElementById('ctab-'+k); if(btn) btn.classList.toggle('active',t===k);
+  });
+  if(t==='prime') renderPrimeList();
+  if(t==='pesce') renderPesceList();
+  if(t==='semi') renderSemiList();
+}
+
+function showInfoSubTab(t){
+  ['ric','tec','ute'].forEach(k=>{
+    var el=document.getElementById('info-'+k); if(el) el.style.display=t===k?'':'none';
+    var btn=document.getElementById('itab-'+k); if(btn) btn.classList.toggle('active',t===k);
+  });
+  if(t==='ric') renderRicSearchList();
+  if(t==='tec') renderTecSearchList();
+  if(t==='ute') renderUteSearchList();
+}
+
+function drawerGoTracker(){showView('tracker');}
+
+// ── liste disponibilità (righe colorate per tipo) ──
+function tipoOf(it){
+  if(it.kind==='utensile')return 'utensile';
+  if(it.kind==='semilavorato')return 'semi';
+  if(it.isPesce)return 'pesce';
+  return 'prime';
+}
+function flagIcon(it){
+  const f=flagScorte(it);
+  if(f==='grave')return '<span class="trow-flag flag-grave" title="Scorta critica">⛔</span>';
+  if(f==='minore')return '<span class="trow-flag flag-minore" title="Scorta bassa">⚠️</span>';
+  return '';
+}
+function foodRow(it,idx){
+  const tipo=tipoOf(it);
+  return `<div class="trow trow-${tipo}" onclick="openCiboDetail(${idx})">
+    <div class="trow-em">${it.emoji||'📦'}</div>
+    <div class="trow-info"><div class="trow-name">${it.nome}</div><div class="trow-sub">${locLabel(it)||'senza posizione'}</div></div>
+    ${flagIcon(it)}
+    <div class="trow-qty">${it.qty} <span style="font-size:0.6438rem;color:var(--text-dim)">${it.unit}</span></div>
+  </div>`;
+}
+
+function renderPrimeList(){
+  const el=document.getElementById('prime-list');
+  const arr=SH.items.map((it,idx)=>({it,idx})).filter(x=>x.it.kind==='ingrediente'&&!x.it.isPesce);
+  el.innerHTML=arr.length?arr.map(x=>foodRow(x.it,x.idx)).join(''):'<div class="empty"><div class="empty-icon">🥕</div>Nessuna materia prima</div>';
+}
+function renderPesceList(){
+  const el=document.getElementById('pesce-list');
+  const arr=SH.items.map((it,idx)=>({it,idx})).filter(x=>x.it.kind==='ingrediente'&&x.it.isPesce);
+  el.innerHTML=arr.length?arr.map(x=>foodRow(x.it,x.idx)).join(''):'<div class="empty"><div class="empty-icon">🐟</div>Nessun pesce</div>';
+}
+function renderSemiList(){
+  const el=document.getElementById('semi-list');
+  const arr=SH.items.map((it,idx)=>({it,idx})).filter(x=>x.it.kind==='semilavorato');
+  el.innerHTML=arr.length?arr.map(x=>foodRow(x.it,x.idx)).join(''):'<div class="empty"><div class="empty-icon">🧪</div>Nessun semilavorato</div>';
+}
+
+// ── DETTAGLIO CIBO ──
+function openCiboDetail(idx){
+  const it=SH.items[idx];
+  document.getElementById('cd-idx').value=idx;
+  document.getElementById('cd-title').textContent=(it.emoji||'📦')+' '+it.nome;
+  const loc=locLabel(it);
+  const f=flagScorte(it);
+  const dur=durataPrevista(it);
+  const cons=consumoGiornaliero(it);
+  const usi=utilizzatoIn(it);
+  let flagHtml='';
+  if(f==='grave')flagHtml='<div class="alert-row"><div style="font-size:1.15rem">⛔</div><div><div class="alert-text">Scorta critica</div><div class="alert-sub">Bassa in assoluto E in esaurimento rapido</div></div></div>';
+  else if(f==='minore')flagHtml='<div style="background:rgba(212,115,42,0.08);border:1px solid var(--orange-dim);border-radius:3px;padding:7px 10px;margin-bottom:8px;display:flex;align-items:center;gap:7px"><span style="font-size:1.15rem">⚠️</span><div><div style="font-size:0.8625rem;color:var(--text)">Scorta bassa</div><div style="font-size:0.7188rem;color:var(--orange);font-family:Cinzel">'+(it.min&&(parseFloat(it.qty)||0)<=(parseFloat(it.min)||0)?'Sotto la soglia minima':'In esaurimento secondo i consumi')+'</div></div></div>';
+  const body=document.getElementById('cd-body');
+  body.innerHTML=`
+    ${loc?`<div class="det-loc"><div class="det-loc-em">📍</div><div class="det-loc-txt">${loc}</div></div>`:'<div class="det-loc" style="border-color:var(--border)"><div class="det-loc-em">📍</div><div class="det-loc-txt" style="color:var(--text-dim)">Senza posizione</div></div>'}
+    ${flagHtml}
+    <div class="det-stat"><span class="det-stat-lbl">Quantità disponibile</span><span class="det-stat-val" style="color:var(--gold);font-family:Cinzel;font-weight:600">${it.qty} ${it.unit}</span></div>
+    <div class="det-stat"><span class="det-stat-lbl">Soglia minima</span><span class="det-stat-val">${it.min||'—'} ${it.min?it.unit:''}</span></div>
+    <div class="det-stat"><span class="det-stat-lbl">Consumo medio</span><span class="det-stat-val">${cons>0?(Math.round(cons*100)/100)+' '+it.unit+'/giorno':'nessun dato'}</span></div>
+    <div class="det-stat"><span class="det-stat-lbl">Durata prevista</span><span class="det-stat-val" style="${dur!=null&&dur<=3?'color:var(--red-bright)':''}">${dur!=null?(Math.round(dur*10)/10)+' giorni':'—'}</span></div>
+    <div class="det-stat"><span class="det-stat-lbl">Ultima ricarica</span><span class="det-stat-val">${it.lastRestock?new Date(it.lastRestock).toLocaleDateString('it-IT')+(it.lastRestockQty?' (+'+it.lastRestockQty+' '+it.unit+')':''):'—'}</span></div>
+    <div style="margin-top:10px">
+      <div class="det-stat-lbl" style="margin-bottom:5px">Utilizzato in</div>
+      ${usi.length?usi.map(u=>`<span class="badge ${u.tipo==='piatto'?'badge-gold':'badge-purple'}" style="margin:2px">${u.emoji||''} ${u.nome}</span>`).join(''):'<div style="font-size:0.7875rem;color:var(--text-dim);font-style:italic">Non utilizzato in piatti/ricette</div>'}
+    </div>
+    <button class="btn-main" onclick="openEditItemFromDetail()" style="margin-top:12px">✏️ Modifica quantità</button>
+  `;
+  openSheet('sh-cibo-detail');
+}
+function openEditItemFromDetail(){
+  const idx=+document.getElementById('cd-idx').value;
+  closeSheet('sh-cibo-detail');
+  openEditItem(idx);
+}
+
+function renderRicSearchList(){
+  const el=document.getElementById('ric-search-list');
+  if(!SH.ricette||!SH.ricette.length){el.innerHTML='<div class="empty"><div class="empty-icon">📖</div>Nessuna ricetta</div>';return;}
+  const cats=['Antipasto','Primo','Secondo','Contorno','Dolce','Salsa','Sugo','Base','Altro'];
+  let out='';
+  cats.forEach(cat=>{
+    const arr=SH.ricette.map((r,i)=>({r,i})).filter(x=>(x.r.cat||'Altro')===cat);
+    if(!arr.length)return;
+    out+=`<div style="font-family:'Cinzel',serif;font-size:0.575rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin:6px 0 3px">${cat}</div>`;
+    arr.forEach(({r,i})=>{
+      out+=`<div class="trow trow-ricetta" onclick="openRicettaDetail(${i})">
+        <div class="trow-em">${r.emoji||'📖'}</div>
+        <div class="trow-info"><div class="trow-name">${r.nome}</div><div class="trow-sub">${r.diff?'⭐'.repeat(+r.diff):''}${r.produce?' · → '+r.produce:''}</div></div>
+        <div class="trow-flag">›</div>
+      </div>`;
+    });
+  });
+  el.innerHTML=out;
+}
+
+function renderTecSearchList(){
+  const el=document.getElementById('tec-search-list');
+  if(!SH.verbi||!SH.verbi.length){el.innerHTML='<div class="empty"><div class="empty-icon">⚡</div>Nessuna tecnica</div>';return;}
+  el.innerHTML=SH.verbi.map((v,i)=>`<div class="trow trow-tecnica" onclick="openVerboDetail(${i})">
+    <div class="trow-em">${v.emoji||'⚡'}</div>
+    <div class="trow-info"><div class="trow-name">${v.nome} ${v.haccp?'<span class="badge badge-red" style="font-size:0.5rem">HACCP</span>':''}</div>${v.desc?`<div class="trow-sub">${v.desc}</div>`:''}</div>
+    <div class="trow-flag">›</div>
+  </div>`).join('');
+}
+
+function renderUteSearchList(){
+  const el=document.getElementById('ute-search-list');
+  const tools=SH.items.map((it,idx)=>({it,idx})).filter(x=>x.it.kind==='utensile');
+  if(!tools.length){el.innerHTML='<div class="empty"><div class="empty-icon">🔧</div>Nessun utensile</div>';return;}
+  tools.sort((a,b)=>a.it.nome.localeCompare(b.it.nome));
+  el.innerHTML=tools.map(({it,idx})=>{const loc=locLabel(it);return `<div class="trow trow-utensile" onclick="openCiboDetail(${idx})">
+    <div class="trow-em">${it.emoji||'🔧'}</div>
+    <div class="trow-info"><div class="trow-name">${it.nome}</div><div class="trow-sub">${loc?'📍 '+loc:'senza posizione'}${it.note?' · '+it.note:''}</div></div>
+    <div class="trow-qty" style="color:var(--teal)">${it.tara||'—'} <span style="font-size:0.575rem">${it.taraUnit||'g'}</span></div>
+  </div>`;}).join('');
+}
+
+
+
+// ── RICERCA GLOBALE FUZZY ──
+function deaccent(s){return (s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'');}
+function fuzzyScore(q,text){
+  if(!q) return 0;
+  q=deaccent(q.toLowerCase());text=deaccent((text||'').toLowerCase());
+  if(text===q) return 1000;
+  if(text.startsWith(q)) return 800;
+  if(text.includes(q)) return 600;
+  // subsequence match (fuzzy): tutte le lettere di q in ordine
+  let ti=0,hits=0;
+  for(let qi=0;qi<q.length;qi++){
+    const idx=text.indexOf(q[qi],ti);
+    if(idx<0) return 0;
+    hits++;ti=idx+1;
+  }
+  return 300 - (text.length-q.length); // più corto = più simile
+}
+
+function renderGlobalSearch(){
+  const q=(document.getElementById('search-global').value||'').trim();
+  const el=document.getElementById('global-search-results');
+  const nav=document.getElementById('cerca-nav');
+  if(!q){el.innerHTML='';if(nav)nav.style.display='';return;}
+  if(nav)nav.style.display='none'; // nascondi navigazione, mostra solo risultati
+  const results=[];
+  // ingredienti / semilavorati / utensili
+  SH.items.forEach((it,idx)=>{
+    const sc=fuzzyScore(q,it.nome);
+    if(sc>0){
+      let tipo,emoji,extra;
+      if(it.kind==='utensile'){tipo='Utensile';emoji=it.emoji||'🔧';extra=(it.tara?it.tara+' '+(it.taraUnit||'g')+' tara':'');}
+      else if(it.kind==='semilavorato'){tipo='Semilavorato';emoji=it.emoji||'🧪';extra=it.qty+' '+it.unit;}
+      else if(it.isPesce){tipo='Pesce';emoji=it.emoji||'🐟';extra=it.qty+' '+it.unit;}
+      else{tipo='Materia Prima';emoji=it.emoji||'🥕';extra=it.qty+' '+it.unit;}
+      const loc=locLabel(it);
+      results.push({sc,emoji,nome:it.nome,tipo,extra:(extra||'')+(loc?' · 📍'+loc:''),action:`openEditItem(${idx})`});
+    }
+  });
+  // ricette
+  (SH.ricette||[]).forEach((r,i)=>{const sc=fuzzyScore(q,r.nome);if(sc>0)results.push({sc,emoji:r.emoji||'📖',nome:r.nome,tipo:'Ricetta',extra:r.cat||'',action:`openEditRicetta2(${i})`});});
+  // verbi
+  (SH.verbi||[]).forEach((v,i)=>{const sc=fuzzyScore(q,v.nome);if(sc>0)results.push({sc,emoji:v.emoji||'⚡',nome:v.nome,tipo:'Tecnica',extra:v.desc||'',action:`openEditVerbo(${i})`});});
+  // procedimenti
+  (SH.procedimenti||[]).forEach((p,i)=>{const sc=fuzzyScore(q,p.nome);if(sc>0)results.push({sc,emoji:p.emoji||'🔗',nome:p.nome,tipo:'Procedimento',extra:p.produce?'→ '+p.produce:'',action:`openEditProc(${i})`});});
+
+  results.sort((a,b)=>b.sc-a.sc);
+  if(!results.length){el.innerHTML='<div class="empty"><div class="empty-icon">🔍</div>Nessun risultato per "'+q+'"</div>';return;}
+  el.innerHTML='<div class="sec-sub">'+results.length+' risultati</div>'+results.slice(0,30).map(r=>`<div class="track-row" style="cursor:pointer" onclick="${r.action}"><div class="track-icon">${r.emoji}</div><div class="track-info"><div class="track-name">${r.nome} <span class="badge badge-gold" style="font-size:0.5rem">${r.tipo}</span></div>${r.extra?`<div class="track-meta">${r.extra}</div>`:''}</div></div>`).join('');
 }
 
 // Tipi cibo: ingrediente, semilavorato → vanno in Frigo/Freezer/Dispensa
@@ -1462,33 +1833,19 @@ function renderFoodList(){
   const foods=SH.items.map((it,idx)=>({it,idx})).filter(x=>x.it.kind==='ingrediente'||x.it.kind==='semilavorato');
   if(!foods.length){el.innerHTML='<div class="empty"><div class="empty-icon">🥕</div>Nessun ingrediente o semilavorato</div>';if(al)al.innerHTML='';return;}
   const low=foods.filter(x=>x.it.min&&+x.it.qty<=+x.it.min);
-  if(al)al.innerHTML=low.map(x=>`<div class="alert-row"><div style="font-size:16px">${x.it.emoji||'⚠️'}</div><div><div class="alert-text">${x.it.nome}</div><div class="alert-sub">Scorta bassa: ${x.it.qty} ${x.it.unit} — riordinare!</div></div></div>`).join('');
+  if(al)al.innerHTML=low.map(x=>`<div class="alert-row"><div style="font-size:1.15rem">${x.it.emoji||'⚠️'}</div><div><div class="alert-text">${x.it.nome}</div><div class="alert-sub">Scorta bassa: ${x.it.qty} ${x.it.unit} — riordinare!</div></div></div>`).join('');
   // group by tipo contenitore
   const byTipo={'Frigo':[],'Freezer':[],'Dispensa':[],'—':[]};
   foods.forEach(x=>{const c=x.it.contId?getContById(x.it.contId):null;const t=c?c.tipo:'—';(byTipo[t]||(byTipo[t]=[])).push(x);});
   let out='';
   [['Frigo','🧊 Frigoriferi'],['Freezer','❄️ Congelatori'],['Dispensa','🗄️ Dispense'],['—','📍 Senza Posizione']].forEach(([t,label])=>{
     const arr=byTipo[t]||[];if(!arr.length)return;
-    out+=`<div style="font-family:'Cinzel',serif;font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin:6px 0 3px">${label}</div>`;
+    out+=`<div style="font-family:'Cinzel',serif;font-size:0.575rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin:6px 0 3px">${label}</div>`;
     arr.forEach(({it,idx})=>{out+=foodRow(it,idx);});
   });
   el.innerHTML=out;
 }
 
-function foodRow(it,idx){
-  const loc=locLabel(it);
-  const kindBadge=it.kind==='semilavorato'?'<span class="badge badge-purple">semilav.</span>':'<span class="badge badge-green">ingred.</span>';
-  return `<div class="item-row">
-    <div class="item-emoji">${it.emoji||'📦'}</div>
-    <div class="item-info">
-      <div class="item-name">${it.nome} ${kindBadge}</div>
-      ${loc?`<div class="item-loc">📍 ${loc}</div>`:''}
-      <div class="item-detail">${it.unit}${it.min?' · min '+it.min:''}</div>
-    </div>
-    <div><div class="item-qty" style="${+it.qty<=(+it.min||0)?'color:var(--red-bright)':''}">${it.qty}</div><div class="item-unit">${it.unit}</div></div>
-    <div class="item-actions"><button class="btn-icon" onclick="openEditItem(${idx})">✏️</button><button class="btn-icon" onclick="delItem(${idx})">🗑</button></div>
-  </div>`;
-}
 
 function renderToolList(){
   const el=document.getElementById('holders-tool-list');
@@ -1534,6 +1891,9 @@ function openAddItem(kind){
   // prezzo: solo per ingredienti (i semilavorati lo calcolano dalla ricetta)
   const prezzoBox=document.getElementById('ai-prezzo-box');
   if(prezzoBox) prezzoBox.style.display=(kind==='ingrediente')?'':'none';
+  const pesceGrp=document.getElementById('ai-pesce-group');
+  if(pesceGrp) pesceGrp.style.display=(kind==='ingrediente')?'':'none';
+  const pesceCk=document.getElementById('ai-pesce'); if(pesceCk) pesceCk.checked=false;
   // reset campi
   ['ai-nome','ai-qty','ai-min','ai-tara','ai-note','ai-prezzo','ai-prezzoblocco','ai-pesoblocco','ai-scarto'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});
   const pm=document.getElementById('ai-prezzomode'); if(pm){pm.value='unitario';togglePrezzoMode();}
@@ -1609,6 +1969,7 @@ function addItem(){
         base.prezzoUnit=document.getElementById('ai-prezzounit').value;
       }
       base.scarto=document.getElementById('ai-scarto').value||'0';
+      base.isPesce=document.getElementById('ai-pesce').checked;
     }
   }
   SH.items.push(base);saveSH();renderHolders();closeSheet('sh-add-item');
@@ -1624,7 +1985,7 @@ function openEditItem(idx){
   document.getElementById('eq-idx').value=idx;
   openSheet('sh-editqty');
 }
-function saveItemQty(){const idx=+document.getElementById('eq-idx').value;SH.items[idx].qty=document.getElementById('eq-qty').value;saveSH();renderHolders();closeSheet('sh-editqty');toast('✓ Aggiornato');}
+function saveItemQty(){const idx=+document.getElementById('eq-idx').value;recordQtyChange(SH.items[idx],document.getElementById('eq-qty').value);saveSH();renderHolders();closeSheet('sh-editqty');toast('✓ Aggiornato');}
 function delItem(idx){SH.items.splice(idx,1);saveSH();renderHolders();}
 
 // ════════════════════════════════════
@@ -1711,7 +2072,7 @@ function renderContenitori(){
           ${c.ripiani.map((r,ri)=>`
             <div class="ripiano-row">
               <div class="ripiano-head" onclick="toggleRip('rtb-${ci}-${ri}','rtt-${ci}-${ri}')">
-                <div style="font-size:11px;color:var(--text-dim);margin-right:2px">▸</div>
+                <div style="font-size:0.7875rem;color:var(--text-dim);margin-right:2px">▸</div>
                 <div class="ripiano-label">${r.nome}</div>
                 <div class="ripiano-meta">${(r.vasche||[]).length} vasche</div>
                 <div class="ripiano-toggle" id="rtt-${ci}-${ri}">▼</div>
@@ -1720,20 +2081,20 @@ function renderContenitori(){
                 ${(r.vasche||[]).map((v,vi)=>`
                   <div class="vasca-row">
                     <div class="vasca-head">
-                      <div style="font-size:11px">🔲</div>
+                      <div style="font-size:0.7875rem">🔲</div>
                       <div class="vasca-label">${v.nome}</div>
-                      <button class="btn-icon" onclick="delVasca(${ci},${ri},${vi})" style="font-size:10px">🗑</button>
+                      <button class="btn-icon" onclick="delVasca(${ci},${ri},${vi})" style="font-size:0.7188rem">🗑</button>
                     </div>
-                    ${SH.items.filter(it=>it.contId===c.id&&it.ripIdx===ri&&it.vascaIdx===vi).map(it=>`<div class="vasca-obj"><div class="vasca-obj-em">${it.emoji||'📦'}</div>${it.nome} <span style="color:var(--text-dim);font-size:10px">${it.qty} ${it.unit}</span></div>`).join('')}
+                    ${SH.items.filter(it=>it.contId===c.id&&it.ripIdx===ri&&it.vascaIdx===vi).map(it=>`<div class="vasca-obj"><div class="vasca-obj-em">${it.emoji||'📦'}</div>${it.nome} <span style="color:var(--text-dim);font-size:0.7188rem">${it.qty} ${it.unit}</span></div>`).join('')}
                   </div>`).join('')}
-                ${SH.items.filter(it=>it.contId===c.id&&it.ripIdx===ri&&it.vascaIdx==null).map(it=>`<div class="rip-obj"><div class="rip-obj-em">${it.emoji||'📦'}</div>${it.nome} <span style="color:var(--text-dim);font-size:10px">${it.qty} ${it.unit}</span></div>`).join('')}
+                ${SH.items.filter(it=>it.contId===c.id&&it.ripIdx===ri&&it.vascaIdx==null).map(it=>`<div class="rip-obj"><div class="rip-obj-em">${it.emoji||'📦'}</div>${it.nome} <span style="color:var(--text-dim);font-size:0.7188rem">${it.qty} ${it.unit}</span></div>`).join('')}
                 <div style="padding:5px 8px 7px">
-                  <button class="btn btn-teal" onclick="openAddVasca(${ci},${ri})" style="font-size:8px">+ Vasca</button>
+                  <button class="btn btn-teal" onclick="openAddVasca(${ci},${ri})" style="font-size:0.575rem">+ Vasca</button>
                 </div>
               </div>
             </div>`).join('')}
           <div style="padding:7px 11px;border-top:1px solid var(--border)">
-            <button class="btn btn-red" onclick="delCont(${ci})" style="font-size:8px">🗑 Elimina contenitore</button>
+            <button class="btn btn-red" onclick="delCont(${ci})" style="font-size:0.575rem">🗑 Elimina contenitore</button>
           </div>
         </div>
       </div>`;
@@ -1748,7 +2109,7 @@ function toggleRip(bodyId,togId){document.getElementById(bodyId)?.classList.togg
 //  TRACKER
 // ════════════════════════════════════
 function renderTracker(){renderFishLog();renderVendite();renderStats();renderStorico();}
-function renderVendite(){const el=document.getElementById('vendite-list');if(!S.venditeConfig.length){el.innerHTML='<div class="empty" style="padding:12px 0"><div class="empty-icon">🍽️</div>Aggiungi ricette in Holders</div>';return;}el.innerHTML=S.venditeConfig.map((v,i)=>`<div class="vendite-row"><div class="item-emoji">${v.emoji||'🍽️'}</div><div class="vendite-name">${v.nome}</div><div class="vendite-count" id="vc-${i}">${v.count||0}</div><div class="vendite-ctrl"><button class="btn-icon" onclick="adjV(${i},-1)" style="font-size:16px">−</button><button class="btn-icon" onclick="adjV(${i},+1)" style="font-size:16px">+</button></div></div>`).join('');}
+function renderVendite(){const el=document.getElementById('vendite-list');if(!S.venditeConfig.length){el.innerHTML='<div class="empty" style="padding:12px 0"><div class="empty-icon">🍽️</div>Aggiungi ricette in Holders</div>';return;}el.innerHTML=S.venditeConfig.map((v,i)=>`<div class="vendite-row"><div class="item-emoji">${v.emoji||'🍽️'}</div><div class="vendite-name">${v.nome}</div><div class="vendite-count" id="vc-${i}">${v.count||0}</div><div class="vendite-ctrl"><button class="btn-icon" onclick="adjV(${i},-1)" style="font-size:1.15rem">−</button><button class="btn-icon" onclick="adjV(${i},+1)" style="font-size:1.15rem">+</button></div></div>`).join('');}
 function adjV(i,d){S.venditeConfig[i].count=Math.max(0,(S.venditeConfig[i].count||0)+d);document.getElementById('vc-'+i).textContent=S.venditeConfig[i].count;}
 function salvaVendite(){
   const tot=S.venditeConfig.reduce((a,v)=>a+(v.count||0),0);
@@ -1810,10 +2171,10 @@ function mostraGuidaScorte(suggerimenti){
       : (s.dove?`Rifornisci da <strong style="color:var(--teal)">${s.dove}</strong>`:'Da riordinare');
     return `<div style="background:rgba(212,115,42,0.08);border:1px solid var(--orange-dim);border-radius:3px;padding:8px 10px;margin-bottom:5px">
       <div style="display:flex;align-items:center;gap:7px">
-        <span style="font-size:18px">${s.emoji||'⚠️'}</span>
+        <span style="font-size:1.2937rem">${s.emoji||'⚠️'}</span>
         <div style="flex:1">
-          <div style="font-size:13px;color:var(--text)">${s.nome} <span class="badge badge-red">${s.rimasto} ${s.unit}</span></div>
-          <div style="font-size:11px;color:var(--text-dim);margin-top:2px">${azione}</div>
+          <div style="font-size:0.9313rem;color:var(--text)">${s.nome} <span class="badge badge-red">${s.rimasto} ${s.unit}</span></div>
+          <div style="font-size:0.7875rem;color:var(--text-dim);margin-top:2px">${azione}</div>
         </div>
       </div>
     </div>`;
@@ -1849,7 +2210,7 @@ function renderAvatar(){const{cur,next}=getLevelInfo(S.xp);const pct=next?Math.r
 function renderDuel(){const other=loadU(1-cu);const u0=cu===0?S:other;const u1=cu===1?S:other;const{cur:c0}=getLevelInfo(u0.xp);const{cur:c1}=getLevelInfo(u1.xp);const mx=Math.max(u0.xp,u1.xp,1),mp=Math.max(u0.prestige,u1.prestige,1),mpr=Math.max(u0.presenze,u1.presenze,1);document.getElementById('duel-card').innerHTML=`<div class="duel-card"><div class="duel-row"><div class="duel-player"><div class="duel-emoji">${u0.profilo.emoji||'👨‍🍳'}</div><div class="duel-name" style="color:var(--gold)">${u0.profilo.nome||'Chef A'}</div><div class="duel-lv">Lv.${c0.lv}</div></div><div class="duel-vs">VS</div><div class="duel-player"><div class="duel-emoji">${u1.profilo.emoji||'👩‍🍳'}</div><div class="duel-name" style="color:var(--teal)">${u1.profilo.nome||'Chef B'}</div><div class="duel-lv">Lv.${c1.lv}</div></div></div>${dsr('XP',u0.xp,u1.xp,mx)}${dsr('Prestige',u0.prestige,u1.prestige,mp)}${dsr('Presenze',u0.presenze,u1.presenze,mpr)}</div>`;}
 function dsr(label,va,vb,max){const pa=Math.round((va/max)*100),pb=Math.round((vb/max)*100);return`<div class="duel-stat-row"><div class="duel-stat-lbl">${label}: ${va}</div><div class="duel-bar"><div class="duel-fill-a" style="width:${pa}%"></div><div class="duel-fill-b" style="width:${pb}%"></div></div><div class="duel-stat-val">${vb}</div></div>`;}
 function renderLog(){const el=document.getElementById('av-log');if(!S.log.length){el.innerHTML='<div class="empty"><div class="empty-icon">📜</div>Nessuna attività</div>';return;}el.innerHTML=S.log.slice(0,20).map(l=>`<div class="log-row"><div class="log-icon">${l.icon||'⭐'}</div><div class="log-info"><div class="log-action">${l.action}</div><div class="log-time">${l.time}</div></div><div class="log-xp">+${l.xp} XP</div></div>`).join('');}
-function renderRuolo(){document.getElementById('ruolo-info').innerHTML=`<div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:5px"><span class="badge badge-gold">${S.profilo.ruolo||'Commis'}</span><span class="badge badge-teal">${S.profilo.spec||'Cucina Classica'}</span></div><div style="font-size:11px;color:var(--text-dim);font-style:italic">${S.profilo.nome||'Chef'} — ${getLevelInfo(S.xp).cur.title}</div>`;}
+function renderRuolo(){document.getElementById('ruolo-info').innerHTML=`<div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:5px"><span class="badge badge-gold">${S.profilo.ruolo||'Commis'}</span><span class="badge badge-teal">${S.profilo.spec||'Cucina Classica'}</span></div><div style="font-size:0.7875rem;color:var(--text-dim);font-style:italic">${S.profilo.nome||'Chef'} — ${getLevelInfo(S.xp).cur.title}</div>`;}
 function updateValBtn(){const done=S.lastValDate===todayStr();document.getElementById('val-good').disabled=done;document.getElementById('val-bad').disabled=done;document.getElementById('val-status').textContent=done?'✓ Valutazione già inviata oggi':'';}
 function setVal(v){if(S.lastValDate===todayStr()){toast('Hai già valutato oggi');return;}if(v==='bene'){addPrestige(10);toast('👍 +10 Prestigio!');}else{addPrestige(-5);toast('⚠ Valutazione negativa');}S.lastValDate=todayStr();S.log.unshift({icon:v==='bene'?'👍':'👎',action:'Valutazione: '+v,xp:v==='bene'?5:0,time:nowStr()});saveU();renderAvatar();}
 function salvaProfilo(){S.profilo.nome=document.getElementById('p-nome').value||S.profilo.nome;S.profilo.ruolo=document.getElementById('p-ruolo').value;S.profilo.spec=document.getElementById('p-spec').value;S.profilo.emoji=document.getElementById('p-emoji').value||S.profilo.emoji;saveU();updateHUD();renderAvatar();closeSheet('sh-profilo');toast('✓ Profilo aggiornato!');}
@@ -1895,10 +2256,10 @@ function renderPrezzi(){
       const idx=SH.items.indexOf(it);
       const c=ingredienteCostoBase(it);
       let prezzoStr;
-      if(!c){prezzoStr='<span style="color:var(--orange);font-size:10px">prezzo mancante</span>';}
-      else if(it.prezzoMode==='blocco'){prezzoStr='<span style="color:var(--teal);font-size:11px">€'+it.prezzo+'/blocco ('+it.pesoBlocco+it.pesoBloccoUnit+')</span>';}
-      else{prezzoStr='<span style="color:var(--teal);font-size:11px">€'+it.prezzo+'/'+(it.prezzoUnit||'kg')+'</span>';}
-      const scartoStr=(it.scarto&&+it.scarto>0)?` <span style="font-size:9px;color:var(--orange)">scarto ${it.scarto}%</span>`:'';
+      if(!c){prezzoStr='<span style="color:var(--orange);font-size:0.7188rem">prezzo mancante</span>';}
+      else if(it.prezzoMode==='blocco'){prezzoStr='<span style="color:var(--teal);font-size:0.7875rem">€'+it.prezzo+'/blocco ('+it.pesoBlocco+it.pesoBloccoUnit+')</span>';}
+      else{prezzoStr='<span style="color:var(--teal);font-size:0.7875rem">€'+it.prezzo+'/'+(it.prezzoUnit||'kg')+'</span>';}
+      const scartoStr=(it.scarto&&+it.scarto>0)?` <span style="font-size:0.6438rem;color:var(--orange)">scarto ${it.scarto}%</span>`:'';
       return `<div class="track-row"><div class="track-icon">${it.emoji||'🥕'}</div><div class="track-info"><div class="track-name">${it.nome}</div><div class="track-meta">${prezzoStr}${scartoStr}</div></div><button class="btn-icon" onclick="openEditPrezzo(${idx})">✏️</button></div>`;
     }).join('');
   }
@@ -1963,7 +2324,7 @@ function renderSearchAttr(){
   if(!tools.length){el.innerHTML='<div class="empty"><div class="empty-icon">🔍</div>'+(q?'Nessun risultato':'Nessun utensile registrato')+'</div>';return;}
   el.innerHTML=tools.map(({it})=>{
     const loc=locLabel(it);
-    return `<div class="track-row"><div class="track-icon">${it.emoji||'🔧'}</div><div class="track-info"><div class="track-name">${it.nome}</div><div class="track-meta">${loc?'📍 '+loc:'Senza posizione'}${it.note?' · '+it.note:''}</div></div><div style="text-align:right"><div class="track-qty" style="color:var(--teal)">${it.tara||'—'} ${it.taraUnit||'g'}</div><div style="font-size:8px;color:var(--text-dim);font-family:Cinzel">TARA</div></div></div>`;
+    return `<div class="track-row"><div class="track-icon">${it.emoji||'🔧'}</div><div class="track-info"><div class="track-name">${it.nome}</div><div class="track-meta">${loc?'📍 '+loc:'Senza posizione'}${it.note?' · '+it.note:''}</div></div><div style="text-align:right"><div class="track-qty" style="color:var(--teal)">${it.tara||'—'} ${it.taraUnit||'g'}</div><div style="font-size:0.575rem;color:var(--text-dim);font-family:Cinzel">TARA</div></div></div>`;
   }).join('');
 }
 
@@ -1983,19 +2344,19 @@ function renderMenu(){
   cats.forEach(cat=>{
     const arr=SH.piatti.map((p,i)=>({p,i})).filter(x=>x.p.cat===cat);
     if(!arr.length)return;
-    out+=`<div style="font-family:'Cinzel',serif;font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin:6px 0 3px">${cat}</div>`;
+    out+=`<div style="font-family:'Cinzel',serif;font-size:0.575rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin:6px 0 3px">${cat}</div>`;
     arr.forEach(({p,i})=>{
       const bom=(p.bom||[]).map(c=>{const it=SH.items.find(x=>x.id===c.itemId);return (it?it.nome:c.nomeCache||'?')+' '+c.qty+c.unit;}).join(', ');
       out+=`<div class="card" style="margin-bottom:5px;padding:9px 11px">
         <div style="display:flex;align-items:flex-start;gap:8px">
-          <div style="font-size:18px">${p.emoji||'🍽️'}</div>
+          <div style="font-size:1.2937rem">${p.emoji||'🍽️'}</div>
           <div style="flex:1;min-width:0">
             <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
-              <span style="font-family:'Cinzel',serif;font-size:13px;color:var(--text)">${p.nome}</span>
+              <span style="font-family:'Cinzel',serif;font-size:0.9313rem;color:var(--text)">${p.nome}</span>
               ${p.prezzo?`<span class="badge badge-gold">€${p.prezzo}</span>`:''}
             </div>
-            ${bom?`<div style="font-size:10px;color:var(--text-dim);margin-top:3px;font-style:italic">🧾 ${bom}</div>`:'<div style="font-size:10px;color:var(--orange);margin-top:3px;font-style:italic">⚠ Distinta base vuota</div>'}
-            ${(()=>{const fc=piattoFoodCost(p);const prezzo=parseFloat(p.prezzo)||0;const fcStr='€'+fc.tot.toFixed(2);let extra='';if(prezzo>0&&fc.tot>0){const margine=prezzo-fc.tot;const pct=Math.round((fc.tot/prezzo)*100);extra=' · margine €'+margine.toFixed(2)+' · FC '+pct+'%';}return `<div style="font-size:10px;margin-top:3px;font-family:'Cinzel',serif"><span style="color:var(--teal)">💰 Food cost ${fcStr}</span><span style="color:var(--text-dim)">${extra}</span>${(fc.qbList.length||fc.mancaList.length)?' <span style=\'color:var(--orange)\'>⚠</span>':''}</div>`;})()}
+            ${bom?`<div style="font-size:0.7188rem;color:var(--text-dim);margin-top:3px;font-style:italic">🧾 ${bom}</div>`:'<div style="font-size:0.7188rem;color:var(--orange);margin-top:3px;font-style:italic">⚠ Distinta base vuota</div>'}
+            ${(()=>{const fc=piattoFoodCost(p);const prezzo=parseFloat(p.prezzo)||0;const fcStr='€'+fc.tot.toFixed(2);let extra='';if(prezzo>0&&fc.tot>0){const margine=prezzo-fc.tot;const pct=Math.round((fc.tot/prezzo)*100);extra=' · margine €'+margine.toFixed(2)+' · FC '+pct+'%';}return `<div style="font-size:0.7188rem;margin-top:3px;font-family:'Cinzel',serif"><span style="color:var(--teal)">💰 Food cost ${fcStr}</span><span style="color:var(--text-dim)">${extra}</span>${(fc.qbList.length||fc.mancaList.length)?' <span style=\'color:var(--orange)\'>⚠</span>':''}</div>`;})()}
           </div>
           <div style="display:flex;flex-direction:column;gap:3px">
             <button class="btn-icon" onclick="openEditPiatto(${i})">✏️</button>
@@ -2035,7 +2396,7 @@ function openEditPiatto(i){
 
 function renderBomList(){
   const el=document.getElementById('pi-bom-list');
-  if(!tmpBom.length){el.innerHTML='<div style="font-size:10px;color:var(--text-dim);font-style:italic;padding:4px 0">Nessun componente</div>';return;}
+  if(!tmpBom.length){el.innerHTML='<div style="font-size:0.7188rem;color:var(--text-dim);font-style:italic;padding:4px 0">Nessun componente</div>';return;}
   let tot=0, qb=[], manca=[];
   let rows=tmpBom.map((c,i)=>{
     const it=SH.items.find(x=>x.id===c.itemId);
@@ -2043,21 +2404,21 @@ function renderBomList(){
     const kindEm=it?(it.kind==='semilavorato'?'🧪':'🥕'):'❔';
     const r=componenteCosto(c);
     let costStr='';
-    if(r.qb){costStr='<span style="font-size:9px;color:var(--orange)">q.b.</span>';qb.push(nome);}
-    else if(r.manca){costStr='<span style="font-size:9px;color:var(--orange)">no €</span>';manca.push(nome);}
-    else{tot+=r.costo;costStr='<span style="font-size:10px;color:var(--teal)">€'+r.costo.toFixed(2)+'</span>';}
+    if(r.qb){costStr='<span style="font-size:0.6438rem;color:var(--orange)">q.b.</span>';qb.push(nome);}
+    else if(r.manca){costStr='<span style="font-size:0.6438rem;color:var(--orange)">no €</span>';manca.push(nome);}
+    else{tot+=r.costo;costStr='<span style="font-size:0.7188rem;color:var(--teal)">€'+r.costo.toFixed(2)+'</span>';}
     const unitLabel=c.unit==='qb'?'q.b.':(c.qty+' '+c.unit);
     return `<div style="display:flex;align-items:center;gap:6px;padding:4px 0;border-bottom:1px solid var(--border)">
-      <span style="font-size:13px">${kindEm}</span>
-      <span style="flex:1;font-size:12px;color:var(--text);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${nome}</span>
-      <span style="font-family:'Cinzel',serif;font-size:11px;color:var(--gold)">${unitLabel}</span>
+      <span style="font-size:0.9313rem">${kindEm}</span>
+      <span style="flex:1;font-size:0.8625rem;color:var(--text);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${nome}</span>
+      <span style="font-family:'Cinzel',serif;font-size:0.7875rem;color:var(--gold)">${unitLabel}</span>
       ${costStr}
-      <button class="btn-icon" onclick="openEditComponente(${i})" style="width:22px;height:22px;font-size:11px">✏️</button>
-      <button class="btn-icon" onclick="delComponente(${i})" style="width:22px;height:22px;font-size:11px">🗑</button>
+      <button class="btn-icon" onclick="openEditComponente(${i})" style="width:22px;height:22px;font-size:0.7875rem">✏️</button>
+      <button class="btn-icon" onclick="delComponente(${i})" style="width:22px;height:22px;font-size:0.7875rem">🗑</button>
     </div>`;
   }).join('');
-  let footer='<div style="display:flex;align-items:center;justify-content:space-between;padding:6px 0 0;margin-top:2px;border-top:1px solid var(--border-light)"><span style="font-family:\'Cinzel\',serif;font-size:10px;letter-spacing:1px;color:var(--text-dim)">FOOD COST</span><span style="font-family:\'Cinzel\',serif;font-size:14px;font-weight:700;color:var(--gold)">€'+(Math.round(tot*100)/100).toFixed(2)+'</span></div>';
-  if(qb.length||manca.length){footer+='<div style="font-size:9px;color:var(--orange);margin-top:2px">'+(qb.length?'q.b. esclusi: '+qb.join(', '):'')+(manca.length?(qb.length?' · ':'')+'senza prezzo: '+manca.join(', '):'')+'</div>';}
+  let footer='<div style="display:flex;align-items:center;justify-content:space-between;padding:6px 0 0;margin-top:2px;border-top:1px solid var(--border-light)"><span style="font-family:\'Cinzel\',serif;font-size:0.7188rem;letter-spacing:1px;color:var(--text-dim)">FOOD COST</span><span style="font-family:\'Cinzel\',serif;font-size:1.0063rem;font-weight:700;color:var(--gold)">€'+(Math.round(tot*100)/100).toFixed(2)+'</span></div>';
+  if(qb.length||manca.length){footer+='<div style="font-size:0.6438rem;color:var(--orange);margin-top:2px">'+(qb.length?'q.b. esclusi: '+qb.join(', '):'')+(manca.length?(qb.length?' · ':'')+'senza prezzo: '+manca.join(', '):'')+'</div>';}
   el.innerHTML=rows+footer;
 }
 
@@ -2276,11 +2637,11 @@ function renderVerbi(){
     const params=(v.params||[]).map(p=>`<span class="badge ${p.haccp?'badge-red':'badge-gold'}" style="margin:1px">${p.haccp?'🌡️':''}${p.nome}</span>`).join('');
     return `<div class="card" style="margin-bottom:5px;padding:9px 11px">
       <div style="display:flex;align-items:flex-start;gap:8px">
-        <div style="font-size:18px">${v.emoji||'⚡'}</div>
+        <div style="font-size:1.2937rem">${v.emoji||'⚡'}</div>
         <div style="flex:1;min-width:0">
-          <div style="font-family:'Cinzel',serif;font-size:13px;color:var(--text)">${v.nome} ${v.haccp?'<span class="badge badge-red">HACCP</span>':''}</div>
-          ${v.desc?`<div style="font-size:10px;color:var(--text-dim);margin-top:2px;font-style:italic">${v.desc}</div>`:''}
-          ${(u||l)?`<div style="font-size:11px;margin-top:3px">${u} ${l}</div>`:''}
+          <div style="font-family:'Cinzel',serif;font-size:0.9313rem;color:var(--text)">${v.nome} ${v.haccp?'<span class="badge badge-red">HACCP</span>':''}</div>
+          ${v.desc?`<div style="font-size:0.7188rem;color:var(--text-dim);margin-top:2px;font-style:italic">${v.desc}</div>`:''}
+          ${(u||l)?`<div style="font-size:0.7875rem;margin-top:3px">${u} ${l}</div>`:''}
           ${params?`<div style="margin-top:3px">${params}</div>`:''}
         </div>
         <div style="display:flex;flex-direction:column;gap:3px">
@@ -2346,7 +2707,7 @@ function openEditStep(i){
 function renderStepParams(){
   const box=document.getElementById('st-params-box');
   const vref=document.getElementById('st-verbo').value;
-  if(vref.startsWith('proc:')){box.innerHTML='<div style="font-size:10px;color:var(--text-dim);font-style:italic;padding:4px 0">Procedimento annidato (nessun parametro)</div>';return;}
+  if(vref.startsWith('proc:')){box.innerHTML='<div style="font-size:0.7188rem;color:var(--text-dim);font-style:italic;padding:4px 0">Procedimento annidato (nessun parametro)</div>';return;}
   const v=SH.verbi.find(x=>x.id===vref);
   if(!v||!v.params||!v.params.length){box.innerHTML='';return;}
   box.innerHTML='<div class="cascata-step" style="margin-bottom:8px"><label class="cascata-label">⚙️ Parametri</label>'+
@@ -2376,20 +2737,20 @@ function moveStep(i,dir){const j=i+dir;if(j<0||j>=tmpProcSteps.length)return;con
 
 function renderProcSteps(){
   const el=document.getElementById('pr-steps-list');
-  if(!tmpProcSteps.length){el.innerHTML='<div style="font-size:10px;color:var(--text-dim);font-style:italic;padding:4px 0">Nessun passaggio</div>';return;}
+  if(!tmpProcSteps.length){el.innerHTML='<div style="font-size:0.7188rem;color:var(--text-dim);font-style:italic;padding:4px 0">Nessun passaggio</div>';return;}
   el.innerHTML=tmpProcSteps.map((s,i)=>{
     const pv=(s.paramVals||[]).filter(p=>p.val).map(p=>`${p.haccp?'🌡️':''}${p.nome}: ${p.val}`).join(', ');
     return `<div style="display:flex;align-items:center;gap:6px;padding:5px 0;border-bottom:1px solid var(--border)">
-      <span style="font-family:'Cinzel',serif;font-size:10px;color:var(--text-dim);width:16px">${i+1}.</span>
-      <span style="font-size:14px">${s.verboEmoji}</span>
+      <span style="font-family:'Cinzel',serif;font-size:0.7188rem;color:var(--text-dim);width:16px">${i+1}.</span>
+      <span style="font-size:1.0063rem">${s.verboEmoji}</span>
       <div style="flex:1;min-width:0">
-        <div style="font-size:12px;color:var(--text)">${s.verboNome}${s.oggettoNome?' <span style="color:var(--gold)">'+s.oggettoNome+'</span>':''}</div>
-        ${pv?`<div style="font-size:9px;color:var(--text-dim)">${pv}</div>`:''}
+        <div style="font-size:0.8625rem;color:var(--text)">${s.verboNome}${s.oggettoNome?' <span style="color:var(--gold)">'+s.oggettoNome+'</span>':''}</div>
+        ${pv?`<div style="font-size:0.6438rem;color:var(--text-dim)">${pv}</div>`:''}
       </div>
-      <button class="btn-icon" onclick="moveStep(${i},-1)" style="width:20px;height:20px;font-size:9px">↑</button>
-      <button class="btn-icon" onclick="moveStep(${i},1)" style="width:20px;height:20px;font-size:9px">↓</button>
-      <button class="btn-icon" onclick="openEditStep(${i})" style="width:20px;height:20px;font-size:10px">✏️</button>
-      <button class="btn-icon" onclick="delStep(${i})" style="width:20px;height:20px;font-size:10px">🗑</button>
+      <button class="btn-icon" onclick="moveStep(${i},-1)" style="width:20px;height:20px;font-size:0.6438rem">↑</button>
+      <button class="btn-icon" onclick="moveStep(${i},1)" style="width:20px;height:20px;font-size:0.6438rem">↓</button>
+      <button class="btn-icon" onclick="openEditStep(${i})" style="width:20px;height:20px;font-size:0.7188rem">✏️</button>
+      <button class="btn-icon" onclick="delStep(${i})" style="width:20px;height:20px;font-size:0.7188rem">🗑</button>
     </div>`;
   }).join('');
 }
@@ -2414,11 +2775,11 @@ function renderProc(){
     const hasHaccp=(p.steps||[]).some(s=>(s.paramVals||[]).some(pv=>pv.haccp&&pv.val));
     return `<div class="card" style="margin-bottom:5px;padding:9px 11px">
       <div style="display:flex;align-items:flex-start;gap:8px">
-        <div style="font-size:18px">${p.emoji||'🔗'}</div>
+        <div style="font-size:1.2937rem">${p.emoji||'🔗'}</div>
         <div style="flex:1;min-width:0">
-          <div style="font-family:'Cinzel',serif;font-size:13px;color:var(--text)">${p.nome} ${hasHaccp?'<span class="badge badge-red">HACCP</span>':''}</div>
-          ${p.produce?`<div style="font-size:10px;color:var(--purple);margin-top:1px">→ produce: ${p.produce}</div>`:''}
-          ${steps?`<div style="font-size:11px;color:var(--text-dim);margin-top:3px">${steps}</div>`:'<div style="font-size:10px;color:var(--orange);margin-top:3px">Nessun passaggio</div>'}
+          <div style="font-family:'Cinzel',serif;font-size:0.9313rem;color:var(--text)">${p.nome} ${hasHaccp?'<span class="badge badge-red">HACCP</span>':''}</div>
+          ${p.produce?`<div style="font-size:0.7188rem;color:var(--purple);margin-top:1px">→ produce: ${p.produce}</div>`:''}
+          ${steps?`<div style="font-size:0.7875rem;color:var(--text-dim);margin-top:3px">${steps}</div>`:'<div style="font-size:0.7188rem;color:var(--orange);margin-top:3px">Nessun passaggio</div>'}
         </div>
         <div style="display:flex;flex-direction:column;gap:3px">
           <button class="btn-icon" onclick="openEditProc(${i})">✏️</button>
@@ -2490,14 +2851,14 @@ function openAddRicettaIng(){
 function delRicIng(i){tmpRicIngs.splice(i,1);renderRicIngList();}
 function renderRicIngList(){
   const el=document.getElementById('r2-ing-list');
-  if(!tmpRicIngs.length){el.innerHTML='<div style="font-size:10px;color:var(--text-dim);font-style:italic;padding:4px 0">Nessun ingrediente</div>';return;}
+  if(!tmpRicIngs.length){el.innerHTML='<div style="font-size:0.7188rem;color:var(--text-dim);font-style:italic;padding:4px 0">Nessun ingrediente</div>';return;}
   el.innerHTML=tmpRicIngs.map((c,i)=>{
     const it=SH.items.find(x=>x.id===c.itemId);
     const nome=it?it.nome:(c.nomeCache||'?');
     return `<div style="display:flex;align-items:center;gap:6px;padding:4px 0;border-bottom:1px solid var(--border)">
-      <span style="flex:1;font-size:12px;color:var(--text)">${nome}</span>
-      <span style="font-family:'Cinzel',serif;font-size:11px;color:var(--gold)">${c.unit==='qb'?'q.b.':c.qty+' '+c.unit}</span>
-      <button class="btn-icon" onclick="delRicIng(${i})" style="width:22px;height:22px;font-size:11px">🗑</button>
+      <span style="flex:1;font-size:0.8625rem;color:var(--text)">${nome}</span>
+      <span style="font-family:'Cinzel',serif;font-size:0.7875rem;color:var(--gold)">${c.unit==='qb'?'q.b.':c.qty+' '+c.unit}</span>
+      <button class="btn-icon" onclick="delRicIng(${i})" style="width:22px;height:22px;font-size:0.7875rem">🗑</button>
     </div>`;
   }).join('');
 }
@@ -2511,6 +2872,239 @@ function saveRicetta2(){
   const ex=SH.ricette.findIndex(r=>(r.id||'')===id || (r.nome===nome && !r.id));
   if(ex>=0)SH.ricette[ex]=ric;else SH.ricette.push(ric);
   saveSH();renderRicette();closeSheet('sh-ricetta2');toast('✓ Ricetta salvata!');
+}
+
+// ════════════════════════════════════
+//  CONSUMI, RICARICHE, DURATA PREVISTA
+// ════════════════════════════════════
+// Registra variazione qty: se aumenta → ultima ricarica
+function recordQtyChange(item,nuovaQty){
+  const vecchia=parseFloat(item.qty)||0;
+  const nuova=parseFloat(nuovaQty)||0;
+  if(nuova>vecchia){
+    item.lastRestock=Date.now();
+    item.lastRestockQty=(nuova-vecchia).toString();
+  }
+  item.qty=String(nuovaQty);
+}
+
+// Giorni di attività osservati (dal primo servizio nello storico, min 1)
+function giorniAttivita(){
+  let minD=null;
+  [0,1].forEach(ui=>{const u=loadU(ui);(u.storico||[]).forEach(s=>{if(s.data){const t=new Date(s.data).getTime();if(minD==null||t<minD)minD=t;}});});
+  if(minD==null) return 1;
+  const giorni=Math.max(1,Math.round((Date.now()-minD)/86400000)+1);
+  return giorni;
+}
+
+// Consumo totale osservato di un item (somma su tutto lo storico vendite di entrambi gli utenti)
+// usando le distinte base dei piatti. Ritorna grammi (o pezzi) consumati totali.
+function consumoTotaleItem(item){
+  let totG=0, totPz=0;
+  [0,1].forEach(ui=>{
+    const u=loadU(ui);
+    (u.storico||[]).forEach(s=>{
+      (s.portate||[]).forEach(p=>{
+        const piatto=(SH.piatti||[]).find(x=>x.id===p.piattoId||x.nome===p.nome);
+        if(!piatto)return;
+        (piatto.bom||[]).forEach(c=>{
+          const it=SH.items.find(x=>x.id===c.itemId)||SH.items.find(x=>x.nome===c.nomeCache);
+          if(it&&it===item){
+            const q=(parseFloat(c.qty)||0)*(p.count||0);
+            if(c.unit==='pz')totPz+=q; else if(c.unit!=='qb')totG+=q*unitToG(c.unit);
+          }
+        });
+      });
+    });
+  });
+  return {totG,totPz};
+}
+
+// Consumo medio giornaliero in unità nativa dell'item
+function consumoGiornaliero(item){
+  const g=giorniAttivita();
+  const {totG,totPz}=consumoTotaleItem(item);
+  if(item.unit==='pz'){return totPz/g;}
+  const consG=totG/g; // grammi/giorno
+  return consG/unitToG(item.unit); // nell'unità dell'item
+}
+
+// Durata prevista in giorni: scorta attuale / consumo giornaliero
+function durataPrevista(item){
+  const cons=consumoGiornaliero(item);
+  if(cons<=0) return null; // nessun consumo osservato
+  return (parseFloat(item.qty)||0)/cons;
+}
+
+// Flag scorte: 'grave' | 'minore' | null
+function flagScorte(item){
+  const bassoAssoluto=item.min && (parseFloat(item.qty)||0)<=(parseFloat(item.min)||0);
+  const dur=durataPrevista(item);
+  const SOGLIA_GIORNI=3;
+  const bassoRelativo=dur!=null && dur<=SOGLIA_GIORNI;
+  if(bassoAssoluto && bassoRelativo) return 'grave';
+  if(bassoAssoluto || bassoRelativo) return 'minore';
+  return null;
+}
+
+// Per cosa è utilizzato: piatti la cui distinta base contiene l'item
+function utilizzatoIn(item){
+  const usi=[];
+  (SH.piatti||[]).forEach(p=>{if((p.bom||[]).some(c=>c.itemId===item.id||c.nomeCache===item.nome))usi.push({tipo:'piatto',nome:p.nome,emoji:p.emoji});});
+  (SH.ricette||[]).forEach(r=>{if((r.ings||[]).some(c=>c.itemId===item.id||c.nomeCache===item.nome))usi.push({tipo:'ricetta',nome:r.nome,emoji:r.emoji});});
+  return usi;
+}
+
+// ════════════════════════════════════
+//  DETTAGLIO RICETTA (normalizzazione + procedimento)
+// ════════════════════════════════════
+let rdState={ricIdx:-1, base:100, ings:[]};
+
+function toggleExp(id){
+  const body=document.getElementById(id);
+  const arrow=document.getElementById(id+'-arrow');
+  const open=body.classList.toggle('open');
+  if(arrow)arrow.classList.toggle('open',open);
+}
+
+function openVerboDetail(i){
+  const v=SH.verbi[i];
+  document.getElementById('az-title').textContent=(v.emoji||'⚡')+' '+v.nome;
+  const u=(v.utensili||[]).map(x=>`<span class="badge badge-teal" style="margin:2px">${x.emoji||'🔧'} ${x.nome}</span>`).join('');
+  const l=(v.luoghi||[]).map(x=>`<span class="badge badge-blue" style="margin:2px">${x.emoji||'📍'} ${x.nome}</span>`).join('');
+  const params=(v.params||[]).map(p=>`<span class="badge ${p.haccp?'badge-red':'badge-gold'}" style="margin:2px">${p.haccp?'🌡️ ':''}${p.nome} (${p.tipo})</span>`).join('');
+  document.getElementById('az-body').innerHTML=`
+    ${v.desc?`<div style="font-size:0.8625rem;color:var(--text);margin-bottom:10px;font-style:italic">${v.desc}</div>`:''}
+    ${v.haccp?'<div class="alert-row" style="margin-bottom:10px"><div style="font-size:1.15rem">🌡️</div><div><div class="alert-text">Punto HACCP</div><div class="alert-sub">Questa azione richiede controllo critico</div></div></div>':''}
+    ${u?`<div style="margin-bottom:8px"><div class="det-stat-lbl" style="margin-bottom:4px">🔧 Utensili</div>${u}</div>`:''}
+    ${l?`<div style="margin-bottom:8px"><div class="det-stat-lbl" style="margin-bottom:4px">📍 Luoghi</div>${l}</div>`:''}
+    ${params?`<div><div class="det-stat-lbl" style="margin-bottom:4px">⚙️ Parametri</div>${params}</div>`:'<div style="font-size:0.7875rem;color:var(--text-dim);font-style:italic">Azione atomica senza parametri</div>'}
+  `;
+  openSheet('sh-azione');
+}
+
+// arrotonda la base al 10/100/1000 più vicino in modo sensato
+function normBase(maxG){
+  if(maxG>=500)return 1000;
+  if(maxG>=50)return 100;
+  return 10;
+}
+
+function openRicettaDetail(i){
+  const r=SH.ricette[i];
+  rdState.ricIdx=i;
+  document.getElementById('rd-idx').value=i;
+  document.getElementById('rd-title').textContent=(r.emoji||'📖')+' '+r.nome;
+  // costruisci lista ingredienti in grammi (qb esclusi dal calcolo proporzione)
+  const ings=(r.ings||[]).map(c=>{
+    const it=SH.items.find(x=>x.id===c.itemId)||SH.items.find(x=>x.nome===c.nomeCache);
+    const qb=c.unit==='qb';
+    const g=qb?0:(parseFloat(c.qty)||0)*unitToG(c.unit);
+    return {nome:it?it.nome:c.nomeCache, emoji:it?it.emoji:'🥕', g, qb, origQty:c.qty, origUnit:c.unit};
+  });
+  rdState.ings=ings;
+  // ingrediente principale = quello con più grammi
+  const principale=ings.filter(x=>!x.qb).reduce((a,b)=>b.g>(a?a.g:0)?b:a,null);
+  const baseNorm = principale?normBase(principale.g):100;
+  rdState.base=baseNorm;
+  rdState.principaleG = principale?principale.g:1;
+  document.getElementById('rd-base').value=baseNorm;
+  document.getElementById('rd-finale').value='';
+  renderRicettaNorm();
+  renderProcedimentoScaled(r);
+  renderTrattamento(r);
+  // reset expanders: ricetta aperta, altri chiusi
+  ['rd-exp-ric','rd-exp-proc','rd-exp-tratt'].forEach((id,k)=>{
+    const b=document.getElementById(id),a=document.getElementById(id+'-arrow');
+    if(k===0){b.classList.add('open');a&&a.classList.add('open');}else{b.classList.remove('open');a&&a.classList.remove('open');}
+  });
+  openSheet('sh-ricetta-detail');
+}
+
+function renderRicettaNorm(){
+  const el=document.getElementById('rd-ing-list');
+  const base=parseFloat(document.getElementById('rd-base').value)||rdState.base;
+  // fattore = base scelta / grammi del principale
+  const fattore = rdState.principaleG>0 ? base/rdState.principaleG : 1;
+  el.innerHTML=rdState.ings.map(x=>{
+    if(x.qb){return `<div class="rnorm-row"><span class="rnorm-name">${x.emoji} ${x.nome}</span><span class="rnorm-qty" style="color:var(--orange);cursor:default">q.b.</span></div>`;}
+    const q=Math.round(x.g*fattore*10)/10;
+    const isPrinc = x.g===rdState.principaleG;
+    return `<div class="rnorm-row"><span class="rnorm-name">${x.emoji} ${x.nome}</span><span class="rnorm-qty ${isPrinc?'editable':''}" ${isPrinc?'onclick="editBaseQty()"':''}>${q} g${isPrinc?' ✎':''}</span></div>`;
+  }).join('');
+  // peso totale
+  const tot=rdState.ings.reduce((a,x)=>a+(x.qb?0:x.g*fattore),0);
+  el.innerHTML+=`<div class="rnorm-row" style="border-top:1px solid var(--border-light);border-bottom:none;margin-top:3px"><span class="rnorm-name" style="font-family:Cinzel;font-size:0.7188rem;letter-spacing:1px;color:var(--text-dim)">PESO TOTALE</span><span class="rnorm-qty" style="color:var(--teal)">${Math.round(tot)} g</span></div>`;
+}
+
+function editBaseQty(){
+  const el=document.getElementById('rd-base');
+  el.focus();el.select();
+}
+
+function recalcRicetta(){
+  document.getElementById('rd-finale').value='';
+  renderRicettaNorm();
+  // ri-scala anche il procedimento
+  if(rdState.ricIdx>=0)renderProcedimentoScaled(SH.ricette[rdState.ricIdx]);
+}
+
+function recalcRicettaFromFinale(){
+  const finale=parseFloat(document.getElementById('rd-finale').value);
+  if(!finale||finale<=0){renderRicettaNorm();return;}
+  // somma grammi originali (no qb)
+  const totOrig=rdState.ings.reduce((a,x)=>a+(x.qb?0:x.g),0);
+  if(totOrig<=0)return;
+  // fattore tale che peso totale = finale → base = principaleG * (finale/totOrig)
+  const nuovaBase=rdState.principaleG*(finale/totOrig);
+  document.getElementById('rd-base').value=Math.round(nuovaBase*10)/10;
+  renderRicettaNorm();
+  if(rdState.ricIdx>=0)renderProcedimentoScaled(SH.ricette[rdState.ricIdx]);
+}
+
+function renderProcedimentoScaled(r){
+  const el=document.getElementById('rd-proc-list');
+  const procs=r.procs||[];
+  if(!procs.length){el.innerHTML='<div style="font-size:0.7875rem;color:var(--text-dim);font-style:italic">Nessun procedimento collegato</div>';return;}
+  let out='';
+  procs.forEach(pr=>{
+    const proc=(SH.procedimenti||[]).find(x=>x.id===pr.ref);
+    if(!proc)return;
+    out+=`<div style="font-family:'Cinzel',serif;font-size:0.7875rem;color:var(--purple);letter-spacing:1px;margin:6px 0 4px">${proc.emoji||'🔗'} ${proc.nome}</div>`;
+    (proc.steps||[]).forEach((s,si)=>{
+      const isAtomic=!s.verboRef.startsWith('proc:');
+      const verbIdx=isAtomic?SH.verbi.findIndex(v=>v.id===s.verboRef):-1;
+      const pv=(s.paramVals||[]).filter(p=>p.val).map(p=>`${p.haccp?'🌡️':''}${p.nome}: ${p.val}`).join(' · ');
+      out+=`<div class="act-card">
+        <div class="act-head">
+          <span style="font-size:1.075rem">${s.verboEmoji||'⚡'}</span>
+          <span class="act-verb">${s.verboNome}${s.oggettoNome?' <span style="color:var(--gold)">'+s.oggettoNome+'</span>':''}</span>
+          ${isAtomic&&verbIdx>=0?`<span class="act-atomic" onclick="openVerboDetail(${verbIdx})">cos'è?</span>`:''}
+        </div>
+        ${pv?`<div class="act-params">${pv}</div>`:''}
+      </div>`;
+    });
+  });
+  el.innerHTML=out;
+}
+
+function renderTrattamento(r){
+  const el=document.getElementById('rd-tratt-body');
+  // il trattamento vive sul semilavorato prodotto
+  const prodNome=r.produce;
+  const semi=prodNome?SH.items.find(it=>it.kind==='semilavorato'&&it.nome===prodNome):null;
+  if(semi){
+    const loc=locLabel(semi);
+    el.innerHTML=`
+      <div class="det-stat"><span class="det-stat-lbl">Semilavorato</span><span class="det-stat-val">${semi.emoji||'🧪'} ${semi.nome}</span></div>
+      <div class="det-stat"><span class="det-stat-lbl">Dove riporre</span><span class="det-stat-val" style="color:var(--teal)">${loc||'non assegnato'}</span></div>
+      ${semi.note?`<div class="det-stat"><span class="det-stat-lbl">Note</span><span class="det-stat-val">${semi.note}</span></div>`:''}
+    `;
+  }else if(prodNome){
+    el.innerHTML=`<div style="font-size:0.7875rem;color:var(--text-dim);font-style:italic">Produce "${prodNome}" — crea il semilavorato corrispondente in Holders per definirne luogo e conservazione.</div>`;
+  }else{
+    el.innerHTML='<div style="font-size:0.7875rem;color:var(--text-dim);font-style:italic">Questa ricetta non specifica un semilavorato prodotto.</div>';
+  }
 }
 
 function todayStr(){return new Date().toISOString().slice(0,10);}
@@ -2656,23 +3250,23 @@ function renderFishLog(){
     let tempi='';
     if(f.tsAbbattInizio){
       const dIn=new Date(f.tsAbbattInizio);
-      tempi+=`<div style="font-size:10px;color:var(--text-dim);margin-top:3px;font-family:'Cinzel',serif">❄️ Abbatt. iniziato ${dIn.toTimeString().slice(0,5)}</div>`;
+      tempi+=`<div style="font-size:0.7188rem;color:var(--text-dim);margin-top:3px;font-family:'Cinzel',serif">❄️ Abbatt. iniziato ${dIn.toTimeString().slice(0,5)}</div>`;
     }
     if(f.ora20){
-      tempi+=`<div style="font-size:10px;color:var(--teal);margin-top:2px;font-family:'Cinzel',serif">🌡️ -20°C alle ${f.ora20}${liveP?' · '+liveP+'h'+(f.stato==='abbattuto'?' (in corso)':''):''}</div>`;
+      tempi+=`<div style="font-size:0.7188rem;color:var(--teal);margin-top:2px;font-family:'Cinzel',serif">🌡️ -20°C alle ${f.ora20}${liveP?' · '+liveP+'h'+(f.stato==='abbattuto'?' (in corso)':''):''}</div>`;
     }
     return `<div class="card" style="margin-bottom:5px;padding:9px 11px">
       <div style="display:flex;align-items:flex-start;gap:8px">
-        <div style="font-size:18px">🐟</div>
+        <div style="font-size:1.2937rem">🐟</div>
         <div style="flex:1;min-width:0">
           <div style="display:flex;align-items:center;gap:6px">
-            <span style="font-family:'Cinzel',serif;font-size:13px;color:var(--text);letter-spacing:0.5px">${f.pesce}</span>
+            <span style="font-family:'Cinzel',serif;font-size:0.9313rem;color:var(--text);letter-spacing:0.5px">${f.pesce}</span>
             <span class="badge ${st.badge}">${st.lbl}</span>
           </div>
-          <div style="font-size:10px;color:var(--text-dim);margin-top:2px;font-family:'Cinzel',serif">${f.data}${f.ora?' · '+f.ora:''}</div>
-          ${(f.fornitore||f.fattura)?`<div style="font-size:11px;color:var(--text-mid);margin-top:2px">📦 ${[f.fornitore,f.fattura].filter(Boolean).join(' · ')}</div>`:''}
+          <div style="font-size:0.7188rem;color:var(--text-dim);margin-top:2px;font-family:'Cinzel',serif">${f.data}${f.ora?' · '+f.ora:''}</div>
+          ${(f.fornitore||f.fattura)?`<div style="font-size:0.7875rem;color:var(--text-mid);margin-top:2px">📦 ${[f.fornitore,f.fattura].filter(Boolean).join(' · ')}</div>`:''}
           ${tempi}
-          <div style="font-size:10px;color:var(--text-dim);margin-top:3px;font-style:italic">✍️ ${f.firma}</div>
+          <div style="font-size:0.7188rem;color:var(--text-dim);margin-top:3px;font-style:italic">✍️ ${f.firma}</div>
           ${actions}
         </div>
         <button class="btn-icon" onclick="delFishLog(${f.id})">🗑</button>
@@ -2734,7 +3328,7 @@ function applySeed(seed){
     changes.push(newTools.length+' utensili');
   }
   if(Array.isArray(seed.ricette)){
-    SH.ricette=seed.ricette.map(r=>({nome:r.nome||'',cat:r.cat||'Altro',diff:String(r.diff||1),ing:r.ing||'',note:r.note||''}));
+    SH.ricette=seed.ricette.map(r=>({id:r.id||('ric-'+Date.now()+Math.random().toString(36).slice(2,6)),nome:r.nome||'',emoji:r.emoji||'📖',cat:r.cat||'Altro',diff:String(r.diff||1),produce:r.produce||'',procs:r.procs||[],ings:r.ings||[],ing:r.ing||'',note:r.note||''}));
     // sync venditeConfig for both users
     SH.ricette.forEach(r=>{
       [0,1].forEach(i=>{
@@ -2761,7 +3355,7 @@ function applySeed(seed){
     changes.push(SH.procedimenti.length+' procedimenti');
   }
   if(Array.isArray(seed.items)&&seed.items.length){
-    const mapped=seed.items.map(it=>({id:it.id||('it-'+Date.now()+Math.random().toString(36).slice(2,6)),kind:it.kind||'ingrediente',nome:it.nome||'',qty:String(it.qty||'0'),unit:it.unit||'pz',min:String(it.min||'0'),emoji:it.emoji||'📦',tara:it.tara||'',taraUnit:it.taraUnit||'g',note:it.note||'',contId:it.contId||null,ripIdx:it.ripIdx!=null?it.ripIdx:null,vascaIdx:it.vascaIdx!=null?it.vascaIdx:null,prezzo:it.prezzo!=null?String(it.prezzo):'',prezzoMode:it.prezzoMode||'unitario',prezzoUnit:it.prezzoUnit||'kg',pesoBlocco:it.pesoBlocco!=null?String(it.pesoBlocco):'',pesoBloccoUnit:it.pesoBloccoUnit||'kg',scarto:it.scarto!=null?String(it.scarto):'0'}));
+    const mapped=seed.items.map(it=>({id:it.id||('it-'+Date.now()+Math.random().toString(36).slice(2,6)),kind:it.kind||'ingrediente',nome:it.nome||'',qty:String(it.qty||'0'),unit:it.unit||'pz',min:String(it.min||'0'),emoji:it.emoji||'📦',tara:it.tara||'',taraUnit:it.taraUnit||'g',note:it.note||'',contId:it.contId||null,ripIdx:it.ripIdx!=null?it.ripIdx:null,vascaIdx:it.vascaIdx!=null?it.vascaIdx:null,prezzo:it.prezzo!=null?String(it.prezzo):'',prezzoMode:it.prezzoMode||'unitario',prezzoUnit:it.prezzoUnit||'kg',pesoBlocco:it.pesoBlocco!=null?String(it.pesoBlocco):'',pesoBloccoUnit:it.pesoBloccoUnit||'kg',scarto:it.scarto!=null?String(it.scarto):'0',isPesce:!!it.isPesce}));
     // tieni gli utensili già importati da seed.utensili, sostituisci/aggiungi il resto
     const toolsFromSeedItems=mapped.filter(it=>it.kind==='utensile');
     if(toolsFromSeedItems.length){
