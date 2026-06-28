@@ -670,23 +670,32 @@ textarea.form-inp{resize:vertical}
 <!-- SCHEDULER -->
 <div class="view" id="view-scheduler">
   <div class="scroll">
-    <div class="sec-head">📅 Settimana</div>
-    <div class="week-row" id="week-row"></div>
-    <div class="sec-head">✅ Task Giornalieri</div>
+    <div class="sec-head">📋 To-Do — Da Rifare</div>
+    <div class="sec-sub">Semilavorati sotto soglia, ordinati per urgenza. Tocca una riga per la ricetta.</div>
+    <div id="todo-rifare-list" style="margin-top:6px"></div>
+
+    <div class="sec-head" style="margin-top:10px">✅ Task Giornalieri</div>
     <div class="card">
       <div id="daily-tasks-list"></div>
       <button class="btn btn-gold" onclick="openSheet('sh-task')" style="width:100%;margin-top:7px">+ Task</button>
     </div>
-    <div class="sec-head" style="margin-top:5px">🔄 Da Rifare</div>
-    <div id="da-rifare-list"></div>
-    <button class="btn btn-gold" onclick="openSheet('sh-rifare')" style="width:100%">+ Aggiungi</button>
-    <div class="sec-head" style="margin-top:5px">🛒 Da Riordinare</div>
-    <div id="da-riordinare-list"></div>
-    <div class="sec-head" style="margin-top:5px">📝 Firma Presenza</div>
+
+    <div class="sec-head" style="margin-top:10px">📝 Firma Presenza</div>
     <div class="card">
       <button class="btn-main" id="btn-firma" onclick="firmaPresenza()">⏰ Firma Presenza (+30 XP)</button>
       <div id="firma-status" style="font-size:0.7188rem;color:var(--text-dim);text-align:center;margin-top:5px"></div>
     </div>
+  </div>
+</div>
+
+<!-- SPESA -->
+<div class="view" id="view-spesa">
+  <div class="scroll">
+    <div class="sec-head">🛒 Spesa</div>
+    <div class="sec-sub">Cosa serve comprare, ordinato per urgenza. Tocca una riga per vedere a cosa serve.</div>
+    <div id="spesa-filt-forn" class="subtab-row" style="margin:8px 0 4px;flex-wrap:wrap"></div>
+    <div id="spesa-filt-macro" class="subtab-row" style="margin:0 0 8px;flex-wrap:wrap"></div>
+    <div id="spesa-list"></div>
   </div>
 </div>
 
@@ -745,6 +754,7 @@ textarea.form-inp{resize:vertical}
     <div class="sec-head">📋 Menu — Piatti</div>
     <div class="sec-sub">Ogni piatto ha una distinta base che si scala dalle scorte di servizio quando lo vendi</div>
     <button class="btn btn-gold" onclick="openAddPiatto()" style="width:100%">+ Nuovo Piatto</button>
+    <button class="btn btn-teal" id="menu-nostri-btn" onclick="toggleMenuNostri()" style="width:100%;margin-top:6px">👥 Solo i nostri</button>
     <div id="menu-piatti-list" style="margin-top:6px"></div>
   </div>
 </div>
@@ -838,7 +848,8 @@ textarea.form-inp{resize:vertical}
 <!-- NAV -->
 <div class="nav">
   <button class="nav-btn active" onclick="showView('holders')" id="nav-holders"><span class="nav-icon">🗃️</span>Holders</button>
-  <button class="nav-btn" onclick="showView('scheduler')" id="nav-scheduler"><span class="nav-icon">📅</span>Sched.</button>
+  <button class="nav-btn" onclick="showView('scheduler')" id="nav-scheduler"><span class="nav-icon">📋</span>To-Do</button>
+  <button class="nav-btn" onclick="showView('spesa')" id="nav-spesa"><span class="nav-icon">🛒</span>Spesa</button>
   <button class="nav-btn" onclick="showView('menu')" id="nav-menu"><span class="nav-icon">📋</span>Menu</button>
   <button class="nav-btn" onclick="showView('info')" id="nav-info"><span class="nav-icon">❓</span>Info</button>
 </div>
@@ -969,6 +980,11 @@ textarea.form-inp{resize:vertical}
         </div>
         <div class="form-group" style="margin-bottom:6px"><label class="form-label">% Scarto (bucce, lische)</label><input class="form-inp" id="ai-scarto" oninput="updateAiPrezzoPreview()" onchange="updateAiPrezzoPreview()" type="number" step="1" min="0" max="95" placeholder="0"></div>
         <div id="ai-prezzo-preview" style="background:var(--surface3);border:1px solid var(--border);border-radius:3px;padding:6px 9px;font-size:0.66rem;color:var(--text-dim);text-align:center"></div>
+        <div class="form-row" style="margin-top:7px">
+          <div class="form-group" style="margin-bottom:0;flex:2"><label class="form-label">📦 Formato d'acquisto (contenuto/confezione)</label><input class="form-inp" id="ai-formatoacq" type="number" step="0.01" min="0" placeholder="es. 0.5"></div>
+          <div class="form-group" style="margin-bottom:0;flex:1"><label class="form-label">un.</label><select class="form-inp" id="ai-formatoacqunit"><option>g</option><option>kg</option><option>ml</option><option>L</option><option>pz</option></select></div>
+        </div>
+        <div style="font-size:0.62rem;color:var(--text-dim);margin-top:3px">Quanto contiene una confezione: serve a calcolare quante confezioni comprare.</div>
       </div>
 
       <!-- Soglia + alert ricorrente -->
@@ -1301,6 +1317,10 @@ textarea.form-inp{resize:vertical}
       <div class="form-group"><label class="form-label">Prezzo €</label><input class="form-inp" id="pi-prezzo" type="number" step="0.5" min="0" placeholder="12"></div>
     </div>
     <div class="form-group"><label class="form-label">Emoji</label><input class="form-inp" id="pi-emoji" placeholder="🍝" maxlength="4"></div>
+    <div class="form-group" style="display:flex;align-items:center;justify-content:space-between;background:var(--surface2);border:1px solid var(--border);border-radius:4px;padding:9px 11px">
+      <label class="form-label" style="margin:0">👥 A carico nostro (Chef A+B)</label>
+      <input type="checkbox" id="pi-nostro" style="width:20px;height:20px;accent-color:var(--gold)">
+    </div>
 
     <div class="cascata-step">
       <label class="cascata-label">🧾 Distinta Base (cosa consuma)</label>
@@ -1608,6 +1628,12 @@ textarea.form-inp{resize:vertical}
     </div>
     <div id="sl-scad-hint" style="font-size:0.66rem;color:var(--text-dim);margin:-2px 0 6px"></div>
 
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Resa (porzioni per produzione)</label><input class="form-inp" id="sl-resa" type="number" step="1" min="0" placeholder="es. 20"></div>
+      <div class="form-group"><label class="form-label">Soglia min. (porzioni)</label><input class="form-inp" id="sl-sogliaporz" type="number" step="1" min="0" placeholder="es. 5"></div>
+    </div>
+    <div style="font-size:0.66rem;color:var(--text-dim);margin:-2px 0 8px">Quante porzioni ottieni quando lo rifai, e sotto quante porzioni va rifatto. Si riempirà con le ricette.</div>
+
     <!-- SEZIONE INGREDIENTI -->
     <div class="exp-row">
       <div class="exp-head" onclick="toggleExp('sl-exp-ing')">
@@ -1663,7 +1689,8 @@ function defU(i){
 function defSH(){
   return{ricette:[],items:[],contenitori:[],piatti:[],verbi:[],procedimenti:[],fornitori:[],specie:[],
     pesciTypes:['Branzino','Orata','Merluzzo','Salmone','Tonno','Spigola','Sogliola','Rombo','Gambero','Scampo','Cozze','Vongole','Polpo','Calamaro','Seppia','Acciuga','Sgombro','Ricciola','Pesce spada','Triglia'],
-    fishLog:[]
+    fishLog:[],
+    config:{margineAcquisto:15}
   };
 }
 
@@ -1778,7 +1805,16 @@ function piattoFoodCost(piatto){
 
 function getLevelInfo(xp){let c=LEVELS[0],n=LEVELS[1];for(let i=0;i<LEVELS.length;i++){if(xp>=LEVELS[i].xp){c=LEVELS[i];n=LEVELS[i+1]||null;}}return{cur:c,next:n};}
 function loadU(i){try{return JSON.parse(localStorage.getItem(UKEYS[i]))||defU(i);}catch{return defU(i);}}
-function loadSH(){try{return JSON.parse(localStorage.getItem(SKEY))||defSH();}catch{return defSH();}}
+function loadSH(){let sh;try{sh=JSON.parse(localStorage.getItem(SKEY))||defSH();}catch{sh=defSH();}
+  if(!sh.config)sh.config={margineAcquisto:15};
+  if(sh.config.margineAcquisto==null)sh.config.margineAcquisto=15;
+  // migrazione campi nuovi su items/piatti esistenti
+  (sh.items||[]).forEach(it=>{
+    if(it.kind==='ingrediente'){ if(it.formatoAcq==null)it.formatoAcq=''; if(it.formatoAcqUnit==null)it.formatoAcqUnit=it.unit||'g'; }
+    if(it.kind==='semilavorato'){ if(it.resa==null)it.resa=''; if(it.resaUnit==null)it.resaUnit='porz'; if(it.sogliaPorz==null)it.sogliaPorz=''; }
+  });
+  (sh.piatti||[]).forEach(p=>{ if(p.nostro==null)p.nostro=false; });
+  return sh;}
 // Semina la libreria verbi di default se SH.verbi è vuoto (resta poi modificabile).
 function seedSpecieDefault(){
   // se esistono già specie: migro quelle senza "parti" al nuovo modello
@@ -1833,19 +1869,39 @@ function seedVerbiDefault(){
 function seedTestItems(){
   const hasIng = (SH.items||[]).some(it=>it.kind==='ingrediente');
   if(hasIng) return;
+  // LIVELLO 1+2: ingredienti e semilavorati (id preassegnati dal seed → le bom dei piatti vi puntano)
   (SEED_TEST.items||[]).forEach(s=>{
-    SH.items.push({
-      id:'it-'+Date.now().toString(36)+Math.random().toString(36).slice(2,6),
-      kind:'ingrediente', nome:s.nome, emoji:s.emoji||'🥕',
-      qty:'0', unit:s.unit||'g', min:'0',
-      contId:null, ripIdx:null, vascaIdx:null,
-      prezzo:s.prezzo||'', prezzoMode:'unitario', prezzoUnit:(s.unit==='ml'||s.unit==='L')?'L':(s.unit==='pz'?'pz':'kg'),
-      pesoBlocco:'', pesoBloccoUnit:'kg', scarto:'0',
-      isPesce:!!s.isPesce, pesceCat:s.pesceCat||'', macro:s.macro||'', stato:s.stato||'Solido', scadGiorni:String(scadenzaBaseMacro(s.macro||'', !!s.isPesce)), conservazione:(s.isPesce?'Frigo':'Frigo'), dove:doveDefaultMacro(s.macro||'', !!s.isPesce), categorie:[], nascosto:false,
-      note:'', fornitore:'', tara:'', taraUnit:'g',
-      alertRicorrente:false, slCat:'', slFormato:'', slIngs:[], slSteps:[]
-    });
+    if(s.kind==='semilavorato'){
+      SH.items.push({
+        id:s.id, kind:'semilavorato', nome:s.nome, emoji:s.emoji||'🧪',
+        qty:'0', unit:s.unit||'g', min:'0',
+        contId:null, ripIdx:null, vascaIdx:null,
+        categorie:Array.isArray(s.categorie)?s.categorie:[], nascosto:false,
+        note:'', fornitore:'', alertRicorrente:false,
+        slCat:s.slCat||'', slFormato:s.slFormato||'', slIngs:s.slIngs||[], slSteps:s.slSteps||[]
+      });
+    }else{
+      SH.items.push({
+        id:s.id, kind:'ingrediente', nome:s.nome, emoji:s.emoji||'🥕',
+        qty:'0', unit:s.unit||'g', min:'0',
+        contId:null, ripIdx:null, vascaIdx:null,
+        prezzo:s.prezzo||'', prezzoMode:'unitario', prezzoUnit:(s.unit==='ml'||s.unit==='L')?'L':(s.unit==='pz'?'pz':'kg'),
+        pesoBlocco:'', pesoBloccoUnit:'kg', scarto:'0',
+        isPesce:!!s.isPesce, pesceCat:s.pesceCat||'', macro:s.macro||'', stato:s.stato||'Solido', scadGiorni:String(scadenzaBaseMacro(s.macro||'', !!s.isPesce)), conservazione:'Frigo', dove:doveDefaultMacro(s.macro||'', !!s.isPesce), categorie:Array.isArray(s.categorie)?s.categorie:[], nascosto:false,
+        note:'', fornitore:'', tara:'', taraUnit:'g',
+        alertRicorrente:false, slCat:'', slFormato:'', slIngs:[], slSteps:[]
+      });
+    }
   });
+  // LIVELLO 3: piatti con distinta base (bom)
+  if(Array.isArray(SEED_TEST.piatti) && (!SH.piatti||!SH.piatti.length)){
+    SH.piatti = SEED_TEST.piatti.map(p=>({
+      id:p.id, nome:p.nome, cat:p.cat||'Altro', prezzo:String(p.prezzo||''), emoji:p.emoji||'🍽️',
+      bom:(p.bom||[]).map(c=>({itemId:c.itemId||null, nomeCache:c.nomeCache||'', qty:String(c.qty||'0'), unit:c.unit||'qb'}))
+    }));
+    // sync venditeConfig per entrambi gli utenti
+    SH.piatti.forEach(p=>{[0,1].forEach(ui=>{const u=loadU(ui);if(!u.venditeConfig.find(v=>v.nome===p.nome)){u.venditeConfig.push({nome:p.nome,emoji:p.emoji,count:0,piattoId:p.id});localStorage.setItem(UKEYS[ui],JSON.stringify(u));}});if(S&&!S.venditeConfig.find(v=>v.nome===p.nome))S.venditeConfig.push({nome:p.nome,emoji:p.emoji,count:0,piattoId:p.id});});
+  }
   saveSH();
 }
 function saveU(){localStorage.setItem(UKEYS[cu],JSON.stringify(S));}
@@ -1945,7 +2001,7 @@ function drawerGo(name){
   showView(name);
 }
 
-function showView(name){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));document.getElementById('view-'+name)?.classList.add('active');document.getElementById('nav-'+name)?.classList.add('active');if(name==='tracker')renderTracker();if(name==='scheduler')renderScheduler();if(name==='avatar')renderAvatar();if(name==='holders')renderHolders();if(name==='info')renderInfo();if(name==='menu')renderMenu();}
+function showView(name){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));document.getElementById('view-'+name)?.classList.add('active');document.getElementById('nav-'+name)?.classList.add('active');if(name==='tracker')renderTracker();if(name==='scheduler')renderScheduler();if(name==='spesa')renderSpesa();if(name==='avatar')renderAvatar();if(name==='holders')renderHolders();if(name==='info')renderInfo();if(name==='menu')renderMenu();}
 function showInfoTab(t){
   ['cibo','attr','prezzi','luoghi'].forEach(k=>{
     var el=document.getElementById('info-'+k); if(el) el.style.display=t===k?'':'none';
@@ -2564,7 +2620,7 @@ const MATRICE_VERBI={"Sfilettare": {"Salsa": "NO", "Crema": "NO", "Impasto": "NO
 const MATRICE_INGR={"Pesce": {"Salsa": "FORSE", "Crema": "NO", "Impasto": "NO", "Semifreddo/Torta": "NO", "Crudo di pesce": "SI", "Sugo": "SI", "Base sifone": "FORSE", "Base dolce": "NO", "Brodo/Fondo": "SI", "Verdura lavorata": "NO", "Guarnizione": "FORSE", "Marinatura/Salamoia": "SI", "Gelato/Sorbetto": "NO", "Conserva/Sottovuoto": "SI"}, "Frutta e Verdura": {"Salsa": "SI", "Crema": "FORSE", "Impasto": "NO", "Semifreddo/Torta": "SI", "Crudo di pesce": "NO", "Sugo": "SI", "Base sifone": "SI", "Base dolce": "SI", "Brodo/Fondo": "SI", "Verdura lavorata": "SI", "Guarnizione": "SI", "Marinatura/Salamoia": "FORSE", "Gelato/Sorbetto": "SI", "Conserva/Sottovuoto": "SI"}, "Carne": {"Salsa": "FORSE", "Crema": "NO", "Impasto": "NO", "Semifreddo/Torta": "NO", "Crudo di pesce": "FORSE", "Sugo": "SI", "Base sifone": "NO", "Base dolce": "NO", "Brodo/Fondo": "SI", "Verdura lavorata": "NO", "Guarnizione": "FORSE", "Marinatura/Salamoia": "FORSE", "Gelato/Sorbetto": "NO", "Conserva/Sottovuoto": "FORSE"}, "Latticini e Uova": {"Salsa": "SI", "Crema": "SI", "Impasto": "SI", "Semifreddo/Torta": "SI", "Crudo di pesce": "NO", "Sugo": "SI", "Base sifone": "SI", "Base dolce": "SI", "Brodo/Fondo": "FORSE", "Verdura lavorata": "FORSE", "Guarnizione": "FORSE", "Marinatura/Salamoia": "NO", "Gelato/Sorbetto": "SI", "Conserva/Sottovuoto": "NO"}, "Farine": {"Salsa": "FORSE", "Crema": "FORSE", "Impasto": "SI", "Semifreddo/Torta": "SI", "Crudo di pesce": "NO", "Sugo": "NO", "Base sifone": "FORSE", "Base dolce": "SI", "Brodo/Fondo": "NO", "Verdura lavorata": "FORSE", "Guarnizione": "FORSE", "Marinatura/Salamoia": "NO", "Gelato/Sorbetto": "FORSE", "Conserva/Sottovuoto": "NO"}, "Condimenti": {"Salsa": "SI", "Crema": "FORSE", "Impasto": "FORSE", "Semifreddo/Torta": "FORSE", "Crudo di pesce": "SI", "Sugo": "SI", "Base sifone": "FORSE", "Base dolce": "FORSE", "Brodo/Fondo": "SI", "Verdura lavorata": "SI", "Guarnizione": "FORSE", "Marinatura/Salamoia": "SI", "Gelato/Sorbetto": "FORSE", "Conserva/Sottovuoto": "SI"}, "Confezionati": {"Salsa": "FORSE", "Crema": "FORSE", "Impasto": "FORSE", "Semifreddo/Torta": "FORSE", "Crudo di pesce": "FORSE", "Sugo": "FORSE", "Base sifone": "FORSE", "Base dolce": "FORSE", "Brodo/Fondo": "FORSE", "Verdura lavorata": "FORSE", "Guarnizione": "FORSE", "Marinatura/Salamoia": "FORSE", "Gelato/Sorbetto": "FORSE", "Conserva/Sottovuoto": "FORSE"}, "Chimici e Additivi": {"Salsa": "FORSE", "Crema": "FORSE", "Impasto": "FORSE", "Semifreddo/Torta": "FORSE", "Crudo di pesce": "NO", "Sugo": "FORSE", "Base sifone": "SI", "Base dolce": "FORSE", "Brodo/Fondo": "FORSE", "Verdura lavorata": "FORSE", "Guarnizione": "FORSE", "Marinatura/Salamoia": "NO", "Gelato/Sorbetto": "FORSE", "Conserva/Sottovuoto": "FORSE"}, "Pasta": {"Salsa": "NO", "Crema": "NO", "Impasto": "NO", "Semifreddo/Torta": "NO", "Crudo di pesce": "NO", "Sugo": "FORSE", "Base sifone": "NO", "Base dolce": "NO", "Brodo/Fondo": "NO", "Verdura lavorata": "NO", "Guarnizione": "NO", "Marinatura/Salamoia": "NO", "Gelato/Sorbetto": "NO", "Conserva/Sottovuoto": "NO"}};
 const CLASSE_EMOJI={"Salsa": "🥫", "Crema": "🍮", "Impasto": "🍞", "Semifreddo/Torta": "🍰", "Crudo di pesce": "🐟", "Sugo": "🍅", "Base sifone": "💨", "Base dolce": "🍯", "Brodo/Fondo": "🍲", "Verdura lavorata": "🥦", "Guarnizione": "🌿", "Marinatura/Salamoia": "🧂", "Gelato/Sorbetto": "🍨", "Conserva/Sottovuoto": "📦"};
 // ════ SEED DI TEST (ingredienti + pesci) — caricato se magazzino vuoto ════
-const SEED_TEST={"items": [{"nome": "Pomodoro ramato", "emoji": "🍅", "macro": "Frutta e Verdura", "unit": "g", "prezzo": "2.5", "isPesce": false, "stato": "Solido"}, {"nome": "Cipolla dorata", "emoji": "🧅", "macro": "Frutta e Verdura", "unit": "g", "prezzo": "1.2", "isPesce": false, "stato": "Solido"}, {"nome": "Carota", "emoji": "🥕", "macro": "Frutta e Verdura", "unit": "g", "prezzo": "1.0", "isPesce": false, "stato": "Solido"}, {"nome": "Sedano", "emoji": "🌿", "macro": "Frutta e Verdura", "unit": "g", "prezzo": "1.5", "isPesce": false, "stato": "Solido"}, {"nome": "Aglio", "emoji": "🧄", "macro": "Frutta e Verdura", "unit": "g", "prezzo": "4.0", "isPesce": false, "stato": "Solido"}, {"nome": "Basilico", "emoji": "🌿", "macro": "Frutta e Verdura", "unit": "g", "prezzo": "12.0", "isPesce": false, "stato": "Solido"}, {"nome": "Patata", "emoji": "🥔", "macro": "Frutta e Verdura", "unit": "g", "prezzo": "1.1", "isPesce": false, "stato": "Solido"}, {"nome": "Limone", "emoji": "🍋", "macro": "Frutta e Verdura", "unit": "g", "prezzo": "2.0", "isPesce": false, "stato": "Solido"}, {"nome": "Zucchina", "emoji": "🥒", "macro": "Frutta e Verdura", "unit": "g", "prezzo": "1.8", "isPesce": false, "stato": "Solido"}, {"nome": "Uova", "emoji": "🥚", "macro": "Latticini e Uova", "unit": "pz", "prezzo": "0.3", "isPesce": false, "stato": "Solido"}, {"nome": "Panna fresca", "emoji": "🥛", "macro": "Latticini e Uova", "unit": "ml", "prezzo": "3.5", "isPesce": false, "stato": "Liquido"}, {"nome": "Burro", "emoji": "🧈", "macro": "Latticini e Uova", "unit": "g", "prezzo": "8.0", "isPesce": false, "stato": "Solido"}, {"nome": "Parmigiano", "emoji": "🧀", "macro": "Latticini e Uova", "unit": "g", "prezzo": "22.0", "isPesce": false, "stato": "Solido"}, {"nome": "Latte", "emoji": "🥛", "macro": "Latticini e Uova", "unit": "ml", "prezzo": "1.2", "isPesce": false, "stato": "Liquido"}, {"nome": "Farina 00", "emoji": "🌾", "macro": "Farine", "unit": "g", "prezzo": "0.9", "isPesce": false, "stato": "Polvere"}, {"nome": "Farina di riso", "emoji": "🌾", "macro": "Farine", "unit": "g", "prezzo": "2.2", "isPesce": false, "stato": "Polvere"}, {"nome": "Semola rimacinata", "emoji": "🌾", "macro": "Farine", "unit": "g", "prezzo": "1.3", "isPesce": false, "stato": "Polvere"}, {"nome": "Zucchero", "emoji": "🍬", "macro": "Farine", "unit": "g", "prezzo": "1.0", "isPesce": false, "stato": "Polvere"}, {"nome": "Olio EVO", "emoji": "🫒", "macro": "Condimenti", "unit": "ml", "prezzo": "9.0", "isPesce": false, "stato": "Liquido"}, {"nome": "Sale fino", "emoji": "🧂", "macro": "Condimenti", "unit": "g", "prezzo": "0.5", "isPesce": false, "stato": "Polvere"}, {"nome": "Pepe nero", "emoji": "⚫", "macro": "Condimenti", "unit": "g", "prezzo": "30.0", "isPesce": false, "stato": "Polvere"}, {"nome": "Vino bianco", "emoji": "🍷", "macro": "Condimenti", "unit": "ml", "prezzo": "5.0", "isPesce": false, "stato": "Liquido"}, {"nome": "Aceto di vino", "emoji": "🍶", "macro": "Condimenti", "unit": "ml", "prezzo": "3.0", "isPesce": false, "stato": "Liquido"}, {"nome": "Zafferano", "emoji": "🌼", "macro": "Condimenti", "unit": "g", "prezzo": "200.0", "isPesce": false, "stato": "Polvere"}, {"nome": "Pomodori pelati", "emoji": "🥫", "macro": "Confezionati", "unit": "g", "prezzo": "1.5", "isPesce": false, "stato": "Solido"}, {"nome": "Brodo vegetale (dado)", "emoji": "🧊", "macro": "Confezionati", "unit": "g", "prezzo": "4.0", "isPesce": false, "stato": "Liquido"}, {"nome": "Agar agar", "emoji": "⚗️", "macro": "Chimici e Additivi", "unit": "g", "prezzo": "80.0", "isPesce": false, "stato": "Polvere"}, {"nome": "Lecitina di soia", "emoji": "⚗️", "macro": "Chimici e Additivi", "unit": "g", "prezzo": "40.0", "isPesce": false, "stato": "Polvere"}, {"nome": "Xantana", "emoji": "⚗️", "macro": "Chimici e Additivi", "unit": "g", "prezzo": "60.0", "isPesce": false, "stato": "Polvere"}, {"nome": "Spaghetti", "emoji": "🍝", "macro": "Pasta", "unit": "g", "prezzo": "1.5", "isPesce": false, "stato": "Solido"}, {"nome": "Branzino", "emoji": "🐟", "macro": "", "unit": "g", "prezzo": "18.0", "isPesce": true, "stato": "Solido", "pesceCat": "Pesci"}, {"nome": "Orata", "emoji": "🐟", "macro": "", "unit": "g", "prezzo": "16.0", "isPesce": true, "stato": "Solido", "pesceCat": "Pesci"}, {"nome": "Tonno", "emoji": "🐟", "macro": "", "unit": "g", "prezzo": "28.0", "isPesce": true, "stato": "Solido", "pesceCat": "Pesci"}, {"nome": "Salmone", "emoji": "🐟", "macro": "", "unit": "g", "prezzo": "22.0", "isPesce": true, "stato": "Solido", "pesceCat": "Pesci"}, {"nome": "Gambero rosso", "emoji": "🦐", "macro": "", "unit": "g", "prezzo": "45.0", "isPesce": true, "stato": "Solido", "pesceCat": "Crostacei"}, {"nome": "Scampo", "emoji": "🦞", "macro": "", "unit": "g", "prezzo": "38.0", "isPesce": true, "stato": "Solido", "pesceCat": "Crostacei"}, {"nome": "Cozze", "emoji": "🦪", "macro": "", "unit": "kg", "prezzo": "6.0", "isPesce": true, "stato": "Solido", "pesceCat": "Molluschi"}, {"nome": "Vongole", "emoji": "🐚", "macro": "", "unit": "kg", "prezzo": "14.0", "isPesce": true, "stato": "Solido", "pesceCat": "Molluschi"}, {"nome": "Polpo", "emoji": "🐙", "macro": "", "unit": "g", "prezzo": "20.0", "isPesce": true, "stato": "Solido", "pesceCat": "Molluschi"}, {"nome": "Seppia", "emoji": "🦑", "macro": "", "unit": "g", "prezzo": "15.0", "isPesce": true, "stato": "Solido", "pesceCat": "Molluschi"}]};
+const SEED_TEST={"items": [{"id": "it-7b50g5wllb", "kind": "ingrediente", "nome": "Ricciola", "emoji": "🐟", "qty": "0", "unit": "g", "min": "0", "macro": "", "stato": "Solido", "isPesce": true, "pesceCat": "Pesci", "prezzo": "", "categorie": []}, {"id": "it-ydpzgw7zqa", "kind": "ingrediente", "nome": "Branzino", "emoji": "🐟", "qty": "0", "unit": "g", "min": "0", "macro": "", "stato": "Solido", "isPesce": true, "pesceCat": "Pesci", "prezzo": "", "categorie": []}, {"id": "it-i2vvyjf80a", "kind": "ingrediente", "nome": "Tonno", "emoji": "🐟", "qty": "0", "unit": "g", "min": "0", "macro": "", "stato": "Solido", "isPesce": true, "pesceCat": "Pesci", "prezzo": "", "categorie": []}, {"id": "it-0usqky6muc", "kind": "ingrediente", "nome": "Palamita", "emoji": "🐟", "qty": "0", "unit": "g", "min": "0", "macro": "", "stato": "Solido", "isPesce": true, "pesceCat": "Pesci", "prezzo": "", "categorie": []}, {"id": "it-emo9lkd6nj", "kind": "ingrediente", "nome": "Sogliola", "emoji": "🐟", "qty": "0", "unit": "g", "min": "0", "macro": "", "stato": "Solido", "isPesce": true, "pesceCat": "Pesci", "prezzo": "", "categorie": []}, {"id": "it-5v2eb52glj", "kind": "ingrediente", "nome": "Canocchie", "emoji": "🦐", "qty": "0", "unit": "g", "min": "0", "macro": "", "stato": "Solido", "isPesce": true, "pesceCat": "Crostacei", "prezzo": "", "categorie": []}, {"id": "it-5w518ymj5d", "kind": "ingrediente", "nome": "Gamberi rossi", "emoji": "🦐", "qty": "0", "unit": "g", "min": "0", "macro": "", "stato": "Solido", "isPesce": true, "pesceCat": "Crostacei", "prezzo": "", "categorie": []}, {"id": "it-cjs7lnd3jg", "kind": "ingrediente", "nome": "Gamberi rosa", "emoji": "🦐", "qty": "0", "unit": "g", "min": "0", "macro": "", "stato": "Solido", "isPesce": true, "pesceCat": "Crostacei", "prezzo": "", "categorie": []}, {"id": "it-9diky0q3qz", "kind": "ingrediente", "nome": "Scampi", "emoji": "🦞", "qty": "0", "unit": "g", "min": "0", "macro": "", "stato": "Solido", "isPesce": true, "pesceCat": "Crostacei", "prezzo": "", "categorie": []}, {"id": "it-5d1ods8r98", "kind": "ingrediente", "nome": "Ostriche Tiamaràa", "emoji": "🦪", "qty": "0", "unit": "g", "min": "0", "macro": "", "stato": "Solido", "isPesce": true, "pesceCat": "Molluschi", "prezzo": "", "categorie": []}, {"id": "it-h3fd8pjvjd", "kind": "ingrediente", "nome": "Uova", "emoji": "🥚", "qty": "0", "unit": "pz", "min": "0", "macro": "Latticini e Uova", "stato": "Solido", "isPesce": false, "pesceCat": "", "prezzo": "", "categorie": []}, {"id": "it-n5nl9l0a7x", "kind": "ingrediente", "nome": "Panna fresca", "emoji": "🥛", "qty": "0", "unit": "ml", "min": "0", "macro": "Latticini e Uova", "stato": "Liquido", "isPesce": false, "pesceCat": "", "prezzo": "", "categorie": []}, {"id": "it-i6b0wc2b1t", "kind": "ingrediente", "nome": "Latte intero", "emoji": "🥛", "qty": "0", "unit": "ml", "min": "0", "macro": "Latticini e Uova", "stato": "Liquido", "isPesce": false, "pesceCat": "", "prezzo": "", "categorie": []}, {"id": "it-1dzfzsp5n4", "kind": "ingrediente", "nome": "Latte in polvere", "emoji": "🥛", "qty": "0", "unit": "g", "min": "0", "macro": "Latticini e Uova", "stato": "Polvere", "isPesce": false, "pesceCat": "", "prezzo": "", "categorie": []}, {"id": "it-j774vr87jc", "kind": "ingrediente", "nome": "Mascarpone", "emoji": "🧀", "qty": "0", "unit": "g", "min": "0", "macro": "Latticini e Uova", "stato": "Solido", "isPesce": false, "pesceCat": "", "prezzo": "", "categorie": []}, {"id": "it-onbd41lee1", "kind": "ingrediente", "nome": "Pecorino", "emoji": "🧀", "qty": "0", "unit": "g", "min": "0", "macro": "Latticini e Uova", "stato": "Solido", "isPesce": false, "pesceCat": "", "prezzo": "", "categorie": []}, {"id": "it-1batvddieq", "kind": "ingrediente", "nome": "Parmigiano", "emoji": "🧀", "qty": "0", "unit": "g", "min": "0", "macro": "Latticini e Uova", "stato": "Solido", "isPesce": false, "pesceCat": "", "prezzo": "", "categorie": []}, {"id": "it-7j85b6bcr3", "kind": "ingrediente", "nome": "Burro", "emoji": "🧈", "qty": "0", "unit": "g", "min": "0", "macro": "Latticini e Uova", "stato": "Solido", "isPesce": false, "pesceCat": "", "prezzo": "", "categorie": []}, {"id": "it-e446aqdgxd", "kind": "ingrediente", "nome": "Farina 00", "emoji": "🌾", "qty": "0", "unit": "g", "min": "0", "macro": "Farine", "stato": "Polvere", "isPesce": false, "pesceCat": "", "prezzo": "", "categorie": []}, {"id": "it-yo8brlqo3c", "kind": "ingrediente", "nome": "Farina per dolci", "emoji": "🌾", "qty": "0", "unit": "g", "min": "0", "macro": "Farine", "stato": "Polvere", "isPesce": false, "pesceCat": "", "prezzo": "", "categorie": []}, {"id": "it-5ptv9aelqu", "kind": "ingrediente", "nome": "Farina integrale", "emoji": "🌾", "qty": "0", "unit": "g", "min": "0", "macro": "Farine", "stato": "Polvere", "isPesce": false, "pesceCat": "", "prezzo": "", "categorie": []}, {"id": "it-njhe0qoyag", "kind": "ingrediente", "nome": "Farina tipo 1", "emoji": "🌾", "qty": "0", "unit": "g", "min": "0", "macro": "Farine", "stato": "Polvere", "isPesce": false, "pesceCat": "", "prezzo": "", "categorie": []}, {"id": "it-fx5xiprsdm", "kind": "ingrediente", "nome": "Semola", "emoji": "🌾", "qty": "0", "unit": "g", "min": "0", "macro": "Farine", "stato": "Polvere", "isPesce": false, "pesceCat": "", "prezzo": "", "categorie": []}, {"id": "it-8wta22eba9", "kind": "ingrediente", "nome": "Manitoba", "emoji": "🌾", "qty": "0", "unit": "g", "min": "0", "macro": "Farine", "stato": "Polvere", "isPesce": false, "pesceCat": "", "prezzo": "", "categorie": []}, {"id": "it-ovcb9ww350", "kind": "ingrediente", "nome": "Fecola di patate", "emoji": "🌾", "qty": "0", "unit": "g", "min": "0", "macro": "Farine", "stato": "Polvere", "isPesce": false, "pesceCat": "", "prezzo": "", "categorie": []}, {"id": "it-wsanj9wc0v", "kind": "ingrediente", "nome": "Zucchero semolato", "emoji": "🍬", "qty": "0", "unit": "g", "min": "0", "macro": "Farine", "stato": "Polvere", "isPesce": false, "pesceCat": "", "prezzo": "", "categorie": []}, {"id": "it-yx2cugou1x", "kind": "ingrediente", "nome": "Destrosio", "emoji": "🍬", "qty": "0", "unit": "g", "min": "0", "macro": "Farine", "stato": "Polvere", "isPesce": false, "pesceCat": "", "prezzo": "", "categorie": []}, {"id": "it-bjtv0kqzxi", "kind": "ingrediente", "nome": "Sciroppo di glucosio", "emoji": "🍯", "qty": "0", "unit": "g", "min": "0", "macro": "Farine", "stato": "Liquido", "isPesce": false, "pesceCat": "", "prezzo": "", "categorie": []}, {"id": "it-cz4s7zh1hf", "kind": "ingrediente", "nome": "Farina di semi di carrube", "emoji": "🌾", "qty": "0", "unit": "g", "min": "0", "macro": "Farine", "stato": "Polvere", "isPesce": false, "pesceCat": "", "prezzo": "", "categorie": []}, {"id": "it-cxlc3v1jdm", "kind": "ingrediente", "nome": "Albicocche fresche", "emoji": "🍑", "qty": "0", "unit": "g", "min": "0", "macro": "Frutta e Verdura", "stato": "Solido", "isPesce": false, "pesceCat": "", "prezzo": "", "categorie": []}, {"id": "it-cmzovjbbsv", "kind": "ingrediente", "nome": "Albicocche essiccate", "emoji": "🍑", "qty": "0", "unit": "g", "min": "0", "macro": "Frutta e Verdura", "stato": "Solido", "isPesce": false, "pesceCat": "", "prezzo": "", "categorie": []}, {"id": "it-r5hupqzc5l", "kind": "ingrediente", "nome": "Pesche dure", "emoji": "🍑", "qty": "0", "unit": "g", "min": "0", "macro": "Frutta e Verdura", "stato": "Solido", "isPesce": false, "pesceCat": "", "prezzo": "", "categorie": []}, {"id": "it-dcu0b66qt8", "kind": "ingrediente", "nome": "Pesche morbide", "emoji": "🍑", "qty": "0", "unit": "g", "min": "0", "macro": "Frutta e Verdura", "stato": "Solido", "isPesce": false, "pesceCat": "", "prezzo": "", "categorie": []}, {"id": "it-wodj0ps3hv", "kind": "ingrediente", "nome": "Lamponi", "emoji": "🫐", "qty": "0", "unit": "g", "min": "0", "macro": "Frutta e Verdura", "stato": "Solido", "isPesce": false, "pesceCat": "", "prezzo": "", "categorie": []}, {"id": "it-xjjahvj81v", "kind": "ingrediente", "nome": "Passion fruit", "emoji": "🥭", "qty": "0", "unit": "g", "min": "0", "macro": "Frutta e Verdura", "stato": "Solido", "isPesce": false, "pesceCat": "", "prezzo": "", "categorie": []}, {"id": "it-09mrmlhnt4", "kind": "ingrediente", "nome": "Limoni", "emoji": "🍋", "qty": "0", "unit": "g", "min": "0", "macro": "Frutta e Verdura", "stato": "Solido", "isPesce": false, "pesceCat": "", "prezzo": "", "categorie": []}, {"id": "it-numymrxwd0", "kind": "ingrediente", "nome": "Arance", "emoji": "🍊", "qty": "0", "unit": "g", "min": "0", "macro": "Frutta e Verdura", "stato": "Solido", "isPesce": false, "pesceCat": "", "prezzo": "", "categorie": []}, {"id": "it-ayx1v2ellq", "kind": "ingrediente", "nome": "Carote", "emoji": "🥕", "qty": "0", "unit": "g", "min": "0", "macro": "Frutta e Verdura", "stato": "Solido", "isPesce": false, "pesceCat": "", "prezzo": "", "categorie": []}, {"id": "it-beocuvyofb", "kind": "ingrediente", "nome": "Zenzero", "emoji": "🫚", "qty": "0", "unit": "g", "min": "0", "macro": "Frutta e Verdura", "stato": "Solido", "isPesce": false, "pesceCat": "", "prezzo": "", "categorie": []}, {"id": "it-vxxywtzoq8", "kind": "ingrediente", "nome": "Cipolla", "emoji": "🧅", "qty": "0", "unit": "g", "min": "0", "macro": "Frutta e Verdura", "stato": "Solido", "isPesce": false, "pesceCat": "", "prezzo": "", "categorie": []}, {"id": "it-8u8bv3raot", "kind": "ingrediente", "nome": "Patate", "emoji": "🥔", "qty": "0", "unit": "g", "min": "0", "macro": "Frutta e Verdura", "stato": "Solido", "isPesce": false, "pesceCat": "", "prezzo": "", "categorie": []}, {"id": "it-063pouc2h3", "kind": "ingrediente", "nome": "Zucchine", "emoji": "🥒", "qty": "0", "unit": "g", "min": "0", "macro": "Frutta e Verdura", "stato": "Solido", "isPesce": false, "pesceCat": "", "prezzo": "", "categorie": []}, {"id": "it-ro5c7xfzzk", "kind": "ingrediente", "nome": "Fiori di zucca", "emoji": "🌼", "qty": "0", "unit": "g", "min": "0", "macro": "Frutta e Verdura", "stato": "Solido", "isPesce": false, "pesceCat": "", "prezzo": "", "categorie": []}, {"id": "it-ck9s5lljrw", "kind": "ingrediente", "nome": "Daikon", "emoji": "🥬", "qty": "0", "unit": "g", "min": "0", "macro": "Frutta e Verdura", "stato": "Solido", "isPesce": false, "pesceCat": "", "prezzo": "", "categorie": []}, {"id": "it-9zpidxq54a", "kind": "ingrediente", "nome": "Pomodoro", "emoji": "🍅", "qty": "0", "unit": "g", "min": "0", "macro": "Frutta e Verdura", "stato": "Solido", "isPesce": false, "pesceCat": "", "prezzo": "", "categorie": []}, {"id": "it-3n490v9i9k", "kind": "ingrediente", "nome": "Erbe da decoro", "emoji": "🌿", "qty": "0", "unit": "g", "min": "0", "macro": "Frutta e Verdura", "stato": "Solido", "isPesce": false, "pesceCat": "", "prezzo": "", "categorie": []}, {"id": "it-jmcv5v8s68", "kind": "ingrediente", "nome": "Pistacchi", "emoji": "🥜", "qty": "0", "unit": "g", "min": "0", "macro": "Frutta e Verdura", "stato": "Solido", "isPesce": false, "pesceCat": "", "prezzo": "", "categorie": []}, {"id": "it-47tu1n9618", "kind": "ingrediente", "nome": "Crema di pistacchio", "emoji": "🥜", "qty": "0", "unit": "g", "min": "0", "macro": "Confezionati", "stato": "Liquido", "isPesce": false, "pesceCat": "", "prezzo": "", "categorie": []}, {"id": "it-sn0t73nd93", "kind": "ingrediente", "nome": "Nocciole", "emoji": "🌰", "qty": "0", "unit": "g", "min": "0", "macro": "Frutta e Verdura", "stato": "Solido", "isPesce": false, "pesceCat": "", "prezzo": "", "categorie": []}, {"id": "it-vlvu1jsbi6", "kind": "ingrediente", "nome": "Cioccolato fondente", "emoji": "🍫", "qty": "0", "unit": "g", "min": "0", "macro": "Confezionati", "stato": "Solido", "isPesce": false, "pesceCat": "", "prezzo": "", "categorie": []}, {"id": "it-33omexfz7m", "kind": "ingrediente", "nome": "Cioccolato al latte", "emoji": "🍫", "qty": "0", "unit": "g", "min": "0", "macro": "Confezionati", "stato": "Solido", "isPesce": false, "pesceCat": "", "prezzo": "", "categorie": []}, {"id": "it-0fjxwrktlz", "kind": "ingrediente", "nome": "Cioccolato bianco", "emoji": "🍫", "qty": "0", "unit": "g", "min": "0", "macro": "Confezionati", "stato": "Solido", "isPesce": false, "pesceCat": "", "prezzo": "", "categorie": []}, {"id": "it-u487bt06u5", "kind": "ingrediente", "nome": "Cacao", "emoji": "🍫", "qty": "0", "unit": "g", "min": "0", "macro": "Farine", "stato": "Polvere", "isPesce": false, "pesceCat": "", "prezzo": "", "categorie": []}, {"id": "it-8pwmzx4xd3", "kind": "ingrediente", "nome": "Caffè", "emoji": "☕", "qty": "0", "unit": "g", "min": "0", "macro": "Confezionati", "stato": "Polvere", "isPesce": false, "pesceCat": "", "prezzo": "", "categorie": []}, {"id": "it-w6zjgif4z1", "kind": "ingrediente", "nome": "Vaniglia", "emoji": "🌼", "qty": "0", "unit": "g", "min": "0", "macro": "Condimenti", "stato": "Solido", "isPesce": false, "pesceCat": "", "prezzo": "", "categorie": []}, {"id": "it-mrwjx0yu1m", "kind": "ingrediente", "nome": "Marsala", "emoji": "🍷", "qty": "0", "unit": "ml", "min": "0", "macro": "Condimenti", "stato": "Liquido", "isPesce": false, "pesceCat": "", "prezzo": "", "categorie": []}, {"id": "it-3m31rjlza8", "kind": "ingrediente", "nome": "Vino bianco", "emoji": "🍷", "qty": "0", "unit": "ml", "min": "0", "macro": "Condimenti", "stato": "Liquido", "isPesce": false, "pesceCat": "", "prezzo": "", "categorie": []}, {"id": "it-lrxfyl9q8f", "kind": "ingrediente", "nome": "Martini", "emoji": "🍸", "qty": "0", "unit": "ml", "min": "0", "macro": "Condimenti", "stato": "Liquido", "isPesce": false, "pesceCat": "", "prezzo": "", "categorie": []}, {"id": "it-gotgemqduk", "kind": "ingrediente", "nome": "Umeboshi", "emoji": "🍑", "qty": "0", "unit": "g", "min": "0", "macro": "Confezionati", "stato": "Solido", "isPesce": false, "pesceCat": "", "prezzo": "", "categorie": []}, {"id": "it-hrjg52p4pw", "kind": "ingrediente", "nome": "Semi di senape", "emoji": "🌱", "qty": "0", "unit": "g", "min": "0", "macro": "Condimenti", "stato": "Polvere", "isPesce": false, "pesceCat": "", "prezzo": "", "categorie": []}, {"id": "it-hh62rpcqc2", "kind": "ingrediente", "nome": "Acido citrico", "emoji": "⚗️", "qty": "0", "unit": "g", "min": "0", "macro": "Chimici e Additivi", "stato": "Polvere", "isPesce": false, "pesceCat": "", "prezzo": "", "categorie": []}, {"id": "it-57srwgti6q", "kind": "ingrediente", "nome": "Gelatina in fogli", "emoji": "⚗️", "qty": "0", "unit": "g", "min": "0", "macro": "Chimici e Additivi", "stato": "Solido", "isPesce": false, "pesceCat": "", "prezzo": "", "categorie": []}, {"id": "it-2vstx1gdt8", "kind": "ingrediente", "nome": "Somacco", "emoji": "🟤", "qty": "0", "unit": "g", "min": "0", "macro": "Condimenti", "stato": "Polvere", "isPesce": false, "pesceCat": "", "prezzo": "", "categorie": []}, {"id": "it-lqt5lpcd0n", "kind": "ingrediente", "nome": "Ponzu", "emoji": "🍶", "qty": "0", "unit": "ml", "min": "0", "macro": "Confezionati", "stato": "Liquido", "isPesce": false, "pesceCat": "", "prezzo": "", "categorie": []}, {"id": "it-4w4v2agota", "kind": "ingrediente", "nome": "Fiori di lavanda", "emoji": "💜", "qty": "0", "unit": "g", "min": "0", "macro": "Condimenti", "stato": "Solido", "isPesce": false, "pesceCat": "", "prezzo": "", "categorie": []}, {"id": "it-h9pp84a220", "kind": "ingrediente", "nome": "Lievito di birra", "emoji": "🦠", "qty": "0", "unit": "g", "min": "0", "macro": "Chimici e Additivi", "stato": "Solido", "isPesce": false, "pesceCat": "", "prezzo": "", "categorie": []}, {"id": "it-rsei6nxuvy", "kind": "ingrediente", "nome": "Lievito per dolci", "emoji": "🦠", "qty": "0", "unit": "g", "min": "0", "macro": "Chimici e Additivi", "stato": "Polvere", "isPesce": false, "pesceCat": "", "prezzo": "", "categorie": []}, {"id": "it-f5gdkflam9", "kind": "semilavorato", "nome": "Salsa di albicocche", "emoji": "🍑", "qty": "0", "unit": "g", "min": "0", "categorie": ["Antipasti"], "slIngs": [], "slSteps": [], "slCat": "", "slFormato": ""}, {"id": "it-zntp9e27s6", "kind": "semilavorato", "nome": "Olio all'erba cedrina", "emoji": "🫒", "qty": "0", "unit": "g", "min": "0", "categorie": ["Altro"], "slIngs": [], "slSteps": [], "slCat": "", "slFormato": ""}, {"id": "it-k6udqkvnjr", "kind": "semilavorato", "nome": "Olio all'arancia", "emoji": "🫒", "qty": "0", "unit": "g", "min": "0", "categorie": ["Antipasti"], "slIngs": [], "slSteps": [], "slCat": "", "slFormato": ""}, {"id": "it-ckmomotyrn", "kind": "semilavorato", "nome": "Salsa di carote e zenzero", "emoji": "🥕", "qty": "0", "unit": "g", "min": "0", "categorie": ["Antipasti"], "slIngs": [], "slSteps": [], "slCat": "", "slFormato": ""}, {"id": "it-11bbkfyirz", "kind": "semilavorato", "nome": "Fondo di tonno", "emoji": "🐟", "qty": "0", "unit": "g", "min": "0", "categorie": ["Antipasti"], "slIngs": [], "slSteps": [], "slCat": "", "slFormato": ""}, {"id": "it-i8ex4hzu2e", "kind": "semilavorato", "nome": "Caviale di senape", "emoji": "🌱", "qty": "0", "unit": "g", "min": "0", "categorie": ["Antipasti"], "slIngs": [], "slSteps": [], "slCat": "", "slFormato": ""}, {"id": "it-f06eralmlt", "kind": "semilavorato", "nome": "Daikon marinato", "emoji": "🥬", "qty": "0", "unit": "g", "min": "0", "categorie": ["Antipasti"], "slIngs": [], "slSteps": [], "slCat": "", "slFormato": ""}, {"id": "it-62ct8h6hdi", "kind": "semilavorato", "nome": "Crema di patate", "emoji": "🥔", "qty": "0", "unit": "g", "min": "0", "categorie": ["Antipasti"], "slIngs": [], "slSteps": [], "slCat": "", "slFormato": ""}, {"id": "it-i6tpp0ug94", "kind": "semilavorato", "nome": "Salsa di fiori di zucca e zucchine", "emoji": "🌼", "qty": "0", "unit": "g", "min": "0", "categorie": ["Antipasti"], "slIngs": [], "slSteps": [], "slCat": "", "slFormato": ""}, {"id": "it-r7tpaa4c7x", "kind": "semilavorato", "nome": "Salsa di pecorino", "emoji": "🧀", "qty": "0", "unit": "g", "min": "0", "categorie": ["Antipasti"], "slIngs": [], "slSteps": [], "slCat": "", "slFormato": ""}, {"id": "it-oj896ez7jr", "kind": "semilavorato", "nome": "Salsa di limone salato", "emoji": "🍋", "qty": "0", "unit": "g", "min": "0", "categorie": ["Antipasti"], "slIngs": [], "slSteps": [], "slCat": "", "slFormato": ""}, {"id": "it-9aa3lqehet", "kind": "semilavorato", "nome": "Salsa di prezzemolo", "emoji": "🌿", "qty": "0", "unit": "g", "min": "0", "categorie": ["Antipasti"], "slIngs": [], "slSteps": [], "slCat": "", "slFormato": ""}, {"id": "it-6zlkswxlvc", "kind": "semilavorato", "nome": "Concasse di pomodoro", "emoji": "🍅", "qty": "0", "unit": "g", "min": "0", "categorie": ["Antipasti"], "slIngs": [], "slSteps": [], "slCat": "", "slFormato": ""}, {"id": "it-uoo8w2uxy5", "kind": "semilavorato", "nome": "Pan di spagna al caffè", "emoji": "🍰", "qty": "0", "unit": "g", "min": "0", "categorie": ["Dolci"], "slIngs": [], "slSteps": [], "slCat": "", "slFormato": ""}, {"id": "it-8cy6jbfjoa", "kind": "semilavorato", "nome": "Gelato al mascarpone", "emoji": "🍨", "qty": "0", "unit": "g", "min": "0", "categorie": ["Dolci"], "slIngs": [], "slSteps": [], "slCat": "", "slFormato": ""}, {"id": "it-ia5vr9p519", "kind": "semilavorato", "nome": "Crumble al cacao", "emoji": "🍪", "qty": "0", "unit": "g", "min": "0", "categorie": ["Dolci"], "slIngs": [], "slSteps": [], "slCat": "", "slFormato": ""}, {"id": "it-kkm2syso2f", "kind": "semilavorato", "nome": "Crumble di biscotto", "emoji": "🍪", "qty": "0", "unit": "g", "min": "0", "categorie": ["Dolci"], "slIngs": [], "slSteps": [], "slCat": "", "slFormato": ""}, {"id": "it-gdg1etqlcq", "kind": "semilavorato", "nome": "Crostini di pane (dolce)", "emoji": "🍞", "qty": "0", "unit": "g", "min": "0", "categorie": ["Dolci"], "slIngs": [], "slSteps": [], "slCat": "", "slFormato": ""}, {"id": "it-e9fmnjnjl3", "kind": "semilavorato", "nome": "Composto di crema catalana", "emoji": "🍮", "qty": "0", "unit": "g", "min": "0", "categorie": ["Dolci"], "slIngs": [], "slSteps": [], "slCat": "", "slFormato": ""}, {"id": "it-uii66xssoh", "kind": "semilavorato", "nome": "Salsa al passion fruit", "emoji": "🥭", "qty": "0", "unit": "g", "min": "0", "categorie": ["Dolci"], "slIngs": [], "slSteps": [], "slCat": "", "slFormato": ""}, {"id": "it-4yqasxzsii", "kind": "semilavorato", "nome": "Pistacchi sabbiati", "emoji": "🥜", "qty": "0", "unit": "g", "min": "0", "categorie": ["Dolci"], "slIngs": [], "slSteps": [], "slCat": "", "slFormato": ""}, {"id": "it-qfn0y3yah3", "kind": "semilavorato", "nome": "Parfait al croccantino", "emoji": "🍨", "qty": "0", "unit": "g", "min": "0", "categorie": ["Dolci"], "slIngs": [], "slSteps": [], "slCat": "", "slFormato": ""}, {"id": "it-zbdugnf3f4", "kind": "semilavorato", "nome": "Salsa al lampone", "emoji": "🫐", "qty": "0", "unit": "g", "min": "0", "categorie": ["Dolci"], "slIngs": [], "slSteps": [], "slCat": "", "slFormato": ""}, {"id": "it-9plidlhser", "kind": "semilavorato", "nome": "Crema di zabaione", "emoji": "🥚", "qty": "0", "unit": "g", "min": "0", "categorie": ["Dolci"], "slIngs": [], "slSteps": [], "slCat": "", "slFormato": ""}, {"id": "it-83lj5kllpf", "kind": "semilavorato", "nome": "Nocciole caramellate", "emoji": "🌰", "qty": "0", "unit": "g", "min": "0", "categorie": ["Dolci"], "slIngs": [], "slSteps": [], "slCat": "", "slFormato": ""}, {"id": "it-5fm5vc264h", "kind": "semilavorato", "nome": "Tortino al cioccolato", "emoji": "🍫", "qty": "0", "unit": "g", "min": "0", "categorie": ["Dolci"], "slIngs": [], "slSteps": [], "slCat": "", "slFormato": ""}, {"id": "it-1m9rc4m3jn", "kind": "semilavorato", "nome": "Gelato al pistacchio", "emoji": "🍨", "qty": "0", "unit": "g", "min": "0", "categorie": ["Dolci"], "slIngs": [], "slSteps": [], "slCat": "", "slFormato": ""}, {"id": "it-7e7ekb906v", "kind": "semilavorato", "nome": "Gelato all'erba cedrina", "emoji": "🍨", "qty": "0", "unit": "g", "min": "0", "categorie": ["Dolci"], "slIngs": [], "slSteps": [], "slCat": "", "slFormato": ""}, {"id": "it-128uykdeyh", "kind": "semilavorato", "nome": "Pesche marinate al vino", "emoji": "🍑", "qty": "0", "unit": "g", "min": "0", "categorie": ["Dolci"], "slIngs": [], "slSteps": [], "slCat": "", "slFormato": ""}, {"id": "it-ssk62cas9d", "kind": "semilavorato", "nome": "Namelaka cioccolato bianco e lavanda", "emoji": "🍫", "qty": "0", "unit": "g", "min": "0", "categorie": ["Dolci"], "slIngs": [], "slSteps": [], "slCat": "", "slFormato": ""}, {"id": "it-vco7rds3jc", "kind": "semilavorato", "nome": "Polvere di pesca", "emoji": "🍑", "qty": "0", "unit": "g", "min": "0", "categorie": ["Dolci"], "slIngs": [], "slSteps": [], "slCat": "", "slFormato": ""}, {"id": "it-xirk15um75", "kind": "semilavorato", "nome": "Polvere di erba cedrina", "emoji": "🌿", "qty": "0", "unit": "g", "min": "0", "categorie": ["Dolci"], "slIngs": [], "slSteps": [], "slCat": "", "slFormato": ""}, {"id": "it-17pue4wb2x", "kind": "semilavorato", "nome": "Base bianca gelato", "emoji": "🍨", "qty": "0", "unit": "g", "min": "0", "categorie": ["Dolci"], "slIngs": [], "slSteps": [], "slCat": "", "slFormato": ""}, {"id": "it-9lzx9o5z3n", "kind": "semilavorato", "nome": "Sorbetto del giorno", "emoji": "🍧", "qty": "0", "unit": "g", "min": "0", "categorie": ["Dolci"], "slIngs": [], "slSteps": [], "slCat": "", "slFormato": ""}, {"id": "it-ieaydk40yh", "kind": "semilavorato", "nome": "Pane", "emoji": "🍞", "qty": "0", "unit": "g", "min": "0", "categorie": ["Altro"], "slIngs": [], "slSteps": [], "slCat": "", "slFormato": ""}], "piatti": [{"id": "pi-3dil3ricif", "nome": "Crudo e albicocca", "cat": "Antipasto", "prezzo": "19", "emoji": "🍑", "bom": [{"itemId": "it-7b50g5wllb", "nomeCache": "Ricciola", "qty": "0", "unit": "qb"}, {"itemId": "it-ydpzgw7zqa", "nomeCache": "Branzino", "qty": "0", "unit": "qb"}, {"itemId": "it-f5gdkflam9", "nomeCache": "Salsa di albicocche", "qty": "0", "unit": "qb"}, {"itemId": "it-cxlc3v1jdm", "nomeCache": "Albicocche fresche", "qty": "0", "unit": "qb"}, {"itemId": "it-zntp9e27s6", "nomeCache": "Olio all'erba cedrina", "qty": "0", "unit": "qb"}, {"itemId": "it-k6udqkvnjr", "nomeCache": "Olio all'arancia", "qty": "0", "unit": "qb"}, {"itemId": "it-2vstx1gdt8", "nomeCache": "Somacco", "qty": "0", "unit": "qb"}, {"itemId": "it-3n490v9i9k", "nomeCache": "Erbe da decoro", "qty": "0", "unit": "qb"}]}, {"id": "pi-8ca3preji9", "nome": "Crudo carote e zenzero", "cat": "Antipasto", "prezzo": "19", "emoji": "🥕", "bom": [{"itemId": "it-i2vvyjf80a", "nomeCache": "Tonno", "qty": "0", "unit": "qb"}, {"itemId": "it-0usqky6muc", "nomeCache": "Palamita", "qty": "0", "unit": "qb"}, {"itemId": "it-ckmomotyrn", "nomeCache": "Salsa di carote e zenzero", "qty": "0", "unit": "qb"}, {"itemId": "it-11bbkfyirz", "nomeCache": "Fondo di tonno", "qty": "0", "unit": "qb"}, {"itemId": "it-i8ex4hzu2e", "nomeCache": "Caviale di senape", "qty": "0", "unit": "qb"}, {"itemId": "it-f06eralmlt", "nomeCache": "Daikon marinato", "qty": "0", "unit": "qb"}, {"itemId": "it-lqt5lpcd0n", "nomeCache": "Ponzu", "qty": "0", "unit": "qb"}]}, {"id": "pi-3dbdm5ag5n", "nome": "Millefoglie di sogliola", "cat": "Antipasto", "prezzo": "18", "emoji": "🐟", "bom": [{"itemId": "it-emo9lkd6nj", "nomeCache": "Sogliola", "qty": "0", "unit": "qb"}, {"itemId": "it-62ct8h6hdi", "nomeCache": "Crema di patate", "qty": "0", "unit": "qb"}, {"itemId": "it-ro5c7xfzzk", "nomeCache": "Fiori di zucca", "qty": "0", "unit": "qb"}, {"itemId": "it-i6tpp0ug94", "nomeCache": "Salsa di fiori di zucca e zucchine", "qty": "0", "unit": "qb"}, {"itemId": "it-r7tpaa4c7x", "nomeCache": "Salsa di pecorino", "qty": "0", "unit": "qb"}]}, {"id": "pi-4ps9ior5ae", "nome": "Canocchie", "cat": "Antipasto", "prezzo": "16", "emoji": "🦐", "bom": [{"itemId": "it-5v2eb52glj", "nomeCache": "Canocchie", "qty": "0", "unit": "qb"}, {"itemId": "it-oj896ez7jr", "nomeCache": "Salsa di limone salato", "qty": "0", "unit": "qb"}, {"itemId": "it-9aa3lqehet", "nomeCache": "Salsa di prezzemolo", "qty": "0", "unit": "qb"}, {"itemId": "it-6zlkswxlvc", "nomeCache": "Concasse di pomodoro", "qty": "0", "unit": "qb"}]}, {"id": "pi-weuywp0fwd", "nome": "Scampi siciliani", "cat": "Antipasto", "prezzo": "19", "emoji": "🦞", "bom": [{"itemId": "it-9diky0q3qz", "nomeCache": "Scampi", "qty": "0", "unit": "qb"}]}, {"id": "pi-euo7s42sx8", "nome": "Degustazione di ostriche", "cat": "Antipasto", "prezzo": "18", "emoji": "🦪", "bom": [{"itemId": "it-5d1ods8r98", "nomeCache": "Ostriche Tiamaràa", "qty": "0", "unit": "qb"}]}, {"id": "pi-epvfxetk2c", "nome": "Misto di crostacei", "cat": "Antipasto", "prezzo": "25", "emoji": "🦐", "bom": [{"itemId": "it-5v2eb52glj", "nomeCache": "Canocchie", "qty": "0", "unit": "qb"}, {"itemId": "it-cjs7lnd3jg", "nomeCache": "Gamberi rosa", "qty": "0", "unit": "qb"}, {"itemId": "it-5w518ymj5d", "nomeCache": "Gamberi rossi", "qty": "0", "unit": "qb"}]}, {"id": "pi-5m3gfttvtk", "nome": "Tirami...sù", "cat": "Dolce", "prezzo": "8", "emoji": "🍰", "bom": [{"itemId": "it-uoo8w2uxy5", "nomeCache": "Pan di spagna al caffè", "qty": "0", "unit": "qb"}, {"itemId": "it-8cy6jbfjoa", "nomeCache": "Gelato al mascarpone", "qty": "0", "unit": "qb"}, {"itemId": "it-ia5vr9p519", "nomeCache": "Crumble al cacao", "qty": "0", "unit": "qb"}, {"itemId": "it-gdg1etqlcq", "nomeCache": "Crostini di pane (dolce)", "qty": "0", "unit": "qb"}, {"itemId": "it-u487bt06u5", "nomeCache": "Cacao", "qty": "0", "unit": "qb"}]}, {"id": "pi-pfrt4ax0sh", "nome": "Spuma di crema catalana", "cat": "Dolce", "prezzo": "8", "emoji": "🍮", "bom": [{"itemId": "it-e9fmnjnjl3", "nomeCache": "Composto di crema catalana", "qty": "0", "unit": "qb"}, {"itemId": "it-uii66xssoh", "nomeCache": "Salsa al passion fruit", "qty": "0", "unit": "qb"}, {"itemId": "it-4yqasxzsii", "nomeCache": "Pistacchi sabbiati", "qty": "0", "unit": "qb"}]}, {"id": "pi-r8ro7eqxfd", "nome": "Parfait al croccantino", "cat": "Dolce", "prezzo": "8", "emoji": "🍨", "bom": [{"itemId": "it-qfn0y3yah3", "nomeCache": "Parfait al croccantino", "qty": "0", "unit": "qb"}, {"itemId": "it-zbdugnf3f4", "nomeCache": "Salsa al lampone", "qty": "0", "unit": "qb"}, {"itemId": "it-9plidlhser", "nomeCache": "Crema di zabaione", "qty": "0", "unit": "qb"}]}, {"id": "pi-1u1dkxjn8l", "nome": "Tortino al cioccolato", "cat": "Dolce", "prezzo": "9", "emoji": "🍫", "bom": [{"itemId": "it-5fm5vc264h", "nomeCache": "Tortino al cioccolato", "qty": "0", "unit": "qb"}, {"itemId": "it-kkm2syso2f", "nomeCache": "Crumble di biscotto", "qty": "0", "unit": "qb"}, {"itemId": "it-1m9rc4m3jn", "nomeCache": "Gelato al pistacchio", "qty": "0", "unit": "qb"}]}, {"id": "pi-l1c26wuhze", "nome": "Estate", "cat": "Dolce", "prezzo": "8", "emoji": "🍑", "bom": [{"itemId": "it-128uykdeyh", "nomeCache": "Pesche marinate al vino", "qty": "0", "unit": "qb"}, {"itemId": "it-7e7ekb906v", "nomeCache": "Gelato all'erba cedrina", "qty": "0", "unit": "qb"}, {"itemId": "it-kkm2syso2f", "nomeCache": "Crumble di biscotto", "qty": "0", "unit": "qb"}, {"itemId": "it-ssk62cas9d", "nomeCache": "Namelaka cioccolato bianco e lavanda", "qty": "0", "unit": "qb"}, {"itemId": "it-dcu0b66qt8", "nomeCache": "Pesche morbide", "qty": "0", "unit": "qb"}, {"itemId": "it-vco7rds3jc", "nomeCache": "Polvere di pesca", "qty": "0", "unit": "qb"}, {"itemId": "it-xirk15um75", "nomeCache": "Polvere di erba cedrina", "qty": "0", "unit": "qb"}, {"itemId": "it-zntp9e27s6", "nomeCache": "Olio all'erba cedrina", "qty": "0", "unit": "qb"}]}, {"id": "pi-yd4axjmw75", "nome": "Sorbetto del giorno", "cat": "Dolce", "prezzo": "6", "emoji": "🍧", "bom": [{"itemId": "it-9lzx9o5z3n", "nomeCache": "Sorbetto del giorno", "qty": "0", "unit": "qb"}]}, {"id": "pi-3sj7vdg27u", "nome": "Pane", "cat": "Altro", "prezzo": "", "emoji": "🍞", "bom": [{"itemId": "it-5ptv9aelqu", "nomeCache": "Farina integrale", "qty": "0", "unit": "qb"}, {"itemId": "it-fx5xiprsdm", "nomeCache": "Semola", "qty": "0", "unit": "qb"}, {"itemId": "it-8wta22eba9", "nomeCache": "Manitoba", "qty": "0", "unit": "qb"}, {"itemId": "it-njhe0qoyag", "nomeCache": "Farina tipo 1", "qty": "0", "unit": "qb"}, {"itemId": "it-h9pp84a220", "nomeCache": "Lievito di birra", "qty": "0", "unit": "qb"}]}]};
 // ── SEMILAVORATO: categorie (unione figli ricette) + formati per categoria ──
 const SEMI_CAT=CLASSI_RISULTATO;
 const SEMI_FORMATI={
@@ -3227,6 +3283,8 @@ function addItem(){
         base.prezzoUnit=document.getElementById('ai-prezzounit').value;
       }
       base.scarto=document.getElementById('ai-scarto').value||'0';
+      base.formatoAcq=document.getElementById('ai-formatoacq')?document.getElementById('ai-formatoacq').value||'':'';
+      base.formatoAcqUnit=document.getElementById('ai-formatoacqunit')?document.getElementById('ai-formatoacqunit').value:base.unit;
     }
     base.categorie=[...tmpAiCategorie];
     base.fornitore=document.getElementById('ai-fornitore').value||'';
@@ -3486,8 +3544,203 @@ function renderStorico(){const el=document.getElementById('storico-list');if(!S.
 // ════════════════════════════════════
 //  SCHEDULER
 // ════════════════════════════════════
-function renderScheduler(){renderWeek();renderTasks();renderDaRifare();renderDaRiordinare();updateFirmaBtn();}
-function renderWeek(){const el=document.getElementById('week-row');const today=new Date();const dow=today.getDay();const mon=new Date(today);mon.setDate(today.getDate()-((dow+6)%7));const dn=['Lun','Mar','Mer','Gio','Ven','Sab','Dom'];el.innerHTML=Array.from({length:7},(_,i)=>{const d=new Date(mon);d.setDate(mon.getDate()+i);const ds=d.toISOString().slice(0,10);const isT=ds===todayStr();const worked=S.log.some(l=>l.action==='Firma presenza'&&l.time&&l.time.slice(0,5)===ds.slice(5).replace('-','/'));return`<div class="week-day ${isT?'today':''} ${worked?'worked':''}"><div class="week-day-lbl">${dn[i]}</div><div class="week-day-num">${d.getDate()}</div><div class="week-day-dot"></div></div>`;}).join('');}
+// ════════════════════════════════════
+//  MOTORE TO-DO & SPESA (urgenza per porzioni, con fallback qty/min)
+// ════════════════════════════════════
+// Stato urgenza di un item: {liv, label, score, porzioni}
+// liv: 0=esaurito 1=critico 2=incalo 3=ok ; score basso = più urgente
+function statoUrgenza(it){
+  const qty=parseFloat(it.qty)||0;
+  // via porzioni (semilavorato con soglia porzioni + resa nota → consumo per porzione)
+  if(it.kind==='semilavorato' && it.sogliaPorz!=='' && it.sogliaPorz!=null){
+    // porzioni rimaste = giacenza / consumo-per-porzione.
+    // consumo per porzione = (quanto la ricetta produce in g) / resa. Senza ricetta non lo sappiamo:
+    // fallback → trattiamo qty come "g rimasti" e non possiamo dividere. Usiamo qty grezza vs soglia in porzioni
+    // solo se abbiamo resa+pesoProdotto. Per ora: se manca il dato, ricadiamo su qty/min sotto.
+  }
+  // fallback universale: rapporto qty/min
+  const min=parseFloat(it.min)||0;
+  if(qty<=0) return {liv:0,label:'Esaurito',score:0,porzioni:null};
+  if(min>0){
+    const r=qty/min;
+    if(r<=1) return {liv:1,label:'Critico',score:r,porzioni:null};
+    if(r<=1.3) return {liv:2,label:'In calo',score:r,porzioni:null};
+    return {liv:3,label:'OK',score:r,porzioni:null};
+  }
+  return {liv:3,label:'OK',score:99,porzioni:null};
+}
+const URG_COLOR={0:'var(--red)',1:'var(--orange)',2:'#c9a84c',3:'var(--green)'};
+
+// Semilavorati che vanno rifatti: SOLO quelli con soglia impostata (min>0 o sogliaPorz>0) e sotto soglia
+function semilavDaRifare(){
+  return SH.items
+    .filter(it=>it.kind==='semilavorato')
+    .filter(it=>(parseFloat(it.min)||0)>0 || (parseFloat(it.sogliaPorz)||0)>0)
+    .map(it=>({it,urg:statoUrgenza(it)}))
+    .filter(x=>x.urg.liv<=2)
+    .sort((a,b)=>a.urg.score-b.urg.score);
+}
+
+// Arrotonda un fabbisogno (in g/ml/pz) al formato d'acquisto + margine
+// ritorna {label, manca:boolean}
+function quantitaAcquisto(it, fabbisognoG){
+  const margine=1+((SH.config&&SH.config.margineAcquisto!=null?SH.config.margineAcquisto:15)/100);
+  const need=fabbisognoG*margine;
+  const fmt=parseFloat(it.formatoAcq)||0;
+  const fmtUnit=it.formatoAcqUnit||it.unit||'g';
+  if(fmt>0){
+    const fmtG=fmt*unitToG(fmtUnit);
+    const conf=Math.max(1,Math.ceil(need/fmtG));
+    const totG=conf*fmtG;
+    // mostra nell'unità del formato
+    const totInUnit=totG/unitToG(fmtUnit);
+    return {label:`${conf} × ${fmt}${fmtUnit} = ${(+totInUnit.toFixed(2))}${fmtUnit}`, manca:false};
+  }
+  // formato non impostato → fabbisogno grezzo
+  return {label:`~${(+(need).toFixed(0))} g (formato non impostato)`, manca:true};
+}
+
+// Costruisce la lista spesa: ingredienti necessari, con motivo d'uso.
+// fonti: (a) ingredienti sotto soglia diretti; (b) ingredienti per rifare i semilavorati sotto soglia.
+function buildSpesa(){
+  const map={}; // itemId → {it, fabbisognoG, usi:[{motivo, qtyG, daFare}], urgScore}
+  function add(it, qtyG, motivo, urgScore){
+    if(!map[it.id]) map[it.id]={it, fabbisognoG:0, usi:[], urgScore:99};
+    map[it.id].fabbisognoG+=qtyG;
+    map[it.id].usi.push({motivo, qtyG});
+    map[it.id].urgScore=Math.min(map[it.id].urgScore, urgScore);
+  }
+  // (a) ingredienti sotto soglia (solo quelli con soglia impostata)
+  SH.items.filter(it=>it.kind==='ingrediente').forEach(it=>{
+    if((parseFloat(it.min)||0)<=0) return; // soglia non impostata → non tracciato
+    const u=statoUrgenza(it);
+    if(u.liv<=2){
+      const minG=(parseFloat(it.min)||0)*unitToG(it.unit);
+      const qtyG=(parseFloat(it.qty)||0)*unitToG(it.unit);
+      const deficit=Math.max(minG-qtyG, minG||1);
+      add(it, deficit, 'Scorta sotto soglia', u.score);
+    }
+  });
+  // (b) ingredienti per rifare i semilavorati sotto soglia (esplodendo la ricetta slIngs)
+  semilavDaRifare().forEach(({it:sl,urg})=>{
+    (sl.slIngs||[]).forEach(ing=>{
+      const ingIt=SH.items.find(x=>x.id===ing.itemId)||SH.items.find(x=>x.nome===ing.nome);
+      if(!ingIt) return;
+      const qtyG=(parseFloat(ing.qty)||0)*unitToG(ing.unit||ingIt.unit||'g');
+      // è da comprare? solo se quell'ingrediente scarseggia, oppure sempre segnalato come "serve per..."
+      add(ingIt, qtyG, 'Per rifare '+sl.nome, urg.score);
+    });
+  });
+  return Object.values(map).sort((a,b)=>a.urgScore-b.urgScore);
+}
+
+function renderScheduler(){renderTasks();renderTodoRifare();updateFirmaBtn();}
+
+// ── TO-DO: semilavorati da rifare, ordinati per urgenza ──
+let todoEspanso=null;
+function renderTodoRifare(){
+  const el=document.getElementById('todo-rifare-list');
+  if(!el)return;
+  const arr=semilavDaRifare();
+  if(!arr.length){el.innerHTML='<div class="empty"><div class="empty-icon">✅</div>Niente da rifare</div>';return;}
+  el.innerHTML=arr.map(({it,urg})=>{
+    const col=URG_COLOR[urg.liv];
+    let assEm='<span title="Per chiunque" style="opacity:0.5">👥</span>';
+    if(it.assegnato===0)assEm='<span title="Chef A">'+(loadU(0).profilo.emoji||'👨‍🍳')+'</span>';
+    else if(it.assegnato===1)assEm='<span title="Chef B">'+(loadU(1).profilo.emoji||'👩‍🍳')+'</span>';
+    const exp=todoEspanso===it.id;
+    let ricetta='';
+    if(exp){
+      if((it.slIngs||[]).length){
+        ricetta='<div style="margin-top:6px;padding:7px 9px;background:var(--surface2);border-radius:4px">'+
+          (it.slIngs||[]).map(ing=>{
+            const ii=SH.items.find(x=>x.id===ing.itemId)||SH.items.find(x=>x.nome===ing.nome);
+            const have=ii?(parseFloat(ii.qty)||0)>(parseFloat(ii.min)||0):false;
+            const nm=ii?ii.nome:(ing.nome||'?');
+            return `<div style="display:flex;align-items:center;gap:6px;padding:2px 0;font-size:0.78rem">
+              <span>${have?'✅':'⬜'}</span><span style="flex:1;color:var(--text)">${nm}</span>
+              <span style="color:var(--gold);font-family:Cinzel;font-size:0.7rem">${ing.qty||''} ${ing.unit||''}</span></div>`;
+          }).join('')+'</div>';
+      }else{
+        ricetta='<div style="margin-top:6px;padding:7px 9px;background:var(--surface2);border-radius:4px;font-size:0.73rem;color:var(--text-dim)">Ricetta non ancora definita. Aggiungila nella scheda del semilavorato.</div>';
+      }
+      ricetta+=`<div style="display:flex;gap:5px;margin-top:6px">
+        <button class="btn btn-teal" style="flex:1;font-size:0.6rem" onclick="assegnaRifare('${it.id}',0)">${loadU(0).profilo.emoji||'👨‍🍳'} A</button>
+        <button class="btn btn-teal" style="flex:1;font-size:0.6rem" onclick="assegnaRifare('${it.id}',1)">${loadU(1).profilo.emoji||'👩‍🍳'} B</button>
+        <button class="btn btn-gold" style="flex:1;font-size:0.6rem" onclick="assegnaRifare('${it.id}',null)">👥 Libero</button>
+      </div>`;
+    }
+    return `<div class="card" style="margin-bottom:5px;padding:0;border-left:3px solid ${col}">
+      <div style="display:flex;align-items:center;gap:8px;padding:9px 11px;cursor:pointer" onclick="toggleTodo('${it.id}')">
+        <div style="font-size:1.2rem">${it.emoji||'🧪'}</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-family:'Cinzel',serif;font-size:0.85rem;color:var(--text)">${it.nome}</div>
+          <div style="font-size:0.68rem;font-family:Cinzel;color:${col}">${urg.label}${it.min&&parseFloat(it.min)>0?' · '+it.qty+'/'+it.min+' '+it.unit:''}</div>
+        </div>
+        <div style="font-size:1.1rem">${assEm}</div>
+        <span style="color:var(--text-dim);font-size:0.7rem">${exp?'▲':'▼'}</span>
+      </div>
+      ${exp?`<div style="padding:0 11px 9px">${ricetta}</div>`:''}
+    </div>`;
+  }).join('');
+}
+function toggleTodo(id){todoEspanso=todoEspanso===id?null:id;renderTodoRifare();}
+function assegnaRifare(id,who){const it=SH.items.find(x=>x.id===id);if(it){it.assegnato=who;saveSH();renderTodoRifare();toast('✓ Assegnato');}}
+
+// ── SPESA ──
+let spesaFiltForn='__tutti', spesaFiltMacro='__tutti', spesaEspanso=null;
+function renderSpesa(){
+  const arr=buildSpesa();
+  const forns=[...new Set(arr.map(x=>x.it.fornitore).filter(Boolean))];
+  const fEl=document.getElementById('spesa-filt-forn');
+  fEl.innerHTML=`<button class="subtab-btn ${spesaFiltForn==='__tutti'?'active':''}" onclick="setSpesaForn('__tutti')">Tutti</button>`+
+    forns.map(f=>`<button class="subtab-btn ${spesaFiltForn===f?'active':''}" onclick="setSpesaForn('${f.replace(/'/g,"\\'")}')">${f}</button>`).join('');
+  const macros=[...new Set(arr.map(x=>x.it.macro).filter(Boolean))];
+  const mEl=document.getElementById('spesa-filt-macro');
+  mEl.innerHTML=`<button class="subtab-btn ${spesaFiltMacro==='__tutti'?'active':''}" onclick="setSpesaMacro('__tutti')">Tutte</button>`+
+    macros.map(m=>`<button class="subtab-btn ${spesaFiltMacro===m?'active':''}" onclick="setSpesaMacro('${m.replace(/'/g,"\\'")}')">${emojiForMacro(m)} ${m}</button>`).join('');
+  let lista=arr;
+  if(spesaFiltForn!=='__tutti')lista=lista.filter(x=>x.it.fornitore===spesaFiltForn);
+  if(spesaFiltMacro!=='__tutti')lista=lista.filter(x=>x.it.macro===spesaFiltMacro);
+  const el=document.getElementById('spesa-list');
+  if(!lista.length){el.innerHTML='<div class="empty"><div class="empty-icon">🛒</div>Niente da comprare</div>';return;}
+  el.innerHTML=lista.map(x=>{
+    const it=x.it;
+    const u=statoUrgenza(it);
+    const col=URG_COLOR[u.liv];
+    const qa=quantitaAcquisto(it, x.fabbisognoG);
+    const exp=spesaEspanso===it.id;
+    let usi='';
+    if(exp){
+      usi='<div style="margin-top:6px;padding:7px 9px;background:var(--surface2);border-radius:4px">'+
+        x.usi.map(us=>{
+          const inUnit=it.unit||'g';
+          const q=(us.qtyG/unitToG(inUnit));
+          return `<div style="display:flex;align-items:center;gap:6px;padding:2px 0;font-size:0.76rem">
+            <span style="flex:1;color:var(--text)">${us.motivo}</span>
+            <span style="color:var(--gold);font-family:Cinzel;font-size:0.7rem">${q>0?(+q.toFixed(1))+' '+inUnit:''}</span></div>`;
+        }).join('')+'</div>';
+    }
+    return `<div class="card" style="margin-bottom:5px;padding:0;border-left:3px solid ${col}">
+      <div style="display:flex;align-items:center;gap:8px;padding:9px 11px;cursor:pointer" onclick="toggleSpesa('${it.id}')">
+        <div style="font-size:1.15rem">${it.emoji||'📦'}</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-family:'Cinzel',serif;font-size:0.82rem;color:var(--text)">${it.nome}</div>
+          <div style="font-size:0.68rem;color:${qa.manca?'var(--orange)':'var(--teal)'};font-family:Cinzel">🛒 ${qa.label}</div>
+        </div>
+        ${it.fornitore?`<span class="badge badge-purple" style="font-size:0.55rem">${it.fornitore}</span>`:''}
+        <span style="color:var(--text-dim);font-size:0.7rem">${exp?'▲':'▼'}</span>
+      </div>
+      ${exp?`<div style="padding:0 11px 9px">${usi}</div>`:''}
+    </div>`;
+  }).join('');
+}
+function setSpesaForn(f){spesaFiltForn=f;renderSpesa();}
+function setSpesaMacro(m){spesaFiltMacro=m;renderSpesa();}
+function toggleSpesa(id){spesaEspanso=spesaEspanso===id?null:id;renderSpesa();}
+
+
+function renderWeek(){const el=document.getElementById('week-row');if(!el)return;const today=new Date();const dow=today.getDay();const mon=new Date(today);mon.setDate(today.getDate()-((dow+6)%7));const dn=['Lun','Mar','Mer','Gio','Ven','Sab','Dom'];el.innerHTML=Array.from({length:7},(_,i)=>{const d=new Date(mon);d.setDate(mon.getDate()+i);const ds=d.toISOString().slice(0,10);const isT=ds===todayStr();const worked=S.log.some(l=>l.action==='Firma presenza'&&l.time&&l.time.slice(0,5)===ds.slice(5).replace('-','/'));return`<div class="week-day ${isT?'today':''} ${worked?'worked':''}"><div class="week-day-lbl">${dn[i]}</div><div class="week-day-num">${d.getDate()}</div><div class="week-day-dot"></div></div>`;}).join('');}
 function renderTasks(){const today=todayStr();if(S.tasksResetDate!==today){S.tasks.filter(t=>t.rep==='daily').forEach(t=>t.done=false);S.tasksResetDate=today;saveU();}const el=document.getElementById('daily-tasks-list');if(!S.tasks.length){el.innerHTML='<div class="empty" style="padding:8px 0">Nessun task</div>';return;}el.innerHTML=S.tasks.map((t,i)=>`<div class="task-row"><div class="task-check ${t.done?'done':''}" onclick="toggleTask(${i})">${t.done?'✓':''}</div><div class="task-info"><div class="task-name ${t.done?'done':''}">${t.emoji||'✅'} ${t.nome}</div><div class="task-xp">+${t.xp} XP${t.rep==='once'?' (una volta)':''}</div></div><button class="btn-icon" onclick="delTask(${i})">🗑</button></div>`).join('');}
 function toggleTask(i){const t=S.tasks[i];if(t.done)return;t.done=true;const xp=t.xp,nome=t.nome;if(t.rep==='once')S.tasks.splice(i,1);saveU();renderTasks();addXP(xp,'Task: '+nome);toast('✓ Task completato!');}
 function addTask(){const nome=document.getElementById('t-nome').value.trim();if(!nome){toast('⚠ Nome mancante');return;}S.tasks.push({nome,emoji:document.getElementById('t-emoji').value||'✅',xp:+document.getElementById('t-xp').value,rep:document.getElementById('t-rep').value,done:false});saveU();renderTasks();closeSheet('sh-task');document.getElementById('t-nome').value='';toast('✓ Task aggiunto!');}
@@ -3635,25 +3888,60 @@ function renderMenu(){
   if(!SH.piatti) SH.piatti=[];
   const el=document.getElementById('menu-piatti-list');
   if(!SH.piatti.length){el.innerHTML='<div class="empty"><div class="empty-icon">📋</div>Nessun piatto. Aggiungine uno!</div>';return;}
-  // raggruppa per categoria
-  const cats=['Antipasto','Primo','Secondo','Contorno','Dolce','Bevanda','Altro'];
+  // raggruppa per le 4 portate; "Altro" in coda
+  const cats=['Antipasto','Primo','Secondo','Dolce','Contorno','Bevanda','Altro'];
+  const catLabel={Antipasto:'Antipasti',Primo:'Primi',Secondo:'Secondi',Dolce:'Dolci',Contorno:'Contorni',Bevanda:'Bevande',Altro:'Altro'};
   let out='';
+  let lista=SH.piatti.map((p,i)=>({p,i}));
+  if(menuSoloNostri) lista=lista.filter(x=>x.p.nostro);
+  if(!lista.length){el.innerHTML='<div class="empty"><div class="empty-icon">👥</div>Nessun piatto a carico nostro</div>';return;}
   cats.forEach(cat=>{
-    const arr=SH.piatti.map((p,i)=>({p,i})).filter(x=>x.p.cat===cat);
+    const arr=lista.filter(x=>x.p.cat===cat);
     if(!arr.length)return;
-    out+=`<div style="font-family:'Cinzel',serif;font-size:0.575rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin:6px 0 3px">${cat}</div>`;
+    out+=`<div style="font-family:'Cinzel',serif;font-size:0.65rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin:10px 0 4px;border-bottom:1px solid var(--border);padding-bottom:3px">${catLabel[cat]||cat}</div>`;
     arr.forEach(({p,i})=>{
-      const bom=(p.bom||[]).map(c=>{const it=SH.items.find(x=>x.id===c.itemId);return (it?it.nome:c.nomeCache||'?')+' '+c.qty+c.unit;}).join(', ');
-      out+=`<div class="card" style="margin-bottom:5px;padding:9px 11px">
+      const fc=piattoFoodCost(p);
+      const prezzo=parseFloat(p.prezzo)||0;
+      // righe componente: nome + qty + costo
+      let bomRows='';
+      if((p.bom||[]).length){
+        bomRows=(p.bom||[]).map(c=>{
+          const it=SH.items.find(x=>x.id===c.itemId)||SH.items.find(x=>x.nome===c.nomeCache);
+          const nome=it?it.nome:(c.nomeCache||'?');
+          const em=it?(it.kind==='semilavorato'?'🧪':'🥕'):'❔';
+          const r=componenteCosto(c);
+          const qtyLabel=c.unit==='qb'?'q.b.':(c.qty+' '+c.unit);
+          let costStr;
+          if(r.qb)costStr='<span style="color:var(--orange);font-size:0.6438rem">q.b.</span>';
+          else if(r.manca)costStr='<span style="color:var(--orange);font-size:0.6438rem">no €</span>';
+          else costStr='<span style="color:var(--teal);font-size:0.7188rem;font-family:Cinzel">€'+r.costo.toFixed(2)+'</span>';
+          return `<div style="display:flex;align-items:center;gap:6px;padding:2px 0;font-size:0.7875rem">
+            <span style="font-size:0.85rem">${em}</span>
+            <span style="flex:1;min-width:0;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${nome}</span>
+            <span style="color:var(--gold);font-family:Cinzel;font-size:0.7188rem">${qtyLabel}</span>
+            ${costStr}
+          </div>`;
+        }).join('');
+      }else{
+        bomRows='<div style="font-size:0.7188rem;color:var(--orange);padding:2px 0">⚠ Distinta base vuota</div>';
+      }
+      // footer food cost
+      let fcExtra='';
+      if(prezzo>0&&fc.tot>0){const margine=prezzo-fc.tot;const pct=Math.round((fc.tot/prezzo)*100);fcExtra=' · margine €'+margine.toFixed(2)+' · FC '+pct+'%';}
+      const fcWarn=(fc.qbList.length||fc.mancaList.length)?' <span style="color:var(--orange)">⚠</span>':'';
+      out+=`<div class="card" style="margin-bottom:6px;padding:9px 11px${p.nostro?';border-left:2px solid var(--gold)':''}">
         <div style="display:flex;align-items:flex-start;gap:8px">
           <div style="font-size:1.2937rem">${p.emoji||'🍽️'}</div>
           <div style="flex:1;min-width:0">
             <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
               <span style="font-family:'Cinzel',serif;font-size:0.9313rem;color:var(--text)">${p.nome}</span>
               ${p.prezzo?`<span class="badge badge-gold">€${p.prezzo}</span>`:''}
+              ${p.nostro?'<span class="badge badge-purple">👥 nostro</span>':''}
             </div>
-            ${bom?`<div style="font-size:0.7188rem;color:var(--text-dim);margin-top:3px">🧾 ${bom}</div>`:'<div style="font-size:0.7188rem;color:var(--orange);margin-top:3px">⚠ Distinta base vuota</div>'}
-            ${(()=>{const fc=piattoFoodCost(p);const prezzo=parseFloat(p.prezzo)||0;const fcStr='€'+fc.tot.toFixed(2);let extra='';if(prezzo>0&&fc.tot>0){const margine=prezzo-fc.tot;const pct=Math.round((fc.tot/prezzo)*100);extra=' · margine €'+margine.toFixed(2)+' · FC '+pct+'%';}return `<div style="font-size:0.7188rem;margin-top:3px;font-family:'Cinzel',serif"><span style="color:var(--teal)">💰 Food cost ${fcStr}</span><span style="color:var(--text-dim)">${extra}</span>${(fc.qbList.length||fc.mancaList.length)?' <span style=\'color:var(--orange)\'>⚠</span>':''}</div>`;})()}
+            <div style="margin-top:5px">${bomRows}</div>
+            <div style="font-size:0.7188rem;margin-top:5px;font-family:'Cinzel',serif;border-top:1px solid var(--border-light);padding-top:4px">
+              <span style="color:var(--teal)">💰 Food cost €${fc.tot.toFixed(2)}</span><span style="color:var(--text-dim)">${fcExtra}</span>${fcWarn}
+            </div>
           </div>
           <div style="display:flex;flex-direction:column;gap:3px">
             <button class="btn-icon" onclick="openEditPiatto(${i})">✏️</button>
@@ -3665,6 +3953,8 @@ function renderMenu(){
   });
   el.innerHTML=out;
 }
+let menuSoloNostri=false;
+function toggleMenuNostri(){menuSoloNostri=!menuSoloNostri;const b=document.getElementById('menu-nostri-btn');if(b){b.classList.toggle('active',menuSoloNostri);b.textContent=menuSoloNostri?'👥 Solo i nostri ✓':'👥 Solo i nostri';}renderMenu();}
 
 function openAddPiatto(){
   document.getElementById('pi-title').textContent='📋 Nuovo Piatto';
@@ -3673,6 +3963,7 @@ function openAddPiatto(){
   document.getElementById('pi-cat').value='Primo';
   document.getElementById('pi-prezzo').value='';
   document.getElementById('pi-emoji').value='';
+  if(document.getElementById('pi-nostro'))document.getElementById('pi-nostro').checked=false;
   tmpBom=[];
   renderBomList();
   openSheet('sh-piatto');
@@ -3686,6 +3977,7 @@ function openEditPiatto(i){
   document.getElementById('pi-cat').value=p.cat;
   document.getElementById('pi-prezzo').value=p.prezzo||'';
   document.getElementById('pi-emoji').value=p.emoji||'';
+  if(document.getElementById('pi-nostro'))document.getElementById('pi-nostro').checked=!!p.nostro;
   tmpBom=JSON.parse(JSON.stringify(p.bom||[]));
   renderBomList();
   openSheet('sh-piatto');
@@ -3797,6 +4089,7 @@ function savePiatto(){
     cat:document.getElementById('pi-cat').value,
     prezzo:document.getElementById('pi-prezzo').value,
     emoji:document.getElementById('pi-emoji').value||'🍽️',
+    nostro:document.getElementById('pi-nostro')?document.getElementById('pi-nostro').checked:false,
     bom:JSON.parse(JSON.stringify(tmpBom))
   };
   const existing=SH.piatti.findIndex(p=>p.id===id);
@@ -4470,6 +4763,8 @@ function openAddSemilav(){
   document.getElementById('sl-id').value='';
   document.getElementById('sl-nome').value='';
   document.getElementById('sl-emoji').value='';
+  if(document.getElementById('sl-resa'))document.getElementById('sl-resa').value='';
+  if(document.getElementById('sl-sogliaporz'))document.getElementById('sl-sogliaporz').value='';
   populateSlCat();
   updateSlFormati();
   populateSlIngSel();
@@ -4493,6 +4788,8 @@ function openEditSemilav(itemId){
   document.getElementById('sl-id').value=it.id;
   document.getElementById('sl-nome').value=it.nome;
   document.getElementById('sl-emoji').value=it.emoji||'';
+  if(document.getElementById('sl-resa'))document.getElementById('sl-resa').value=it.resa||'';
+  if(document.getElementById('sl-sogliaporz'))document.getElementById('sl-sogliaporz').value=it.sogliaPorz||'';
   populateSlCat(it.slCat);
   const slDoveE=document.getElementById('sl-dove'); if(slDoveE){slDoveE.value=it.slDove||'frigo';slDoveE.onchange=updateSlScadHint;}
   updateSlFormati(it.slFormato);
@@ -4787,6 +5084,9 @@ function saveSemilav(){
       const _sc=scadenzaSemilavorato(); it.slScadGiorni=_sc.giorni;
       it.slIngs=JSON.parse(JSON.stringify(slState.ings));
       it.slSteps=JSON.parse(JSON.stringify(slState.steps));
+      it.resa=document.getElementById('sl-resa')?document.getElementById('sl-resa').value:'';
+      it.resaUnit='porz';
+      it.sogliaPorz=document.getElementById('sl-sogliaporz')?document.getElementById('sl-sogliaporz').value:'';
     }
   }else{
     // nuovo item semilavorato
@@ -4797,7 +5097,9 @@ function saveSemilav(){
       categorie:[], slCat:document.getElementById('sl-cat').value, slFormato:document.getElementById('sl-formato').value,
       slDove:document.getElementById('sl-dove')?document.getElementById('sl-dove').value:'frigo',
       slScadGiorni:scadenzaSemilavorato().giorni,
-      slIngs:JSON.parse(JSON.stringify(slState.ings)), slSteps:JSON.parse(JSON.stringify(slState.steps))
+      slIngs:JSON.parse(JSON.stringify(slState.ings)), slSteps:JSON.parse(JSON.stringify(slState.steps)),
+      resa:document.getElementById('sl-resa')?document.getElementById('sl-resa').value:'', resaUnit:'porz',
+      sogliaPorz:document.getElementById('sl-sogliaporz')?document.getElementById('sl-sogliaporz').value:''
     };
     SH.items.push(newIt);
   }
